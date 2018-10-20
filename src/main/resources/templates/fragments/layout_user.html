@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="all(main_title, links, script, content)">
+    <head th:replace="fragments/head :: base_header(${main_title}, ${links})"></head>
+    <body class="hold-transition skin-blue sidebar-mini">
+        <!-- Wrapper -->
+        <div class="wrapper">
+            <div th:replace="fragments/header :: header"></div>
+            <div th:replace="fragments/main_sidebar :: main-sidebar"></div>
+            <!-- Content Wrapper. Contains page content -->
+            <th:block th:replace="${content}" />
+            <!-- /.content-wrapper -->
+            <div th:replace="fragments/footer :: footer"></div>
+            <div th:replace="fragments/content_sidebar :: content-sidebar"></div>
+        </div>
+        <!-- ./wrapper -->
+        <div th:replace="fragments/script :: base_script(${script})"></div>
+    </body>
+</html>

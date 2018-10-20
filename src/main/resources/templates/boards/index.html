@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:replace="fragments/layout_user :: all('Main', null, null, ~{::div#content})">
+        <!-- Content Wrapper. Contains page content -->
+        <div id="content" th:replace="fragments/content_wrapper :: content('Chat board', 'subtitle', 'Chat board 1',
+                ~{::div#breadcrumbs}, ~{::div#main}, ~{::div#footer})">
+            <div id="breadcrumbs" >
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Examples</a></li>
+                <li class="active">Blank page</li>
+            </div>
+            <div id="main"><div th:text="${user.name}"></div></div>
+            <div id="footer">footer</div>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</html>

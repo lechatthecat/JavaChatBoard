@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- Content Wrapper. Contains page content -->
+    <div th:fragment="content(title, subtitle, content_title, breadcrumb, box_body, box_footer)" class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    <th:block th:text="${title}"></th:block>
+                    <small th:text="${subtitle}"></small>
+                </h1>
+                <th:block th:if="${breadcrumb != null}">
+                    <ol th:include="${breadcrumb}" class="breadcrumb"></ol>
+                </th:block>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title" th:text="${content_title}"></h3>
+                    <!--/*
+                    <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        <i class="fa fa-times"></i></button>
+                    </div>
+                    */-->
+                </div>
+                <div th:include="${box_body}" class="box-body"></div>
+                <!-- /.box-body -->
+                <th:block th:if="${breadcrumb != null}">
+                    <div th:include="${box_footer}" class="box-footer"></div>
+                </th:block>
+                <!-- /.box-footer-->
+                </div>
+                <!-- /.box -->
+
+            </section>
+            <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</html>

@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="base_script(scripts)">
+        <!-- jQuery 3 -->
+        <script th:src="@{js/jquery/jquery3.3.1.min.js}"></script>
+        <!-- Bootstrap 3.3.7 -->
+        <script th:src="@{css/bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+        <!-- SlimScroll -->
+        <script th:src="@{asset/adminlte2.4.5/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+        <!-- FastClick -->
+        <script th:src="@{asset/adminlte2.4.5/bower_components/fastclick/lib/fastclick.js}"></script>
+        <!-- AdminLTE App -->
+        <script th:src="@{asset/adminlte2.4.5/dist/js/adminlte.min.js}"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script th:src="@{asset/adminlte2.4.5/dist/js/demo.js}"></script>
+        <script>
+        $(document).ready(function () {
+            $('.sidebar-menu').tree()
+        })
+        </script>
+        <th:block th:if="${scripts != null}">
+            <th:block th:replace="${scripts}" />
+        </th:block>
+    </div>
+</html>

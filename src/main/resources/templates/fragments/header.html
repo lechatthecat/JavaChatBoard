@@ -33,7 +33,7 @@
                         <li><!-- start message -->
                         <a href="#">
                             <div class="pull-left">
-                            <img src="asset/adminlte2.4.5/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            <img th:src="${user.userImage.path}" class="img-circle" alt="User Image">
                             </div>
                             <h4>
                             Support Team
@@ -105,13 +105,13 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="asset/adminlte2.4.5/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                    <img th:src="${user.userImage.path}" class="user-image" alt="User Image">
                     <span th:text="${user.name}" class="hidden-xs"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <!-- User image -->
                     <li class="user-header">
-                    <img src="asset/adminlte2.4.5/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img th:src="${user.userImage.path}" class="img-circle" alt="User Image">
 
                     <p>
                         <span th:text="${user.name}"></span>

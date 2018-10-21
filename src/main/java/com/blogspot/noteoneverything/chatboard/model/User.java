@@ -11,9 +11,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.validation.constraints.Email;
 
 import com.blogspot.noteoneverything.chatboard.model.Role;
 import com.blogspot.noteoneverything.chatboard.model.UserImage;
@@ -25,6 +27,7 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @Email
     private String email;
     @ManyToOne
     private Role role;
@@ -38,8 +41,11 @@ public class User{
     @Transient
     private String passwordConfirm;
     private boolean is_deleted;
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserImage userImage;
     @Transient
     private boolean agreesTerm = false;
+
 
     public long getId(){
         return id;
@@ -115,5 +121,11 @@ public class User{
     }
     public void setAgreesTerm(boolean agreesTerm){
         this.agreesTerm = agreesTerm;
+    }
+    public void setUserImage(UserImage userImage){
+        this.userImage = userImage;
+    } 
+    public UserImage getUserImage(){
+        return this.userImage;
     }
 }

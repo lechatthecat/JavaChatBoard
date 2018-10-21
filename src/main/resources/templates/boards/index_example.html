@@ -5,7 +5,9 @@
         <div id="content" th:replace="fragments/content_wrapper :: content('Chat board', 'subtitle', 'Chat board 1',
                 ~{::div#breadcrumbs}, ~{::div#main}, ~{::div#footer})">
             <div id="breadcrumbs" >
-                <li class="active"><i class="fa fa-dashboard"></i> Home</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Examples</a></li>
+                <li class="active">Blank page</li>
             </div>
             <div id="main"><div th:text="${user.userImage.path}"></div></div>
             <div id="footer">footer</div>

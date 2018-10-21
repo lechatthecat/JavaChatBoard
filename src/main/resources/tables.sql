@@ -18,8 +18,9 @@ CREATE TABLE users (
 	name VARCHAR(20) NOT NULL UNIQUE,  
 	`password` CHAR(128),
 	role_id BIGINT(20) unsigned, 
-	email VARCHAR(30) UNIQUE,
+	email VARCHAR(50) UNIQUE,
 	birth DATE,
+	user_image_id bigint(20) unsigned,
 	is_deleted TINYINT(4) NOT NULL, 
 	updated DATETIME,
 	created DATETIME,
@@ -33,7 +34,6 @@ CREATE TABLE user_images (
 	name VARCHAR(20) NOT NULL,
 	`path` TEXT,
     detail TEXT,
-	is_main TINYINT(4) NOT NULL DEFAULT 0, 
 	is_deleted TINYINT(4) NOT NULL, 
 	updated DATETIME,
 	created DATETIME,
@@ -52,3 +52,4 @@ CREATE TABLE boards (
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
+

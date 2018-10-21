@@ -17,34 +17,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.security.Principal;
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
+import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
+import com.blogspot.noteoneverything.chatboard.model.UserImage;
 
 @Controller
 public class ChatBoardController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserImageRepository userImageRepository;
 
     @GetMapping(value = "/")
     public String home(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
+        user.setUserImage(new UserImage());
         model.addAttribute("user", user);
-        // if (q != null) {
-        // catModelList = new ArrayList();
-        // System.out.println("q is = " + q);
-        // catrisklist = catservice.atriskcats(q);
-        // //all cats here
-        // Iterable cats = catrepository.findAll();
-        // for (String name : catrisklist) {
-        // Cat cat = catrepository.findByName(name);
-        // System.out.println(cat.toString() + "cat name : " + cat.getName());
-        // catModelList.add(cat);
-        // System.out.println("This cat's name is : " + cat.getName());
-        // }
-        // }
-        // model.addAttribute("search", catModelList);
-        // model.addAttribute("cats", catrepository.findAll());
         return "boards/index";
     }
 

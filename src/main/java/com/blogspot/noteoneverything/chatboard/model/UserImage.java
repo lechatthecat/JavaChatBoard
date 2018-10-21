@@ -6,10 +6,12 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.Transient;
+import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.blogspot.noteoneverything.chatboard.util.Constants;
 import com.blogspot.noteoneverything.chatboard.model.User;
 
 @Entity
@@ -20,15 +22,13 @@ public class UserImage{
     private long id;
     private String name;
     private String detail;
-    @ManyToOne
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private User user;
-    private String path;
+    private String path = Constants.BLANK_USERIMAGE_PATH;
     private Date updated;
     private Date created;
     private boolean is_deleted;
-    private boolean is_main;
-    @Transient
-    private UserImage MainPic;
 
     public long getId(){
         return id;
@@ -80,17 +80,5 @@ public class UserImage{
     } 
     public boolean getIsDeleted(){
         return this.is_deleted;
-    }
-    public void setIsMain(boolean is_main){
-        this.is_main = is_main;
-    } 
-    public boolean getIsMain(){
-        return this.is_main;
-    }
-    public void setMainPic(UserImage MainPic){
-        this.MainPic = MainPic;
-    } 
-    public UserImage getMainPic(){
-        return this.MainPic;
     }
 }

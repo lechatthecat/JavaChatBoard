@@ -14,11 +14,11 @@ INSERT INTO roles (is_admin, power_level, name)
 VALUES (0, 0, "ROLE_USER");
 
 CREATE TABLE users (
-	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-	name VARCHAR(20) NOT NULL,  
+	id bigint(20) unsigned NOT NULL UNIQUE AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL UNIQUE,  
 	`password` CHAR(128),
 	role_id BIGINT(20) unsigned, 
-	email TEXT,
+	email VARCHAR(30) UNIQUE,
 	birth DATE,
 	is_deleted TINYINT(4) NOT NULL, 
 	updated DATETIME,
@@ -32,7 +32,8 @@ CREATE TABLE user_images (
 	user_id bigint(20) unsigned NOT NULL,	
 	name VARCHAR(20) NOT NULL,
 	`path` TEXT,
-        detail TEXT,
+    detail TEXT,
+	is_main TINYINT(4) NOT NULL DEFAULT 0, 
 	is_deleted TINYINT(4) NOT NULL, 
 	updated DATETIME,
 	created DATETIME,

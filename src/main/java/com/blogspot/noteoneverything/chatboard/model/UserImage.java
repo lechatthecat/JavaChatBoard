@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
+import javax.persistence.Transient;
 
 import com.blogspot.noteoneverything.chatboard.model.User;
 
@@ -25,6 +26,9 @@ public class UserImage{
     private Date updated;
     private Date created;
     private boolean is_deleted;
+    private boolean is_main;
+    @Transient
+    private UserImage MainPic;
 
     public long getId(){
         return id;
@@ -76,5 +80,17 @@ public class UserImage{
     } 
     public boolean getIsDeleted(){
         return this.is_deleted;
+    }
+    public void setIsMain(boolean is_main){
+        this.is_main = is_main;
+    } 
+    public boolean getIsMain(){
+        return this.is_main;
+    }
+    public void setMainPic(UserImage MainPic){
+        this.MainPic = MainPic;
+    } 
+    public UserImage getMainPic(){
+        return this.MainPic;
     }
 }

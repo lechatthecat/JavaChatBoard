@@ -12,6 +12,8 @@ import com.blogspot.noteoneverything.chatboard.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
     User findByName(String name);
+    @Query("select u from User u where u.email = :email ORDER BY u.id DESC LIMIT 1")
+    User findByEmail(String email);
     @Query("select u from User u where u.name = :name")
     Collection<User> findUsersByName(@Param("name") String name);
     @Query("select u from User u where u.email = :email")

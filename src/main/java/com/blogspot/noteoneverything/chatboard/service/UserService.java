@@ -4,8 +4,9 @@ import com.blogspot.noteoneverything.chatboard.model.User;
 import java.util.Collection;
 
 public interface UserService {
-    void createUser(User user);
-    boolean delete(Long id);
+    boolean createUser(User user);
+    boolean deleteUser(User user);
+    boolean deleteUser(Long id);
     User findByName(String name);
     User findById(long id);
     Collection<User> findUsersByName(String name);

@@ -41,8 +41,10 @@ public class UserController {
             model.addAttribute("message", "Your username or password is invalid.");
             model.addAttribute("alertClass", "text-danger");
         }
-        if (logout != null)
+        if (logout != null){
             model.addAttribute("message", "You have been logged out successfully.");
+            model.addAttribute("alertClass", "text-success");
+        }
         model.addAttribute("userForm", new User());
         return "users/login";
     }
@@ -65,9 +67,13 @@ public class UserController {
             model.addAttribute("userForm", user);
             return "users/create_user";
         }
-        userService.createUser(user);  
-        redirectAttributes.addFlashAttribute("message", "Success. User created. You can login with the user name now.");
-        redirectAttributes.addFlashAttribute("alertClass", "text-success");
+        if(userService.createUser(user)){  
+            redirectAttributes.addFlashAttribute("message", "Success. User created. You can login with the user name now.");
+            redirectAttributes.addFlashAttribute("alertClass", "text-success");
+        }else{
+            redirectAttributes.addFlashAttribute("message", "Sorry user could not be created. Please contact the admin.");
+            redirectAttributes.addFlashAttribute("alertClass", "text-danger");
+        }
         return "redirect:/login";
     }
 }

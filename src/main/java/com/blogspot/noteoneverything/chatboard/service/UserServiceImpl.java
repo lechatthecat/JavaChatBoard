@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Role;
+import com.blogspot.noteoneverything.chatboard.util.Constants;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,16 +27,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public boolean deleteUser(Long id) {
+        try {
+            this.userRepository.deleteById(id);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    @Transactional
-    public boolean delete(Long id) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource);
+    public boolean deleteUser(User user) {
         try {
-            long updatedID = jdbcTemplate.update("DELETE FROM users WHERE id=" + id);
+            this.userRepository.deleteById(user.getId());
         } catch (DataAccessException e) {
             e.printStackTrace();
             return false;
@@ -45,15 +49,21 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void createUser(User user) {
-        Date now = new Date();
-        user.setCreated(now);
-        user.setUpdated(now);
-        user.setIsDeleted(false);
-        user.setRole(new Role());
-        user.getRole().setId(2); // USER_ROLE
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        this.userRepository.save(user);
+    public boolean createUser(User user) {
+        try {
+            Date now = new Date();
+            user.setCreated(now);
+            user.setUpdated(now);
+            user.setIsDeleted(false);
+            user.setRole(new Role());
+            user.getRole().setId(Constants.USER_ROLE);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            this.userRepository.save(user);
+            return true;
+        }catch(DataAccessException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

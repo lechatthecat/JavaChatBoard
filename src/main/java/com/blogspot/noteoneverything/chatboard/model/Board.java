@@ -1,13 +1,14 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
+import java.util.Date;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.util.Date;
-
+import javax.persistence.OneToMany;
 import com.blogspot.noteoneverything.chatboard.model.User;
 
 @Entity
@@ -18,6 +19,8 @@ public class Board{
     private long id;
     @ManyToOne
     private User user;
+    @OneToMany
+    private Collection<BoardResponse> boardResponses;
     private String name;
     private String detail;
     private boolean is_deleted;

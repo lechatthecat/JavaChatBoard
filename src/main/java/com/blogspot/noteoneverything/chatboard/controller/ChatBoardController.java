@@ -2,7 +2,7 @@ package com.blogspot.noteoneverything.chatboard.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.security.Principal;
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
+import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.UserImage;
@@ -28,6 +29,8 @@ public class ChatBoardController {
     private UserRepository userRepository;
     @Autowired
     private UserImageRepository userImageRepository;
+    @Autowired
+    private BoardService boardService;
 
     @GetMapping(value = "/")
     public String home(Model model) {
@@ -35,8 +38,8 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        Board board = new Board(); 
-        model.addAttribute("board", board);
+        Collection<Board> boards = boardService.findBoardsByUser(user); 
+        model.addAttribute("boards", boards);
         return "boards/index";
     }
 

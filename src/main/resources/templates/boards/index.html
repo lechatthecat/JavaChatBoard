@@ -1,19 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="fragments/layout_user :: all('Main', null, null, ~{::div#content})">
+    <div th:replace="fragments/layout_user :: all('Main', null, null,
+        ~{::div#content})">
         <!-- Content Wrapper. Contains page content -->
-        <div id="content" th:replace="fragments/content_wrapper :: content('Chat board', 'Home', 'Chat board 1',
-                ~{::div#breadcrumbs}, ~{::div#main}, ~{::div#footer})">
-            <div id="breadcrumbs" >
+        <div id="content" th:replace="fragments/content_wrapper :: content('Chat
+            board', 'Home', 'Chat board 1',
+            ~{::div#breadcrumbs}, ~{::div#main}, ~{::div#footer})">
+            <div id="breadcrumbs">
                 <li class="active"><i class="fa fa-dashboard"></i> Home</li>
             </div>
-            <div id="main"><div th:text="${user.userMainImage.path}"></div></div>
-            <div id="footer">
-                <form action="" method="post" th:object="${board}">
-                    <input type="text" class="form-control" placeholder="Write here" th:field="*{detail}">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    <span th:if= "${#fields.hasErrors('detail')}" class="help-block" th:errors="*{detail}"></span>
+            <div class="box box-primary" id="main">
+                <div class="box-header with-border">
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        <!-- /.item -->
+                        <li class="item">
+                            <div class="product-img">
+                                <!-- <img src="dist/img/default-50x50.gif"
+                                    alt="Product Image"> -->
+                            </div>
+                            <div class="product-info">
+                                <a href="javascript:void(0)"
+                                    class="product-title">PlayStation 4
+                                    <span class="label label-success
+                                        pull-right">$399</span></a>
+                                <span class="product-description">
+                                    PlayStation 4 500GB Console (PS4)
+                                </span>
+                            </div>
+                        </li>
+                        <!-- /.item -->
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                    <a href="javascript:void(0)" class="uppercase">View All
+                        Boards</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <div>
+                Boards you created:
+                <form action="" method="post" th:each="board : ${boards}">
+                    <div th:text="${board.name}"></div>
+
                 </form>
+            </div>
+            <div id="footer">
             </div>
         </div>
         <!-- /.content-wrapper -->

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
 
-    // roles admin allow to access /admin/**
     // roles user allow to access /user/**
     // custom 403 access denied handler
     @Override
@@ -38,9 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.permitAll()
 					.and()
                 .logout()
-					.permitAll()
-					.and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                    .permitAll()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/login?logout"));
+                    //.logoutSuccessUrl("/login");
     }
 
     @Bean

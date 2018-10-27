@@ -20,6 +20,7 @@ import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.UserImage;
+import com.blogspot.noteoneverything.chatboard.model.Board;
 
 @Controller
 public class ChatBoardController {
@@ -33,8 +34,9 @@ public class ChatBoardController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
-        user.setUserImage(new UserImage());
         model.addAttribute("user", user);
+        Board board = new Board(); 
+        model.addAttribute("board", board);
         return "boards/index";
     }
 

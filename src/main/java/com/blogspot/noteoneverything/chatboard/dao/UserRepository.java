@@ -12,10 +12,10 @@ import com.blogspot.noteoneverything.chatboard.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
     User findByName(String name);
-    @Query("select u from User u where u.email = :email ORDER BY u.id DESC")
+    @Query("select u from User u where u.email = :email and is_deleted = 0 ORDER BY u.id DESC")
     User findByEmail(@Param("email") String email);
-    @Query("select u from User u where u.name = :name")
+    @Query("select u from User u where u.name = :name and is_deleted = 0")
     Collection<User> findUsersByName(@Param("name") String name);
-    @Query("select u from User u where u.email = :email")
+    @Query("select u from User u where u.email = :email and is_deleted = 0")
     Collection<User> findUsersByEmail(@Param("email") String email);
 }

@@ -2,13 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <div th:replace="fragments/layout_user :: all('Main', null, null, ~{::div#content})">
         <!-- Content Wrapper. Contains page content -->
-        <div id="content" th:replace="fragments/content_wrapper :: content('Chat board', 'subtitle', 'Chat board 1',
+        <div id="content" th:replace="fragments/content_wrapper :: content('Chat board', 'Home', 'Chat board 1',
                 ~{::div#breadcrumbs}, ~{::div#main}, ~{::div#footer})">
             <div id="breadcrumbs" >
                 <li class="active"><i class="fa fa-dashboard"></i> Home</li>
             </div>
-            <div id="main"><div th:text="${user.userImage.path}"></div></div>
-            <div id="footer">footer</div>
+            <div id="main"><div th:text="${user.userMainImage.path}"></div></div>
+            <div id="footer">
+                <form action="" method="post" th:object="${board}">
+                    <input type="text" class="form-control" placeholder="Write here" th:field="*{detail}">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span th:if= "${#fields.hasErrors('detail')}" class="help-block" th:errors="*{detail}"></span>
+                </form>
+            </div>
         </div>
         <!-- /.content-wrapper -->
     </div>

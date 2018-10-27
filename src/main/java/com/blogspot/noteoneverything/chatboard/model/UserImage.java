@@ -1,17 +1,17 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
 import java.util.Date;
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.Transient;
-import javax.persistence.PrimaryKeyJoinColumn;
-
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import com.blogspot.noteoneverything.chatboard.util.Constants;
+
 import com.blogspot.noteoneverything.chatboard.model.User;
 
 @Entity
@@ -22,10 +22,11 @@ public class UserImage{
     private long id;
     private String name;
     private String detail;
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne
     private User user;
-    private String path = Constants.BLANK_USERIMAGE_PATH;
+    @OneToMany
+    private Collection<User> users;
+    private String path;
     private Date updated;
     private Date created;
     private boolean is_deleted;
@@ -39,9 +40,6 @@ public class UserImage{
     public String getName(){
         return name;
     }
-    public String getUsername(){
-        return name;
-    }
     public void setName(String name){
         this.name = name;
     }
@@ -52,10 +50,19 @@ public class UserImage{
         this.detail = detail;
     }
     public String getPath(){
+        if(this.path == null || this.path.equals("")){
+            return Constants.BLANK_USERIMAGE_PATH;
+        }
         return this.path;
     }
     public void setPath(String path){
         this.path = path;
+    }
+    public void setUsers(Collection<User> users){
+        this.users = users;
+    }
+    public Collection<User> getUsers(){
+        return this.users;
     }
     public void setUser(User user){
         this.user = user;
@@ -76,7 +83,7 @@ public class UserImage{
         return this.created;
     }
     public void setIsDeleted(boolean is_deleted){
-        this.is_deleted = is_deleted;
+        this.is_deleted= is_deleted;
     } 
     public boolean getIsDeleted(){
         return this.is_deleted;

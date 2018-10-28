@@ -1,33 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <div th:replace="fragments/layout_user :: all('Main', null, null,
-        ~{::div#content})">
+        ~{::div#page_content})">
         <!-- Content Wrapper. Contains page content -->
-        <div id="content" th:replace="fragments/content_wrapper :: content('Chat
-            board', 'Home', 'Chat board 1',
-            ~{::div#breadcrumbs}, ~{::div#main}, ~{::div#footer})">
+        <div id="page_content" th:replace="fragments/content_wrapper ::
+            content('Chat board',
+            'Home', ~{::div#breadcrumbs}, ~{::div.box_content})">
             <div id="breadcrumbs">
                 <li class="active"><i class="fa fa-dashboard"></i> Home</li>
             </div>
-            <div class="box box-primary" id="main">
+            <div class="box_content box box-primary">
                 <div class="box-header with-border">
+                    <h3 class="box-title">Unchecked mentions to you</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <ul class="products-list product-list-in-box">
+                    Body
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">footer</div>
+                <!-- /.box-footer -->
+            </div>
+            <div class="box_content box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Boards in which you mentioned</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    Body
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">footer</div>
+                <!-- /.box-footer -->
+            </div>
+            <div class="box_content box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Boards You created</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div th:if="${#lists.size(boards)} == 0">You haven't created 
+                        any board yet.<br/>You can create boards from here.
+                    </div>
+                    <ul class="products-list product-list-in-box"
+                        th:each="board,iterStat : ${boards}">
                         <!-- /.item -->
                         <li class="item">
-                            <div class="product-img">
-                                <!-- <img src="dist/img/default-50x50.gif"
-                                    alt="Product Image"> -->
+                            <div class="product-img"
+                                th:switch="${(iterStat.count + 3) % 3}">
+                                <img th:case="1"
+                                    th:src="@{img/no_image_1.jpg}"
+                                    th:alt="${board.name}">
+                                <img th:case="2"
+                                    th:src="@{img/no_image_2.jpg}"
+                                    th:alt="${board.name}">
+                                <img th:case="0"
+                                    th:src="@{img/no_image_3.jpg}"
+                                    th:alt="${board.name}">
                             </div>
                             <div class="product-info">
                                 <a href="javascript:void(0)"
-                                    class="product-title">PlayStation 4
+                                    class="product-title" th:inline="text">
+                                    [[${board.name}]]
                                     <span class="label label-success
-                                        pull-right">$399</span></a>
-                                <span class="product-description">
-                                    PlayStation 4 500GB Console (PS4)
+                                        pull-right">New message</span></a>
+                                <span class="product-description"
+                                    th:text="${#strings.abbreviate(board.detail,100)}">
                                 </span>
                             </div>
                         </li>
@@ -35,20 +91,12 @@
                     </ul>
                 </div>
                 <!-- /.box-body -->
-                <div class="box-footer text-center">
+                <div th:if="${#lists.size(boards)}> 0" class="box-footer
+                    text-center">
                     <a href="javascript:void(0)" class="uppercase">View All
                         Boards</a>
                 </div>
                 <!-- /.box-footer -->
-            </div>
-            <div>
-                Boards you created:
-                <form action="" method="post" th:each="board : ${boards}">
-                    <div th:text="${board.name}"></div>
-
-                </form>
-            </div>
-            <div id="footer">
             </div>
         </div>
         <!-- /.content-wrapper -->

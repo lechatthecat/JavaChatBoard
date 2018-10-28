@@ -1,7 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.service;
 
 import java.util.Date;
-import java.util.Collection;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -77,12 +77,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<User> findUsersByName(String name) {
+    public List<User> findUsersByName(String name) {
         return userRepository.findUsersByName(name);
     }
 
     @Override
-    public Collection<User> findUsersByEmail(String email) {
+    public List<User> findUsersByEmail(String email) {
         return userRepository.findUsersByEmail(email);
     }
 }

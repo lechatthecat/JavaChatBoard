@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <!-- Content Wrapper. Contains page content -->
-    <div th:fragment="content(title, subtitle, content_title, breadcrumb, box_body, box_footer)" class="content-wrapper">
+    <div th:fragment="content(title, subtitle, breadcrumb, content)" class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
@@ -13,12 +13,13 @@
             </section>
 
             <!-- Main content -->
-            <section class="content">
+            <section class="content" >
+                <th:block th:replace="${content}"></th:block>
 
                 <!-- Default box -->
-                <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title" th:text="${content_title}"></h3>
+                <!-- <div class="box">
+                <div class="box-header with-border"> -->
+                    <!-- <h3 class="box-title"></h3> -->
                     <!--/*
                     <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -28,14 +29,10 @@
                         <i class="fa fa-times"></i></button>
                     </div>
                     */-->
-                </div>
-                <div th:include="${box_body}" class="box-body"></div>
+                <!-- </div> -->
                 <!-- /.box-body -->
-                <th:block th:if="${breadcrumb != null}">
-                    <div th:include="${box_footer}" class="box-footer"></div>
-                </th:block>
                 <!-- /.box-footer-->
-                </div>
+                <!-- </div> -->
                 <!-- /.box -->
 
             </section>

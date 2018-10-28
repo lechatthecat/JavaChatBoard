@@ -1,7 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
 import java.util.Date;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,7 +26,7 @@ public class Role{
     private int power_level;
     private String name;  
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<User> users;
+    private List<User> users;
 
     public long getId(){
         return this.id;
@@ -56,11 +56,11 @@ public class Role{
         this.name = name;
     }
     
-    public Collection<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 }

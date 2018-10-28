@@ -1,7 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.service;
 
 import com.blogspot.noteoneverything.chatboard.model.User;
-import java.util.Collection;
+import java.util.List;
 
 public interface UserService {
     boolean createUser(User user);
@@ -9,6 +9,6 @@ public interface UserService {
     boolean deleteUser(Long id);
     User findByName(String name);
     User findById(long id);
-    Collection<User> findUsersByName(String name);
-    Collection<User> findUsersByEmail(String email);
+    List<User> findUsersByName(String name);
+    List<User> findUsersByEmail(String email);
 }

@@ -1,7 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
 import java.util.Date;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class User{
     @ManyToOne
     private Role role;
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<UserImage> userImages;
+    private List<UserImage> userImages;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
     private String password;
@@ -49,9 +49,9 @@ public class User{
     @Transient
     private boolean agreesTerm = false;
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<BoardResponse> boardResponses;
+    private List<BoardResponse> boardResponses;
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<Board> boards;
+    private List<Board> boards;
 
     public long getId(){
         return id;
@@ -119,10 +119,10 @@ public class User{
     public void setRole(Role role) {
         this.role = role;
     }
-    public Collection<UserImage> getUserImages() {
+    public List<UserImage> getUserImages() {
         return this.userImages;
     }
-    public void setUserImages(Collection<UserImage> userImages) {
+    public void setUserImages(List<UserImage> userImages) {
         this.userImages = userImages;
     }
     public void setIsDeleted(boolean is_deleted){
@@ -137,16 +137,16 @@ public class User{
     public void setAgreesTerm(boolean agreesTerm){
         this.agreesTerm = agreesTerm;
     }
-    public Collection<Board> getBoards() {
+    public List<Board> getBoards() {
         return this.boards;
     }
-    public void setBoards(Collection<Board> boards) {
+    public void setBoards(List<Board> boards) {
         this.boards = boards;
     }
-    public Collection<BoardResponse> getBoardResposes() {
+    public List<BoardResponse> getBoardResposes() {
         return this.boardResponses;
     }
-    public void setBoardResponses(Collection<BoardResponse> boardResponses) {
+    public void setBoardResponses(List<BoardResponse> boardResponses) {
         this.boardResponses = boardResponses;
     }
 }

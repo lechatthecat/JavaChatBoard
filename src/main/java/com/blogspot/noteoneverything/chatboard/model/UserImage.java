@@ -1,7 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
 import java.util.Date;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -25,7 +25,7 @@ public class UserImage{
     @ManyToOne
     private User user;
     @OneToMany
-    private Collection<User> users;
+    private List<User> users;
     private String path;
     private Date updated;
     private Date created;
@@ -58,10 +58,10 @@ public class UserImage{
     public void setPath(String path){
         this.path = path;
     }
-    public void setUsers(Collection<User> users){
+    public void setUsers(List<User> users){
         this.users = users;
     }
-    public Collection<User> getUsers(){
+    public List<User> getUsers(){
         return this.users;
     }
     public void setUser(User user){

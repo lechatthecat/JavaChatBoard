@@ -1,6 +1,6 @@
 package com.blogspot.noteoneverything.chatboard.validator;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.service.UserService;
@@ -28,11 +28,11 @@ public class UserValidator implements Validator {
         if (user.getName().length() < 3 || user.getName().length() > 32) {
             errors.rejectValue("name", "Size.userForm.username");
         }
-        Collection<User> usersByName = userService.findUsersByName(user.getName());
+        List<User> usersByName = userService.findUsersByName(user.getName());
         if (usersByName.size()>0) {
             errors.rejectValue("name", "Duplicate.userForm.username");
         }
-        Collection<User> usersByEmail = userService.findUsersByEmail(user.getEmail());
+        List<User> usersByEmail = userService.findUsersByEmail(user.getEmail());
         if(usersByEmail.size()>0){
             errors.rejectValue("email", "Format.userForm.notUniqueEmail");
         }

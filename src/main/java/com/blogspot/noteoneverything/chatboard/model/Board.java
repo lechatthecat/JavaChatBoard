@@ -1,7 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
 import java.util.Date;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -20,7 +20,7 @@ public class Board{
     @ManyToOne
     private User user;
     @OneToMany
-    private Collection<BoardResponse> boardResponses;
+    private List<BoardResponse> boardResponses;
     private String name;
     private String detail;
     private boolean is_deleted;

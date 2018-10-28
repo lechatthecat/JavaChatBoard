@@ -45,14 +45,16 @@ public class ChatBoardController {
         return "boards/index";
     }
 
-    @PostMapping(value = "/")
-    public String addcat(@RequestParam("name") String name,
-            @RequestParam("rescued") @DateTimeFormat(pattern = "yyyy/MM/dd") Date rescued,
-            @RequestParam("vaccinated") Boolean vaccinated, Model model) {
-        // catservice.addCat(name, rescued, vaccinated);
-        // System.out.println("name = " + name + ",rescued = " + rescued + ", vaccinated
-        // = " + vaccinated);
-        return "redirect:/";
+    @GetMapping(value = "/board")
+    public String addcat(@RequestParam("b_id") String b_id, Model model) {
+        String test = b_id;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) auth.getPrincipal();
+        User user = userRepository.findByName(principal.getUsername());
+        model.addAttribute("user", user);
+        List<Board> boards = boardService.findBoardsByUser(user, PageRequest.of(0,5)); 
+        model.addAttribute("boards", boards);
+        return "boards/board";
     }
 
     @PostMapping(value = "/delete")

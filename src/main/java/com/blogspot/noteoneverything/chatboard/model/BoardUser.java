@@ -1,29 +1,26 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
-import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import java.util.Date;
+
 import com.blogspot.noteoneverything.chatboard.model.User;
+import com.blogspot.noteoneverything.chatboard.model.Board;
 
 @Entity
-@Table(name = "boards")
-public class Board{
+@Table(name = "board_users")
+public class BoardUser{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne
     private User user;
-    @OneToMany
-    private List<BoardResponse> boardResponses;
-    private String name;
-    private String detail;
-    private boolean is_private;
+    @ManyToOne
+    private Board board;
     private boolean is_deleted;
     private Date updated;
     private Date created;
@@ -40,26 +37,14 @@ public class Board{
     public void setUser(User user){
         this.user = user;
     }
-    public String getName(){
-        return this.name;
+    public void setBoard(Board board){
+        this.board = board;
     }
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getDetail(){
-        return this.detail;
-    }
-    public void setDetail(String detail){
-        this.detail = detail;
-    }
-    public void setIsPrivate(boolean is_private){
-        this.is_private = is_private;
-    } 
-    public boolean getIsPrivate(){
-        return this.is_private;
+    public Board getBoard(){
+        return this.board;
     }
     public void setIsDeleted(boolean is_deleted){
-        this.is_deleted= is_deleted;
+        this.is_deleted = is_deleted;
     } 
     public boolean getIsDeleted(){
         return this.is_deleted;

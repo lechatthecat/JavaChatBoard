@@ -50,11 +50,24 @@ CREATE TABLE boards (
 	user_id BIGINT(20) unsigned NOT NULL,
 	name VARCHAR(20) NOT NULL,  
 	detail text, 
+	is_private TINYINT(4) NOT NULL DEFAULT 0,
 	is_deleted TINYINT(4) NOT NULL DEFAULT 0, 
 	updated DATETIME,
 	created DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE board_users (
+	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
+	user_id BIGINT(20) unsigned NOT NULL,
+	board_id BIGINT(20) unsigned NOT NULL,
+	is_deleted TINYINT(4) NOT NULL DEFAULT 0, 
+	updated DATETIME,
+	created DATETIME,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (board_id) REFERENCES boards(id)
 );
 
 CREATE TABLE board_responses (

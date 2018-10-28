@@ -10,8 +10,10 @@ import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+import com.blogspot.noteoneverything.chatboard.model.BoardUser;
 import com.blogspot.noteoneverything.chatboard.dao.BoardRepository;
 import com.blogspot.noteoneverything.chatboard.dao.BoardResponseRepository;
+import com.blogspot.noteoneverything.chatboard.dao.BoardUserRepository;
 import org.springframework.data.domain.Pageable;
 
 @Service
@@ -20,6 +22,8 @@ public class BoardServiceImpl implements BoardService{
     private BoardRepository boardRepository;
     @Autowired
     private BoardResponseRepository boardResponseRepository;
+    @Autowired
+    private BoardUserRepository boardUserRepository;
 
     @Transactional
     @Override
@@ -134,4 +138,29 @@ public class BoardServiceImpl implements BoardService{
     public List<BoardResponse> findBoardResponsesByBoardAndUser(Board board, User user, Pageable pageable){
         return boardResponseRepository.findBoardResponsesByBoardAndUser(board, user, pageable);
     };
+
+    @Override
+    public List<BoardUser> findBoardUsersByBoard(Board board){
+        return boardUserRepository.findBoardUsersByBoard(board);
+    }
+
+    @Override
+    public List<BoardUser> findBoardUsersByBoard(Board board, Pageable pageable){
+        return boardUserRepository.findBoardUsersByBoard(board, pageable);
+    }
+    
+    @Override
+    public List<BoardUser> findBoardUsersByUser(User user){
+        return boardUserRepository.findBoardUsersByUser(user);
+    }
+    
+    @Override
+    public List<BoardUser> findBoardUsersByUser(User user, Pageable pageable){
+        return boardUserRepository.findBoardUsersByUser(user, pageable);
+    }
+    
+    @Override
+    public boolean deleteBoardRUserById(long id){
+        return boardUserRepository.deleteBoardRUserById(id);
+    }
 }

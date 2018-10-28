@@ -3,6 +3,7 @@ package com.blogspot.noteoneverything.chatboard.service;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+import com.blogspot.noteoneverything.chatboard.model.BoardUser;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +22,9 @@ public interface BoardService{
     public List<BoardResponse> findBoardResponsesByUser(User user, Pageable pageable);
     public List<BoardResponse> findBoardResponsesByBoardAndUser(Board board, User user);
     public List<BoardResponse> findBoardResponsesByBoardAndUser(Board board, User user, Pageable pageable);
+    public List<BoardUser> findBoardUsersByBoard(Board board);
+    public List<BoardUser> findBoardUsersByBoard(Board board, Pageable pageable);
+    public List<BoardUser> findBoardUsersByUser(User user);
+    public List<BoardUser> findBoardUsersByUser(User user, Pageable pageable);
+    public boolean deleteBoardRUserById(long id);
 }

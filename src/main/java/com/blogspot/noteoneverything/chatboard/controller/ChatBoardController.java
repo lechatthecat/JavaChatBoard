@@ -46,7 +46,7 @@ public class ChatBoardController {
     }
 
     @GetMapping(value = "/board")
-    public String addcat(@RequestParam("b_id") String b_id, Model model) {
+    public String boards(@RequestParam("b_id") String b_id, Model model) {
         String test = b_id;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
@@ -55,6 +55,11 @@ public class ChatBoardController {
         List<Board> boards = boardService.findBoardsByUser(user, PageRequest.of(0,5)); 
         model.addAttribute("boards", boards);
         return "boards/board";
+    }
+
+    @GetMapping(value = "/test")
+    public String test(Model model) {
+        return "boards/test";
     }
 
     @PostMapping(value = "/delete")

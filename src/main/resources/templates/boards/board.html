@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="fragments/layout_user :: all('Main', null, null,
+    <div th:replace="fragments/layout_user :: all('Board', ~{::div#links}, ~{::#js},
         ~{::div#page_content})">
+        <!-- CSS -->
+        <div id="links">
+            <link rel="stylesheet" th:href="@{css/boards.css}">
+        </div>
+        <!-- JS -->
+        <th:block id="js">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+            <script th:inline="text">
+                var username = "[[${user.name}]]";
+            </script>
+            <script th:src="@{/js/chat.js}"></script>
+        </th:block >
         <!-- Content Wrapper. Contains page content -->
         <div id="page_content" th:replace="fragments/content_wrapper ::
             content('Chat board',
@@ -9,10 +22,22 @@
             <div id="breadcrumbs">
                 <li class="active"><i class="fa fa-dashboard"></i> Home</li>
             </div>
-            <div class="box_content box box-warning direct-chat direct-chat-warning">
+            <div class="chatbox box_content box box-warning direct-chat direct-chat-warning">
+                        <div id="warning">
+                            <span class="text-danger">You are not connected to server.</span>
+                        </div>
+                        <div id="chat-page">
+                                <div class="chat-container">
+                                    <div class="chat-header">
+                                        <h2>Spring WebSocket Chat Demo</h2>
+                                    </div>
+                                    <div class="connecting">
+                                        Connecting...
+                                    </div>
+                                </div>
+                            </div>
                 <div class="box-header with-border">
                     <h3 class="box-title">Direct Chat</h3>
-
                     <div class="box-tools pull-right">
                         <span data-toggle="tooltip" title="" class="badge
                             bg-yellow" data-original-title="3 New Messages">3</span>
@@ -32,7 +57,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages">
+                    <div class="direct-chat-messages" id="messageArea">
                         <!-- Message. Default to the left -->
                         <div class="direct-chat-msg">
                             <div class="direct-chat-info clearfix">
@@ -49,26 +74,6 @@
                             <div class="direct-chat-text">
                                 Is this template really for free? That's
                                 unbelievable!
-                            </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
-                        <!-- /.direct-chat-msg -->
-
-                        <!-- Message to the right -->
-                        <div class="direct-chat-msg right">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-right">Sarah
-                                    Bullock</span>
-                                <span class="direct-chat-timestamp pull-left">23
-                                    Jan 2:05 pm</span>
-                            </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img"
-                                th:src="@{/img/blank.svg}" alt="message
-                                user image">
-                            <!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                You better believe it!
                             </div>
                             <!-- /.direct-chat-text -->
                         </div>
@@ -242,13 +247,13 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <form action="#" method="post">
+                    <form id="messageForm" name="messageForm" nameForm="messageForm">
                         <div class="input-group">
-                            <input type="text" name="message" placeholder="Type
-                                Message ..." class="form-control">
+                            <input type="text" id="message"  placeholder="Type Message ..." 
+                            class="form-control" autocomplete="off">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-warning
-                                    btn-flat">Send</button>
+                                <button class="btn btn-warning
+                                    btn-flat" type="submit">Send</button>
                             </span>
                         </div>
                     </form>

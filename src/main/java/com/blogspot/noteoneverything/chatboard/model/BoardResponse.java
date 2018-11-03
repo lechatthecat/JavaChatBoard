@@ -14,6 +14,15 @@ import com.blogspot.noteoneverything.chatboard.model.Board;
 @Entity
 @Table(name = "board_responses")
 public class BoardResponse{
+    
+    private MessageType type;
+
+    public enum MessageType {
+        CHAT,
+        JOIN,
+        LEAVE
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -31,6 +40,12 @@ public class BoardResponse{
     }
     public void setId(long id){
         this.id = id;
+    }
+    public MessageType getType(){
+        return type;
+    }
+    public void setType(MessageType type){
+        this.type = type;
     }
     public String getResponse(){
         return this.response;

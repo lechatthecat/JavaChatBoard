@@ -15,10 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import java.security.Principal;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.blogspot.noteoneverything.chatboard.model.ChatMessage;
+import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+import java.lang.Exception;
 
-/**
- * Created by rajeevkumarsingh on 24/07/17.
- */
 @Controller
 public class ChatController {
     @Autowired
@@ -40,14 +40,15 @@ public class ChatController {
 
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
+    public BoardResponse addUser(@Payload BoardResponse boardResponse,
                                SimpMessageHeaderAccessor headerAccessor) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails principal = (UserDetails) auth.getPrincipal();
-        User user = userRepository.findByName(principal.getUsername());
+        // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // UserDetails principal = (UserDetails) auth.getPrincipal();
+        // User user = userRepository.findByName(principal.getUsername());
+        // One time password?
         // Add username in web socket session
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatMessage;
+        headerAccessor.getSessionAttributes().put("username", boardResponse.getSender());
+        return boardResponse;
     }
 
 }

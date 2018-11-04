@@ -68,8 +68,6 @@ function onMessageReceived(payload) {
 
     var messageElement = document.createElement('div');
     messageElement.classList.add("direct-chat-msg");
-    messageElement.classList.add("right");
-
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
@@ -93,14 +91,24 @@ function onMessageReceived(payload) {
         //Sender Name
         var senderName =  document.createElement('span');
         senderName.classList.add("direct-chat-name");
-        senderName.classList.add("pull-right");
+        if(message.sender == username){
+            messageElement.classList.add("right");
+            senderName.classList.add("pull-right");
+        }else{
+            messageElement.classList.add("left");
+            senderName.classList.add("pull-left");
+        }
         var senderNameText = document.createTextNode(message.sender);
         senderName.appendChild(senderNameText);
 
         //Time stamp
         var timeStamp = document.createElement('span');
         timeStamp.classList.add("direct-chat-timestamp");
-        timeStamp.classList.add("pull-left");
+        if(message.sender == username){
+            timeStamp.classList.add("pull-left");
+        }else{
+            timeStamp.classList.add("pull-right");
+        }
         var timeStampText = document.createTextNode("23 Jan 2:05 pm");
         timeStamp.appendChild(timeStampText);
 
@@ -116,7 +124,7 @@ function onMessageReceived(payload) {
         chatMessage.appendChild(chatMessageText);
 
         messageSenderInfo.appendChild(senderName);
-        messageSenderInfo.appendChild(timeStampText);
+        messageSenderInfo.appendChild(timeStamp);
         messageElement.appendChild(messageSenderInfo);
         messageElement.appendChild(senderImage);
         messageElement.appendChild(chatMessage);

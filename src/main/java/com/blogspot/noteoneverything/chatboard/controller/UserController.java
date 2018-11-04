@@ -37,11 +37,10 @@ public class UserController {
 
     @GetMapping(value = "/login")
     public String login(Model model, String error, String logout) {
-        if (error != null){
+        if(error != null){
             model.addAttribute("message", "Your username or password is invalid.");
             model.addAttribute("alertClass", "text-danger");
-        }
-        if (logout != null){
+        }else if (logout != null){
             model.addAttribute("message", "You have been logged out successfully.");
             model.addAttribute("alertClass", "text-success");
         }

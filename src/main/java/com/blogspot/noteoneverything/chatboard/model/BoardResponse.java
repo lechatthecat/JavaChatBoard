@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.Date;
+import javax.persistence.Transient;
 
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Board;
@@ -32,6 +33,8 @@ public class BoardResponse{
     @ManyToOne
     private Board board;
     private boolean is_deleted;
+    @Transient
+    private String sender;
     private Date updated;
     private Date created;
 
@@ -82,5 +85,11 @@ public class BoardResponse{
     }
     public Date getCreated(){
         return this.created;
+    }
+    public String getSender() {
+        return sender;
+    }
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 }

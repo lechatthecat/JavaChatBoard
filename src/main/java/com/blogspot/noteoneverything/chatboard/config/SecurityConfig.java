@@ -1,6 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.config;
 
 import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,11 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 
 @Configuration
 @EnableWebSecurity
 @EnableWebSocketMessageBroker
-public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebSocketMessageBrokerConfigurer {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -63,24 +61,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebS
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
-    }
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/topic");   // Enables a simple in-memory broker
-
-
-        //   Use this for enabling a Full featured broker 
-        /*
-        registry.enableStompBrokerRelay("/topic")
-                .setRelayHost("localhost")
-                .setRelayPort(61613)
-                .setClientLogin("guest")
-                .setClientPasscode("guest");
-        */
-    }
 }

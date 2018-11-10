@@ -10,12 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import com.blogspot.noteoneverything.chatboard.model.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "boards")
-public class Board{
+public class Board {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     private User user;
@@ -28,52 +31,75 @@ public class Board{
     private Date updated;
     private Date created;
 
-    public long getId(){
+    public long getId() {
         return this.id;
     }
-    public void setId(long id){
+
+    public void setId(long id) {
         this.id = id;
     }
-    public User getUser(){
+
+    public User getUser() {
         return this.user;
     }
-    public void setUser(User user){
+
+    public void setUser(User user) {
         this.user = user;
     }
-    public String getName(){
+
+    public String getName() {
         return this.name;
     }
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
-    public String getDetail(){
+
+    public String getDetail() {
         return this.detail;
     }
-    public void setDetail(String detail){
+
+    public void setDetail(String detail) {
         this.detail = detail;
     }
-    public void setIsPrivate(boolean is_private){
+
+    public List<BoardResponse> getBoardResponses() {
+        return this.boardResponses;
+    }
+
+    public void setBoardResponses(List<BoardResponse> boardResponses) {
+        this.boardResponses = boardResponses;
+    }
+
+    public void setIsPrivate(boolean is_private) {
         this.is_private = is_private;
-    } 
-    public boolean getIsPrivate(){
+    }
+
+    public boolean getIsPrivate() {
         return this.is_private;
     }
-    public void setIsDeleted(boolean is_deleted){
-        this.is_deleted= is_deleted;
-    } 
-    public boolean getIsDeleted(){
+
+    public void setIsDeleted(boolean is_deleted) {
+        this.is_deleted = is_deleted;
+    }
+
+    public boolean getIsDeleted() {
         return this.is_deleted;
     }
-    public void setUpdated(Date updated){
+
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
-    public Date getUpdated(){
+
+    public Date getUpdated() {
         return this.updated;
     }
-    public void setCreated(Date created){
+
+    public void setCreated(Date created) {
         this.created = created;
     }
-    public Date getCreated(){
+
+    public Date getCreated() {
         return this.created;
     }
 }

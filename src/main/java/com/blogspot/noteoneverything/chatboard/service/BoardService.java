@@ -9,13 +9,17 @@ import org.springframework.data.domain.Pageable;
 
 public interface BoardService{
     public boolean createBoard(Board board);
+    public boolean createBoardResponse(Board board, BoardResponse boardResponse);
     public boolean createBoardResponse(BoardResponse boardResponse);
     public boolean deleteBoard(Board board);
     public boolean deleteBoardResponse(BoardResponse boardResponse);
     public boolean deleteBoard(long id);
     public boolean deleteBoardResponse(long id);
+    public Board findBoardById(long id);
+    public Board findBoardByIdWithUser(long id);
     public List<Board> findBoardsByUser(User user);
     public List<Board> findBoardsByUser(User user, Pageable pageable);
+    public BoardResponse findBoardResponseByIdWithUser(long id);
     public List<BoardResponse> findBoardResponsesByBoard(Board board);
     public List<BoardResponse> findBoardResponsesByBoard(Board board, Pageable pageable);
     public List<BoardResponse> findBoardResponsesByUser(User user);

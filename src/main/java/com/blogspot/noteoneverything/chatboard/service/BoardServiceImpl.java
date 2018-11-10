@@ -14,6 +14,8 @@ import com.blogspot.noteoneverything.chatboard.model.BoardUser;
 import com.blogspot.noteoneverything.chatboard.dao.BoardRepository;
 import com.blogspot.noteoneverything.chatboard.dao.BoardResponseRepository;
 import com.blogspot.noteoneverything.chatboard.dao.BoardUserRepository;
+import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
+
 import org.springframework.data.domain.Pageable;
 
 @Service
@@ -24,6 +26,8 @@ public class BoardServiceImpl implements BoardService{
     private BoardResponseRepository boardResponseRepository;
     @Autowired
     private BoardUserRepository boardUserRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     @Override
@@ -62,13 +66,29 @@ public class BoardServiceImpl implements BoardService{
         }
     }
 
-    @Transactional
+    @Override
+    public boolean createBoardResponse(Board board, BoardResponse boardResponse) {
+        Date now = new Date();
+        try{
+            boardResponse.setBoard(board);
+            boardResponse.setCreated(now);
+            boardResponse.setUpdated(now);
+            boardResponse.setUser(userRepository.findByName(boardResponse.getSender()));
+            this.boardResponseRepository.save(boardResponse);
+            return true;
+        }catch(DataAccessException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     public boolean createBoardResponse(BoardResponse boardResponse) {
         Date now = new Date();
         try{
             boardResponse.setCreated(now);
             boardResponse.setUpdated(now);
+            boardResponse.setUser(userRepository.findByName(boardResponse.getSender()));
             this.boardResponseRepository.save(boardResponse);
             return true;
         }catch(DataAccessException e){
@@ -100,6 +120,16 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public Board findBoardById(long id){
+        return boardRepository.findBoardById(id);
+    };
+
+    @Override
+    public Board findBoardByIdWithUser(long id){
+        return boardRepository.findBoardByIdWithUser(id);
+    }
+
+    @Override
     public List<Board> findBoardsByUser(User user){
         return boardRepository.findBoardsByUser(user);
     };
@@ -108,6 +138,11 @@ public class BoardServiceImpl implements BoardService{
     public List<Board> findBoardsByUser(User user, Pageable pageable){
         return boardRepository.findBoardsByUser(user, pageable);
     };
+
+    @Override
+    public BoardResponse findBoardResponseByIdWithUser(long id){
+        return boardResponseRepository.findBoardResponseByIdWithUser(id);
+    }
 
     @Override
     public List<BoardResponse> findBoardResponsesByBoard(Board board){

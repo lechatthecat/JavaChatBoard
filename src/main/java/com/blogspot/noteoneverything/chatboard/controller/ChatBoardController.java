@@ -22,6 +22,8 @@ import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.UserImage;
 import com.blogspot.noteoneverything.chatboard.model.Board;
+import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -40,26 +42,21 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        List<Board> boards = boardService.findBoardsByUser(user, PageRequest.of(0,5)); 
+        List<Board> boards = boardService.findBoardsByUser(user, PageRequest.of(0, 5));
         model.addAttribute("boards", boards);
         return "boards/index";
     }
 
     @GetMapping(value = "/board")
     public String boards(@RequestParam("b_id") String b_id, Model model) {
-        String test = b_id;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        List<Board> boards = boardService.findBoardsByUser(user, PageRequest.of(0,5)); 
-        model.addAttribute("boards", boards);
+        Board board = boardService.findBoardById(Long.parseLong(b_id, 10));
+        List<BoardResponse> test = board.getBoardResponses();
+        model.addAttribute("board", board);
         return "boards/board";
-    }
-
-    @GetMapping(value = "/test")
-    public String test(Model model) {
-        return "boards/test";
     }
 
     @PostMapping(value = "/delete")

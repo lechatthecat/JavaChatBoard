@@ -13,9 +13,9 @@ import com.blogspot.noteoneverything.chatboard.model.Board;
 
 @Entity
 @Table(name = "board_users")
-public class BoardUser{
+public class BoardUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     private User user;
@@ -25,40 +25,51 @@ public class BoardUser{
     private Date updated;
     private Date created;
 
-    public long getId(){
+    public long getId() {
         return this.id;
     }
-    public void setId(long id){
+
+    public void setId(long id) {
         this.id = id;
     }
-    public User getUser(){
+
+    public User getUser() {
         return this.user;
     }
-    public void setUser(User user){
+
+    public void setUser(User user) {
         this.user = user;
     }
-    public void setBoard(Board board){
+
+    public void setBoard(Board board) {
         this.board = board;
     }
-    public Board getBoard(){
+
+    public Board getBoard() {
         return this.board;
     }
-    public void setIsDeleted(boolean is_deleted){
+
+    public void setIsDeleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
-    } 
-    public boolean getIsDeleted(){
+    }
+
+    public boolean getIsDeleted() {
         return this.is_deleted;
     }
-    public void setUpdated(Date updated){
+
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
-    public Date getUpdated(){
+
+    public Date getUpdated() {
         return this.updated;
     }
-    public void setCreated(Date created){
+
+    public void setCreated(Date created) {
         this.created = created;
     }
-    public Date getCreated(){
+
+    public Date getCreated() {
         return this.created;
     }
 }

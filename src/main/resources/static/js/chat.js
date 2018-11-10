@@ -27,7 +27,7 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/board/public', onMessageReceived);
 
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
@@ -52,7 +52,7 @@ function sendMessage(event) {
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
-            content: messageInput.value,
+            response: messageInput.value,
             type: 'CHAT'
         };
 
@@ -120,7 +120,7 @@ function onMessageReceived(payload) {
         //Message text
         var chatMessage = document.createElement('div');
         chatMessage.classList.add("direct-chat-text");
-        var chatMessageText = document.createTextNode(message.content);
+        var chatMessageText = document.createTextNode(message.response);
         chatMessage.appendChild(chatMessageText);
 
         messageSenderInfo.appendChild(senderName);

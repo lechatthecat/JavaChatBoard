@@ -1,6 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
-import com.blogspot.noteoneverything.chatboard.model.ChatMessage;
+import com.blogspot.noteoneverything.chatboard.model.Board;
+import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +31,15 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
         String username = (String) headerAccessor.getSessionAttributes().get("username");
         if(username != null) {
             logger.info("User Disconnected : " + username);
 
-            ChatMessage chatMessage = new ChatMessage();
-            chatMessage.setType(ChatMessage.MessageType.LEAVE);
-            chatMessage.setSender(username);
+            BoardResponse boardResponse = new BoardResponse();
+            boardResponse.setType(BoardResponse.MessageType.LEAVE);
+            boardResponse.getUser().setName(username);
 
-            messagingTemplate.convertAndSend("/board", chatMessage);
+            messagingTemplate.convertAndSend("/topic/public", boardResponse);
         }
     }
 }

@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface BoardResponseRepository extends JpaRepository<BoardResponse,Long>{
+    @Query("select br from BoardResponse br where br.id = id and br.is_deleted = 0")
+    BoardResponse findBoardResponseByIdWithUser(@Param("id") long id);
     @Query("select br from BoardResponse br where br.user = :user and is_deleted = 0")
     List<BoardResponse> findBoardResponsesByUser(@Param("user") User user);
     @Query("select br from BoardResponse br where br.user = :user and is_deleted = 0")

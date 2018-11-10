@@ -54,8 +54,16 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages" id="messageArea">
-                        
+                    <div class="direct-chat-messages" id="messageArea" >
+                        <div th:classappend="${res.user.id == user.id} ? right : left" class="direct-chat-msg" th:each="res,iterStat : ${boardReponses}" h:inline="text">
+                            <div class="direct-chat-info clearfix">
+                                <span th:classappend="${res.user.id == user.id} ? pull-right : pull-left" class="direct-chat-name">[[${res.user.name}]]</span>
+                                <span th:classappend="${res.user.id == user.id} ? pull-left : pull-right" class="direct-chat-timestamp">[[${res.updated}]]</span>
+                            </div>
+                            <img class="direct-chat-img" th:src="${res.user.userMainImage.path}">
+                            <div class="direct-chat-text">[[${res.response}]]</div>
+                        </div>
+                    </div>
                     <!-- Contacts are loaded here -->
                     <div class="direct-chat-contacts hidden">
                         <ul class="contacts-list">

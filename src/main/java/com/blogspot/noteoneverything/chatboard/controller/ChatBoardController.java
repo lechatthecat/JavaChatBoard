@@ -54,8 +54,9 @@ public class ChatBoardController {
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
         Board board = boardService.findBoardById(Long.parseLong(b_id, 10));
-        List<BoardResponse> test = board.getBoardResponses();
         model.addAttribute("board", board);
+        List<BoardResponse> boardReponses = board.getBoardResponses();
+        model.addAttribute("boardReponses", boardReponses);
         return "boards/board";
     }
 

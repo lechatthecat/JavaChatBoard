@@ -22,7 +22,7 @@ public class Board {
     private long id;
     @ManyToOne
     private User user;
-    @OneToMany
+    @OneToMany(mappedBy = "board")
     private List<BoardResponse> boardResponses;
     private String name;
     private String detail;

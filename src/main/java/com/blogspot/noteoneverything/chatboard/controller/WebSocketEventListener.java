@@ -37,9 +37,9 @@ public class WebSocketEventListener {
 
             BoardResponse boardResponse = new BoardResponse();
             boardResponse.setType(BoardResponse.MessageType.LEAVE);
-            boardResponse.getUser().setName(username);
+            boardResponse.setSender(username);
 
-            messagingTemplate.convertAndSend("/topic/public", boardResponse);
+            messagingTemplate.convertAndSend("/board/public", boardResponse);
         }
     }
 }

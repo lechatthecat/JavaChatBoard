@@ -128,7 +128,12 @@ public class BoardResponse {
     }
 
     public long getBId() {
-        return this.b_id;
+        if(this.board!=null){
+            this.b_id = this.board.getId();
+            return this.b_id;
+        }else{
+            return this.b_id;
+        }
     }
 
     public void setBID(long b_id) {

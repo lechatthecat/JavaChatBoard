@@ -12,6 +12,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
             <script th:inline="text">
                 var username = "[[${user.name}]]";
+                var b_id = "[[${board.id}]]";
             </script>
             <script th:src="@{/js/chat.js}"></script>
         </th:block >
@@ -34,7 +35,7 @@
                     </div>
                 </div>
                 <div class="box-header with-border">
-                    <h3 class="box-title">Direct Chat</h3>
+                    <h3 class="box-title" th:text="${board.name}">Direct Chat</h3>
                     <div class="box-tools pull-right">
                         <span data-toggle="tooltip" title="" class="badge
                             bg-yellow" data-original-title="3 New Messages">3</span>

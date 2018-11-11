@@ -81,7 +81,7 @@
                                     th:alt="${board.name}">
                             </div>
                             <div class="product-info">
-                                <a href="javascript:void(0)"
+                                <a th:href="@{board?b_id=}+${board.id}"
                                     class="product-title" th:inline="text">
                                     [[${board.name}]]
                                     <span class="label label-success

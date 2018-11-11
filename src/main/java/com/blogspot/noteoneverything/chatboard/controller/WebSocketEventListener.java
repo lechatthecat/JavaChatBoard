@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-/**
- * Created by rajeevkumarsingh on 25/07/17.
- */
 @Component
 public class WebSocketEventListener {
 
@@ -32,14 +29,16 @@ public class WebSocketEventListener {
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String username = (String) headerAccessor.getSessionAttributes().get("username");
-        if(username != null) {
+        Long b_id = (Long) headerAccessor.getSessionAttributes().get("bid");
+        String sb_id = Long.toString(b_id);
+        if(username != null && sb_id != null) {
             logger.info("User Disconnected : " + username);
 
             BoardResponse boardResponse = new BoardResponse();
             boardResponse.setType(BoardResponse.MessageType.LEAVE);
             boardResponse.setSender(username);
 
-            messagingTemplate.convertAndSend("/board/public", boardResponse);
+            messagingTemplate.convertAndSend("/board/public/"+sb_id, boardResponse);
         }
     }
 }

@@ -53,7 +53,7 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        Board board = boardService.findBoardById(Long.parseLong(b_id, 10));
+        Board board = boardService.findBoardById(Long.parseLong(b_id));
         model.addAttribute("board", board);
         List<BoardResponse> boardReponses = board.getBoardResponses();
         model.addAttribute("boardReponses", boardReponses);

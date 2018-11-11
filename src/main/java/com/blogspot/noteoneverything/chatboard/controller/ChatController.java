@@ -37,26 +37,26 @@ public class ChatController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Transactional
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/board/public")
-    public BoardResponse sendMessage(@Payload BoardResponse boardResponse) {
+    @MessageMapping("/chat.sendMessage/{b_id}")
+    public void sendMessage(@Payload BoardResponse boardResponse, @DestinationVariable String b_id) {
         //To do. Functionality to check if the sender is authorized to write in the board
-        boardResponse.setBoard(boardService.findBoardByIdWithUser(1));
+        boardResponse.setBoard(boardService.findBoardByIdWithUser(Long.parseLong(b_id)));
         boardService.createBoardResponse(boardResponse);
-        return boardResponse;
+        simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);
     }
 
-    @MessageMapping("/chat.addUser")
-    @SendTo("/board/public")
-    public BoardResponse addUser(@Payload BoardResponse boardResponse,
-                               SimpMessageHeaderAccessor headerAccessor) {
+    @MessageMapping("/chat.addUser/{b_id}")
+    public void addUser(@Payload BoardResponse boardResponse,
+                               SimpMessageHeaderAccessor headerAccessor, @DestinationVariable String b_id) {
         // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // UserDetails principal = (UserDetails) auth.getPrincipal();
         // User user = userRepository.findByName(principal.getUsername());
         // One time password?
         // Add username in web socket session
+        Long test = boardResponse.getBId();
         headerAccessor.getSessionAttributes().put("username", boardResponse.getSender());
-        return boardResponse;
+        headerAccessor.getSessionAttributes().put("bid", boardResponse.getBId());
+        simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);
     }
 
 }

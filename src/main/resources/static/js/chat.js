@@ -27,12 +27,12 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/board/public', onMessageReceived);
+    stompClient.subscribe('/board/public/'+b_id, onMessageReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
+    stompClient.send("/app/chat.addUser/"+b_id,
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({sender: username, type: 'JOIN', bid: b_id})
     )
 
     connectingElement.classList.add('hidden');
@@ -50,13 +50,14 @@ function sendMessage(event) {
     var messageContent = messageInput.value.trim();
 
     if(messageContent && stompClient) {
-        var chatMessage = {
+        var boardResponse = {
             sender: username,
             response: messageInput.value,
+            bid: b_id,
             type: 'CHAT'
         };
 
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat.sendMessage/"+b_id, {}, JSON.stringify(boardResponse));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -115,7 +116,7 @@ function onMessageReceived(payload) {
         //Sender image
         var senderImage = document.createElement('img');
         senderImage.classList.add("direct-chat-img");
-        senderImage.setAttribute('src','/img/blank.svg');
+        senderImage.setAttribute('src', message.userMainImage.path);
 
         //Message text
         var chatMessage = document.createElement('div');

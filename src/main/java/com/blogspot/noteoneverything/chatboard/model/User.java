@@ -51,10 +51,10 @@ public class User {
     private boolean is_deleted;
     @Transient
     private boolean agreesTerm = false;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
     private List<BoardResponse> boardResponses;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
     private List<Board> boards;
 

@@ -2,7 +2,11 @@ package com.blogspot.noteoneverything.chatboard.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,7 +46,22 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        List<Board> boards = boardService.findBoardsByUser(user, PageRequest.of(0, 5));
+        // created boards by this user.
+        List<Board> usersBoards = boardService.findBoardsByUser(user, PageRequest.of(0, 5));
+        List<BoardResponse> responses = boardService.findBoardResponsesByUser(user, PageRequest.of(0, 5));
+        // boards in which this user mentioned.
+        List<Board> responedBoards = new ArrayList();
+        for (BoardResponse res : responses) {
+            responedBoards.add(res.getBoard());
+        }
+        // remove duplicates from the board list.
+        Set<Board> hs = new HashSet<>();
+        hs.addAll(usersBoards);
+        hs.addAll(responedBoards);
+        // finally add two lists of them.
+        List<Board> boards = new ArrayList();
+        boards.clear();
+        boards.addAll(hs);
         model.addAttribute("boards", boards);
         return "boards/index";
     }
@@ -60,22 +79,20 @@ public class ChatBoardController {
         return "boards/board";
     }
 
+    @GetMapping(value = "/create_board")
+    public String createBoard(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) auth.getPrincipal();
+        User user = userRepository.findByName(principal.getUsername());
+        model.addAttribute("user", user);
+        return "boards/create";
+    }
+
     @PostMapping(value = "/delete")
     public String deleteCat(@RequestParam("name") String name, @RequestParam("id") Long id) {
         // catservice.deleteCat(name, id);
         // System.out.println("Cat named = " + name + "was removed from our database.
         // Hopefully he or she was adopted.");
-        return "redirect:/";
-
-    }
-
-    @PostMapping(value = "/genkey")
-    public String genkey(@RequestParam("name") String name,
-            @RequestParam("rescued") @DateTimeFormat(pattern = "yyyy/MM/dd") Date rescued,
-            @RequestParam("vaccinated") Boolean vaccinated, Model model) {
-        // catservice.getGeneratedKey(name, rescued, vaccinated);
-        // System.out.println("name = " + name + ",rescued = " + rescued + ", vaccinated
-        // = " + vaccinated);
         return "redirect:/";
     }
 }

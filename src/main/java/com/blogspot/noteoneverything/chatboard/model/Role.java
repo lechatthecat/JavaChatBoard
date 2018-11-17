@@ -29,7 +29,7 @@ public class Role {
     private int power_level;
     private String name;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="role")
     private List<User> users;
 
     public long getId() {

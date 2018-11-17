@@ -1,5 +1,6 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -34,10 +35,10 @@ public class BoardResponse {
     private long id;
     private String response;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Board board;
     private boolean is_seen;
     private boolean is_deleted;

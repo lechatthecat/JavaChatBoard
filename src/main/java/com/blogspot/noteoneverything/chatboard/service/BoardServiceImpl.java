@@ -77,8 +77,6 @@ public class BoardServiceImpl implements BoardService{
             boardResponse.setUser(user);
             this.boardResponseRepository.save(boardResponse);
             boardResponse.setUserImagePath(user.getUserMainImage().getPath());
-            // Delete user info so that it won't be returned to client
-            boardResponse.setUser(new User()); 
             return boardResponse;
         }catch(DataAccessException e){
             e.printStackTrace();
@@ -96,8 +94,6 @@ public class BoardServiceImpl implements BoardService{
             boardResponse.setUser(user);
             this.boardResponseRepository.save(boardResponse);
             boardResponse.setUserImagePath(user.getUserMainImage().getPath());
-            // Delete user info so that it won't be returned to client
-            boardResponse.setUser(new User());
             return boardResponse;
         }catch(DataAccessException e){
             e.printStackTrace();

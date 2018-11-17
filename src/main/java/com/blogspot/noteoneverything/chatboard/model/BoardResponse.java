@@ -9,10 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
-
+import com.blogspot.noteoneverything.chatboard.util.Utility;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.blogspot.noteoneverything.chatboard.model.Board;
@@ -44,6 +45,8 @@ public class BoardResponse {
     private String sender;
     @Transient
     private long b_id;
+    @Transient
+    private String user_image_path;
     private Date updated;
     private Date created;
 
@@ -103,20 +106,28 @@ public class BoardResponse {
         return this.is_seen;
     }
 
+    public void setUserImagePath(String user_image_path) {
+        this.user_image_path = user_image_path;
+    }
+
+    public String getUserImagePath() {
+        return this.user_image_path;
+    }
+
     public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
-    public Date getUpdated() {
-        return this.updated;
+    public String getUpdated() {
+        return Utility.formatDate(this.updated);
     }
 
     public void setCreated(Date created) {
         this.created = created;
     }
 
-    public Date getCreated() {
-        return this.created;
+    public String getCreated() {
+        return Utility.formatDate(this.created);
     }
 
     public String getSender() {
@@ -136,7 +147,7 @@ public class BoardResponse {
         }
     }
 
-    public void setBID(long b_id) {
+    public void setBId(long b_id) {
         this.b_id = b_id;
     }
 }

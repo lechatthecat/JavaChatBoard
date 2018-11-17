@@ -67,33 +67,41 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean createBoardResponse(Board board, BoardResponse boardResponse) {
+    public BoardResponse createBoardResponse(Board board, BoardResponse boardResponse) {
         Date now = new Date();
         try{
             boardResponse.setBoard(board);
             boardResponse.setCreated(now);
             boardResponse.setUpdated(now);
-            boardResponse.setUser(userRepository.findByName(boardResponse.getSender()));
+            User user = userRepository.findByName(boardResponse.getSender());
+            boardResponse.setUser(user);
             this.boardResponseRepository.save(boardResponse);
-            return true;
+            boardResponse.setUserImagePath(user.getUserMainImage().getPath());
+            // Delete user info so that it won't be returned to client
+            boardResponse.setUser(new User()); 
+            return boardResponse;
         }catch(DataAccessException e){
             e.printStackTrace();
-            return false;
+            return boardResponse;
         }
     }
 
     @Override
-    public boolean createBoardResponse(BoardResponse boardResponse) {
+    public BoardResponse createBoardResponse(BoardResponse boardResponse) {
         Date now = new Date();
         try{
             boardResponse.setCreated(now);
             boardResponse.setUpdated(now);
-            boardResponse.setUser(userRepository.findByName(boardResponse.getSender()));
+            User user = userRepository.findByName(boardResponse.getSender());
+            boardResponse.setUser(user);
             this.boardResponseRepository.save(boardResponse);
-            return true;
+            boardResponse.setUserImagePath(user.getUserMainImage().getPath());
+            // Delete user info so that it won't be returned to client
+            boardResponse.setUser(new User());
+            return boardResponse;
         }catch(DataAccessException e){
             e.printStackTrace();
-            return false;
+            return boardResponse;
         }
     }
 

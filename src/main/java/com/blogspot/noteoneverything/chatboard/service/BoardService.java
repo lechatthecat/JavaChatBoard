@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface BoardService{
     public boolean createBoard(Board board);
-    public boolean createBoardResponse(Board board, BoardResponse boardResponse);
-    public boolean createBoardResponse(BoardResponse boardResponse);
+    public BoardResponse createBoardResponse(Board board, BoardResponse boardResponse);
+    public BoardResponse createBoardResponse(BoardResponse boardResponse);
     public boolean deleteBoard(Board board);
     public boolean deleteBoardResponse(BoardResponse boardResponse);
     public boolean deleteBoard(long id);

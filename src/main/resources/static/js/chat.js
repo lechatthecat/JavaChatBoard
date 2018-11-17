@@ -110,13 +110,13 @@ function onMessageReceived(payload) {
         }else{
             timeStamp.classList.add("pull-right");
         }
-        var timeStampText = document.createTextNode("23 Jan 2:05 pm");
+        var timeStampText = document.createTextNode(message.updated);
         timeStamp.appendChild(timeStampText);
 
         //Sender image
         var senderImage = document.createElement('img');
         senderImage.classList.add("direct-chat-img");
-        senderImage.setAttribute('src', message.userMainImage.path);
+        senderImage.setAttribute('src', message.userImagePath);
 
         //Message text
         var chatMessage = document.createElement('div');

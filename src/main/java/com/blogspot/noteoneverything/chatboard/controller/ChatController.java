@@ -6,14 +6,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import com.blogspot.noteoneverything.chatboard.model.User;
-import com.blogspot.noteoneverything.chatboard.model.Role;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import java.security.Principal;
 import com.blogspot.noteoneverything.chatboard.service.BoardService;
@@ -23,7 +16,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
-import java.lang.Exception;
 
 @Controller
 public class ChatController {
@@ -41,7 +33,7 @@ public class ChatController {
     public void sendMessage(@Payload BoardResponse boardResponse, @DestinationVariable String b_id) {
         //To do. Functionality to check if the sender is authorized to write in the board
         boardResponse.setBoard(boardService.findBoardByIdWithUser(Long.parseLong(b_id)));
-        boardService.createBoardResponse(boardResponse);
+        boardResponse = boardService.createBoardResponse(boardResponse);
         simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);
     }
 
@@ -51,7 +43,6 @@ public class ChatController {
         // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // UserDetails principal = (UserDetails) auth.getPrincipal();
         // User user = userRepository.findByName(principal.getUsername());
-        // One time password?
         // Add username in web socket session
         Long test = boardResponse.getBId();
         headerAccessor.getSessionAttributes().put("username", boardResponse.getSender());

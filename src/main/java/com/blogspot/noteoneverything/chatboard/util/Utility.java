@@ -8,8 +8,12 @@ public class Utility {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
     }  
     public static String formatDate(Date d) {  
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = sdf.format(d);
-        return strDate;
+        if(d != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String strDate = sdf.format(d);
+            return strDate;
+        } else {
+            return "";
+        }
     } 
 }

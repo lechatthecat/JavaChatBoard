@@ -19,6 +19,8 @@ public interface BoardService{
     public Board findBoardByIdWithUser(long id);
     public List<Board> findBoardsByUser(User user);
     public List<Board> findBoardsByUser(User user, Pageable pageable);
+    public List<Board> findBoardsByUserOfBoardResponses(long user_id, int limit);
+    public List<Board> findBoardsByUserOfBoardResponses(long user_id);
     public BoardResponse findBoardResponseByIdWithUser(long id);
     public List<BoardResponse> findBoardResponsesByBoard(Board board);
     public List<BoardResponse> findBoardResponsesByBoard(Board board, Pageable pageable);

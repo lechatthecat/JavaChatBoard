@@ -1,6 +1,7 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -41,19 +42,16 @@ public class ChatBoardController {
     private BoardService boardService;
 
     @GetMapping(value = "/")
-    public String home(Model model) {
+    public String index(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
         // created boards by this user.
         List<Board> usersBoards = boardService.findBoardsByUser(user, PageRequest.of(0, 5));
-        List<BoardResponse> responses = boardService.findBoardResponsesByUser(user, PageRequest.of(0, 5));
         // boards in which this user mentioned.
-        List<Board> responedBoards = new ArrayList();
-        for (BoardResponse res : responses) {
-            responedBoards.add(res.getBoard());
-        }
+        List<Long> board_ids = new ArrayList<Long>(Arrays.asList(1L, 2L, 3L));
+        List<Board> responedBoards = boardService.findBoardsByUserOfBoardResponses(user.getId(), 5);
         // remove duplicates from the board list.
         Set<Board> hs = new HashSet<>();
         hs.addAll(usersBoards);
@@ -62,7 +60,7 @@ public class ChatBoardController {
         List<Board> boards = new ArrayList();
         boards.clear();
         boards.addAll(hs);
-        model.addAttribute("boards", boards);
+        model.addAttribute("boards", responedBoards);
         return "boards/index";
     }
 

@@ -84,6 +84,8 @@ CREATE TABLE board_responses (
 	FOREIGN KEY (board_id) REFERENCES boards(id)
 );
 
+ALTER TABLE `board_responses` ADD INDEX `updated` (`updated`);
+
 -- For testing
 INSERT INTO users (name, password, role_id, email, birth, updated, created)
 VALUES ('test', '$2a$10$Fonnn4/zL3wGBvcyYbhIu.bz6q8CKuSyCQyIYqrpNdeVfO1J.Gn0S', 

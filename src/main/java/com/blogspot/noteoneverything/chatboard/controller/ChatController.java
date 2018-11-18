@@ -44,7 +44,6 @@ public class ChatController {
         // UserDetails principal = (UserDetails) auth.getPrincipal();
         // User user = userRepository.findByName(principal.getUsername());
         // Add username in web socket session
-        Long test = boardResponse.getBId();
         headerAccessor.getSessionAttributes().put("username", boardResponse.getSender());
         headerAccessor.getSessionAttributes().put("bid", boardResponse.getBId());
         simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);

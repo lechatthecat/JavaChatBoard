@@ -1,6 +1,15 @@
 package com.blogspot.noteoneverything.chatboard.service;
 
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+
 import java.util.Date;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +29,8 @@ import org.springframework.data.domain.Pageable;
 
 @Service
 public class BoardServiceImpl implements BoardService{
+    @PersistenceContext
+    private EntityManager em;
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
@@ -142,6 +153,16 @@ public class BoardServiceImpl implements BoardService{
     public List<Board> findBoardsByUser(User user, Pageable pageable){
         return boardRepository.findBoardsByUser(user, pageable);
     };
+
+    @Override
+    public List<Board> findBoardsByUserOfBoardResponses(long user_id, int limit){
+        return boardRepository.findBoardsByUserOfBoardResponses(user_id, limit);
+    }
+
+    @Override
+    public List<Board> findBoardsByUserOfBoardResponses(long user_id){
+        return boardRepository.findBoardsByUserOfBoardResponses(user_id);
+    }
 
     @Override
     public BoardResponse findBoardResponseByIdWithUser(long id){

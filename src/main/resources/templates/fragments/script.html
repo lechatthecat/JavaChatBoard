@@ -1,7 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:fragment="base_script(scripts)">
+    <th:block th:fragment="base_script(scripts)">
         <!-- jQuery 3 -->
         <script th:src="@{js/jquery/jquery3.3.1.min.js}"></script>
+        <!-- jQuery UI -->
+        <script th:src="@{non_login/asset/js/jquery-ui/jquery-ui.min.js}"></script>
         <!-- Bootstrap 3.3.7 -->
         <script th:src="@{css/bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
         <!-- SlimScroll -->
@@ -20,5 +22,5 @@
         <th:block th:if="${scripts != null}">
             <th:block th:replace="${scripts}" />
         </th:block>
-    </div>
+    </th:block>
 </html>

@@ -16,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.springframework.data.annotation.Transient;
+
 @Entity
 @Table(name = "boards")
 public class Board {
@@ -33,6 +35,8 @@ public class Board {
     private boolean is_deleted;
     private Date updated;
     private Date created;
+    @Transient
+    private boolean agreesTerm = false;
 
     public long getId() {
         return this.id;
@@ -104,5 +108,13 @@ public class Board {
 
     public Date getCreated() {
         return this.created;
+    }
+
+    public boolean getAgreesTerm() {
+        return this.agreesTerm;
+    }
+
+    public void setAgreesTerm(boolean agreesTerm) {
+        this.agreesTerm = agreesTerm;
     }
 }

@@ -83,6 +83,7 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
+        model.addAttribute("board", new Board());
         return "boards/create";
     }
 

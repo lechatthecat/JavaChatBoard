@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="fragments/layout_user :: all('Main', null, null,
-        ~{::div#page_content})">
+    <div th:replace="fragments/layout_user :: all('Main', null, ~{::#script}, ~{::div#page_content})">
         <!-- Content Wrapper. Contains page content -->
         <div id="page_content" th:replace="fragments/content_wrapper ::
             content('Chat board',
@@ -9,100 +8,117 @@
             <div id="breadcrumbs">
                 <li class="active"><i class="fa fa-dashboard"></i> Home</li>
             </div>
-            <div class="box_content box box-primary">
-                <noscript>
-                    <h2>Sorry! Your browser doesn't support Javascript</h2>
-                    <h2>Please enable Javascript.</h2>
-                </noscript>
-                <div class="box-header with-border">
-                    <h3 class="box-title">Unchecked mentions</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                        title="Collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    Body
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer text-center">footer</div>
-                <!-- /.box-footer -->
-            </div>
-            <div class="box_content box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Boards in which you mentioned</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                        title="Collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    Body
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer text-center">footer</div>
-                <!-- /.box-footer -->
-            </div>
-            <div class="box_content box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Boards You created</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                        title="Collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div th:if="${#lists.size(boards)} == 0">You haven't created 
-                        any board yet.<br/>You can create boards from here.
-                    </div>
-                    <ul class="products-list product-list-in-box"
-                        th:each="board,iterStat : ${boards}">
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img"
-                                th:switch="${(iterStat.count + 3) % 3}">
-                                <img th:case="1"
-                                    th:src="@{img/no_image_1.jpg}"
-                                    th:alt="${board.name}">
-                                <img th:case="2"
-                                    th:src="@{img/no_image_2.jpg}"
-                                    th:alt="${board.name}">
-                                <img th:case="0"
-                                    th:src="@{img/no_image_3.jpg}"
-                                    th:alt="${board.name}">
+            <div class="box_content">
+                <form action="/create_board" method="post" th:object="${board}">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                                <h4 style="background-color:#f7f7f7; font-size: 18px; text-align: center; padding: 7px 10px; margin-top: 0;">
+                                    Create a new board
+                                </h4>
+                            <div class="box-tools pull-right">
                             </div>
-                            <div class="product-info">
-                                <a th:href="@{board?b_id=}+${board.id}"
-                                    class="product-title" th:inline="text">
-                                    [[${board.name}]]
-                                    <span class="label label-success
-                                        pull-right">New message</span></a>
-                                <span class="product-description"
-                                    th:text="${#strings.abbreviate(board.detail,100)}">
-                                </span>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="form-group" th:classappend="${#fields.hasErrors('name') ? 'has-error' : 'has-feedback'}">
+                                <input type="text" class="form-control" placeholder="Board name" th:field="*{name}">
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <span th:if= "${#fields.hasErrors('name')}" class="help-block" th:errors="*{name}"></span>
                             </div>
-                        </li>
-                        <!-- /.item -->
-                    </ul>
-                </div>
-                <!-- /.box-body -->
-                <div th:if="${#lists.size(boards)}> 0" class="box-footer
-                    text-center">
-                    <a href="javascript:void(0)" class="uppercase">View All
-                        Boards</a>
-                </div>
-                <!-- /.box-footer -->
+                            <div class="form-group" th:classappend="${#fields.hasErrors('detail') ? 'has-error' : 'has-feedback'}">
+                                <input type="text" class="form-control" placeholder="Email" th:field="*{detail}">
+                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                <span th:if= "${#fields.hasErrors('detail')}" class="help-block" th:errors="*{detail}"></span>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('isPrivate') ? 'has-error' : 'has-feedback'}">
+                                <label>
+                                    <input type="checkbox" class="form-control" placeholder="Retype password" th:field="*{isPrivate}">
+                                    This is a private board
+                                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                </label>
+                                
+                                <span th:if= "${#fields.hasErrors('isPrivate')}" class="help-block" th:errors="*{isPrivate}"></span>
+                            </div>
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox" name="agreesTerm">
+                                    I agree to the <a href="#modalOpen" class="modalOpen" >terms</a>
+                                </label>
+                                <div class="form-group" th:classappend="${#fields.hasErrors('agreesTerm') ? 'has-error' : 'has-feedback'}">
+                                <span th:if= "${#fields.hasErrors('agreesTerm')}" class="help-block" th:errors="*{agreesTerm}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer text-center">
+                            <div class="col-xs-offset-4 col-xs-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Create</button>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                </form>
             </div>
         </div>
         <!-- /.content-wrapper -->
     </div>
+    <div id="modal" style="display:none;">
+        <div class="modalInner">
+            (Citation from Wikipedia)<br/>
+            Terms of service (also known as terms of use and terms and conditions, commonly abbreviated as TOS or ToS and ToU) are rules by which one must agree to abide in order to use a service. Terms of service can also be merely a disclaimer, especially regarding the use of websites.<br/>
+            Usage<br/>
+            The Terms of Service Agreement is mainly used for legal purposes by companies which provide software or services, such as browsers, e-commerce, search engines, social media, and transport services.
+            A legitimate terms-of-service agreement is legally binding and may be subject to change. Companies can enforce the terms by refusing service. Customers can enforce by filing a suit or arbitration case if they can show they were actually harmed by a breach of the terms. There is a heightened risk of data going astray during corporate changes, including mergers, divestitures, buyouts, downsizing, etc., when data can be transferred improperly.
+        </div>
+    </div>
+    <!-- script wrapper -->
+    <th:block id="script">
+        <!-- iCheck -->
+        <script th:src="@{non_login/asset/adminlte2.4.5/plugins/iCheck/icheck.min.js}"></script>
+        <script>
+        var windowWidth = $(window).width();
+        $(window).on('resize', function() {
+            windowWidth = $(window).width();
+        });
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' /* optional */
+            });
+            modal = $("#modal").dialog({
+                autoOpen: false,
+                open:function(event,ui){
+                    $('#modal').parent('.ui-dialog').css('zIndex', 1102)
+                        .nextAll('.ui-widget-overlay').css('zIndex', 1101);
+                    $(".ui-dialog-titlebar").hide();
+                    $(".ui-dialog-titlebar-close").hide();
+                    $('.ui-widget-overlay').on('click',function(){
+                        modal.dialog('close');
+                    });
+                },
+                modal: true,
+                draggable: false,
+                show: "fade",
+                hide: "fade",
+                closeOnEscape: true,
+                buttons:{
+                    "Close":function(){
+                        $(this).dialog('close');
+                    }
+                },
+            });
+            $('.modalOpen').on('click',function(){
+                if(windowWidth > 768){
+                    modal.dialog( "option", "width", "50%" );
+                }else if(windowWidth > 400 && windowWidth < 768) {
+                    modal.dialog( "option", "width", "80%" );
+                }else{
+                    modal.dialog( "option", "width", "90%" );
+                }
+                modal.dialog('open');
+            });
+        });
+        </script>
+    </th:block>
 </html>

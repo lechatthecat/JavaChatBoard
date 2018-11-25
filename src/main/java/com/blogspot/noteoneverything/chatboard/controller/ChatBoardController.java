@@ -56,7 +56,7 @@ public class ChatBoardController {
         Set<Board> hs = new HashSet<>();
         hs.addAll(usersBoards);
         hs.addAll(responedBoards);
-        // finally add two lists of them.
+        // finally combine two lists of them.
         List<Board> boards = new ArrayList();
         boards.clear();
         boards.addAll(hs);

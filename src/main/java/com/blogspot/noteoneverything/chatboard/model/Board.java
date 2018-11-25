@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import org.springframework.data.annotation.Transient;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "boards")

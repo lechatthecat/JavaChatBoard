@@ -94,7 +94,7 @@ public class ChatBoardController {
         User user = userRepository.findByName(principal.getUsername());
         board.setUser(user);
         model.addAttribute("user", user);
-        model.addAttribute("board", new Board());
+
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("board", board);
@@ -102,6 +102,7 @@ public class ChatBoardController {
             redirectAttributes.addFlashAttribute("alertClass", "text-danger");
             return "boards/create";
         }
+        
         if(boardService.createBoard(board)){  
             redirectAttributes.addFlashAttribute("message", "Success. Board created.");
             redirectAttributes.addFlashAttribute("alertClass", "text-success");

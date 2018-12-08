@@ -244,12 +244,4 @@ public class BoardServiceImpl implements BoardService{
         return boardUserRepository.deleteBoardRUserById(id);
     }
 
-    @Override
-    @Transactional
-    public List<Board> getUserReposponedBoards(User user){
-        // boards in which this user mentioned.
-        List<Board> responedBoards = this.findBoardsByUserOfBoardResponses(user.getId(), 5);
-        
-        return responedBoards;
-    }
 }

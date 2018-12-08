@@ -34,5 +34,4 @@ public interface BoardService{
     public List<BoardUser> findBoardUsersByUser(User user);
     public List<BoardUser> findBoardUsersByUser(User user, Pageable pageable);
     public boolean deleteBoardRUserById(long id);
-    public List<Board> getUserReposponedBoards(User user);
 }

@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 public class ChatBoardController {
@@ -55,8 +56,10 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        List<Board> responedBoards = boardService.getUserReposponedBoards(user);
-        model.addAttribute("boards", responedBoards);
+        List<Board> respondedBoards = boardService.findBoardsByUserOfBoardResponses(user.getId(), 5);
+        model.addAttribute("respondedBoards", respondedBoards);
+        List<Board> createdBoards = boardService.findBoardsByUser(user, PageRequest.of(0,5));
+        model.addAttribute("createdBoards", createdBoards);
         return "boards/index";
     }
 
@@ -89,12 +92,13 @@ public class ChatBoardController {
             RedirectAttributes redirectAttributes,
             BindingResult bindingResult,
             Model model) {
+        //Login user in session
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         board.setUser(user);
         model.addAttribute("user", user);
-
+        //Validator
         boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("board", board);
@@ -102,7 +106,7 @@ public class ChatBoardController {
             redirectAttributes.addFlashAttribute("alertClass", "text-danger");
             return "boards/create";
         }
-        
+        //Board creation
         if(boardService.createBoard(board)){  
             redirectAttributes.addFlashAttribute("message", "Success. Board created.");
             redirectAttributes.addFlashAttribute("alertClass", "text-success");

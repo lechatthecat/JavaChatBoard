@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.blogspot.noteoneverything.chatboard.service.SecurityService;
 import com.blogspot.noteoneverything.chatboard.model.User;
@@ -24,6 +25,7 @@ public class SecurityServiceImpl implements SecurityService{
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
     
     @Override
+    @Transactional
     public String findLoggedInUsername() {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (userDetails instanceof UserDetails) {
@@ -34,6 +36,7 @@ public class SecurityServiceImpl implements SecurityService{
     }
 
     @Override
+    @Transactional
     public void login(String name, String password) {
         User user= userService.findByName(name);
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getName());

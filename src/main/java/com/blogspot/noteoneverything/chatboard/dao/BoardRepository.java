@@ -8,7 +8,6 @@ import com.blogspot.noteoneverything.chatboard.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
 
 @Repository
@@ -31,7 +30,6 @@ public interface BoardRepository extends JpaRepository<Board,Long>{
         + "on boards.id = br.board_id " 
         + "order by br.updated desc", nativeQuery = true)
     List<Board> findBoardsByUserOfBoardResponses(long user_id);
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update Board b set is_deleted = 1 where b.id = :id")
     boolean deleteBoardById(@Param("id") long id);

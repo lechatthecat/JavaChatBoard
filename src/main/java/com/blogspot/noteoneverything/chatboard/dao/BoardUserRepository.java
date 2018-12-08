@@ -22,7 +22,6 @@ public interface BoardUserRepository extends JpaRepository<BoardUser,Long>{
     List<BoardUser> findBoardUsersByUser(@Param("user") User user);
     @Query("select bu from BoardUser bu where bu.user = :user and is_deleted = 0")
     List<BoardUser> findBoardUsersByUser(@Param("user") User user, Pageable pageable);
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update BoardUser bu set is_deleted = 1 where bu.id = :id")
     boolean deleteBoardRUserById(@Param("id") long id);

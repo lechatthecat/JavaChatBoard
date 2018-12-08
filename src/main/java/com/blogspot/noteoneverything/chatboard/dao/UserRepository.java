@@ -23,7 +23,6 @@ public interface UserRepository extends JpaRepository<User,Long>{
     List<User> findUsersByName(@Param("name") String name);
     @Query("select u from User u where u.email = :email and is_deleted = 0 ORDER BY u.id DESC")
     List<User> findUsersByEmail(@Param("email") String email);
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update User u set is_deleted = 1 where u.id = :id")
     boolean deleteUserById(@Param("id") long id);

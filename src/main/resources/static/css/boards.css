@@ -36,3 +36,13 @@
     margin-left:auto;
     margin-right:auto;
 }
+.board-textarea{
+    resize: none; 
+    height:100px ! important;
+}
+.send-btn{
+    height:100px;
+}
+.ui-dialog{
+    z-index: 2000 ! important;
+}

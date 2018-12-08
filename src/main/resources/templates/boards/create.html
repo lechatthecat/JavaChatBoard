@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="fragments/layout_user :: all('Main', null, ~{::#script}, ~{::div#page_content})">
+    <div th:replace="fragments/layout_user :: all('Main', ~{::div#links}, ~{::#script}, ~{::div#page_content})">
+        <!-- CSS -->
+        <div id="links">
+            <link rel="stylesheet" th:href="@{css/boards.css}">
+        </div>
         <!-- Content Wrapper. Contains page content -->
         <div id="page_content" th:replace="fragments/content_wrapper ::
             content('Chat board',
@@ -22,19 +26,19 @@
                         <div class="box-body">
                             <div class="form-group" th:classappend="${#fields.hasErrors('name') ? 'has-error' : 'has-feedback'}">
                                 <input type="text" class="form-control" placeholder="Board name" th:field="*{name}">
-                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <span class="fa fa-comment form-control-feedback"></span>
                                 <span th:if= "${#fields.hasErrors('name')}" class="help-block" th:errors="*{name}"></span>
                             </div>
                             <div class="form-group" th:classappend="${#fields.hasErrors('detail') ? 'has-error' : 'has-feedback'}">
-                                <input type="text" class="form-control" placeholder="Email" th:field="*{detail}">
-                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                <textarea class="form-control" placeholder="Detail (up to 2000 letters)" th:field="*{detail}" rows="4" style="resize: none;"></textarea>
+                                <span class="fa fa-info form-control-feedback"></span>
                                 <span th:if= "${#fields.hasErrors('detail')}" class="help-block" th:errors="*{detail}"></span>
                             </div>
                             <div class="form-group" th:classappend="${#fields.hasErrors('isPrivate') ? 'has-error' : 'has-feedback'}">
                                 <label>
                                     <input type="checkbox" class="form-control" placeholder="Retype password" th:field="*{isPrivate}">
                                     This is a private board
-                                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                    <span class="fa fa-key form-control-feedback"></span>
                                 </label>
                                 
                                 <span th:if= "${#fields.hasErrors('isPrivate')}" class="help-block" th:errors="*{isPrivate}"></span>
@@ -89,8 +93,6 @@
             modal = $("#modal").dialog({
                 autoOpen: false,
                 open:function(event,ui){
-                    $('#modal').parent('.ui-dialog').css('zIndex', 1102)
-                        .nextAll('.ui-widget-overlay').css('zIndex', 1101);
                     $(".ui-dialog-titlebar").hide();
                     $(".ui-dialog-titlebar-close").hide();
                     $('.ui-widget-overlay').on('click',function(){

@@ -25,6 +25,9 @@ public class UserValidator implements Validator {
         User user = (User) o;
 
         MyValidateUtil.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty");
+        MyValidateUtil.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
+        MyValidateUtil.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
+        MyValidateUtil.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "NotEmpty");
         if (user.getName().length() < 3 || user.getName().length() > 32) {
             errors.rejectValue("name", "Size.userForm.username");
         }
@@ -36,10 +39,11 @@ public class UserValidator implements Validator {
         if(usersByEmail.size()>0){
             errors.rejectValue("email", "Format.userForm.notUniqueEmail");
         }
-        if(!MyValidateUtil.isValidDate(user.getBirth().toString(), "yyyy-MM-dd")){
-            errors.rejectValue("birth", "Format.userForm.date");
+        if(user.getBirth() != null){
+            if(!MyValidateUtil.isValidDate(user.getBirth().toString(), "yyyy-MM-dd")){
+                errors.rejectValue("birth", "Format.userForm.date");
+            }
         }
-        MyValidateUtil.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
         }
@@ -47,7 +51,7 @@ public class UserValidator implements Validator {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
         if (!user.getAgreesTerm()) {
-            errors.rejectValue("agreesTerm", "Format.userForm.notAgreesTerm");
+            errors.rejectValue("agreesTerm", "NotEmpty.agreesTerm");
         }
     }
 }

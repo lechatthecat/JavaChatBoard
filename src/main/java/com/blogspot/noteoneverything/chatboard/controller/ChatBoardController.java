@@ -1,13 +1,15 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import java.security.Principal;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,9 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.security.core.context.SecurityContextHolder;
-import java.security.Principal;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
@@ -28,7 +30,11 @@ import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.UserImage;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+import com.blogspot.noteoneverything.chatboard.validator.BoardValidator;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -40,6 +46,8 @@ public class ChatBoardController {
     private UserImageRepository userImageRepository;
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private BoardValidator boardValidator;
 
     @GetMapping(value = "/")
     public String index(Model model) {
@@ -47,19 +55,7 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
-        // created boards by this user.
-        List<Board> usersBoards = boardService.findBoardsByUser(user, PageRequest.of(0, 5));
-        // boards in which this user mentioned.
-        List<Long> board_ids = new ArrayList<Long>(Arrays.asList(1L, 2L, 3L));
-        List<Board> responedBoards = boardService.findBoardsByUserOfBoardResponses(user.getId(), 5);
-        // remove duplicates from the board list.
-        Set<Board> hs = new HashSet<>();
-        hs.addAll(usersBoards);
-        hs.addAll(responedBoards);
-        // finally combine two lists of them.
-        List<Board> boards = new ArrayList();
-        boards.clear();
-        boards.addAll(hs);
+        List<Board> responedBoards = boardService.getUserReposponedBoards(user);
         model.addAttribute("boards", responedBoards);
         return "boards/index";
     }
@@ -85,6 +81,35 @@ public class ChatBoardController {
         model.addAttribute("user", user);
         model.addAttribute("board", new Board());
         return "boards/create";
+    }
+
+    @PostMapping(value = "/create_board")
+    public String creatBoard(
+            @Valid @ModelAttribute("board") Board board,
+            RedirectAttributes redirectAttributes,
+            BindingResult bindingResult,
+            Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) auth.getPrincipal();
+        User user = userRepository.findByName(principal.getUsername());
+        board.setUser(user);
+        model.addAttribute("user", user);
+        model.addAttribute("board", new Board());
+        boardValidator.validate(board, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("board", board);
+            redirectAttributes.addFlashAttribute("message", "Sorry board could not be created. Please check the input values.");
+            redirectAttributes.addFlashAttribute("alertClass", "text-danger");
+            return "boards/create";
+        }
+        if(boardService.createBoard(board)){  
+            redirectAttributes.addFlashAttribute("message", "Success. Board created.");
+            redirectAttributes.addFlashAttribute("alertClass", "text-success");
+        }else{
+            redirectAttributes.addFlashAttribute("message", "Sorry board could not be created. Please contact the administarator.");
+            redirectAttributes.addFlashAttribute("alertClass", "text-danger");
+        }
+        return "redirect:/";
     }
 
     @PostMapping(value = "/delete")

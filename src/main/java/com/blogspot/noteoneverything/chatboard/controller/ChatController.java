@@ -28,11 +28,12 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @Transactional
     @MessageMapping("/chat.sendMessage/{b_id}")
     public void sendMessage(@Payload BoardResponse boardResponse, @DestinationVariable String b_id) {
         //To do. Functionality to check if the sender is authorized to write in the board
-        boardResponse.setBoard(boardService.findBoardByIdWithUser(Long.parseLong(b_id)));
+        //To do: Validation and escape
+        Board b = boardService.findBoardByIdWithUser(Long.parseLong(b_id)); 
+        boardResponse.setBoard(b);
         boardResponse = boardService.createBoardResponse(boardResponse);
         simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);
     }

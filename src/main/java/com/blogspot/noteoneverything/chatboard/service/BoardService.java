@@ -5,6 +5,7 @@ import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
 import com.blogspot.noteoneverything.chatboard.model.BoardUser;
 import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 
 public interface BoardService{
@@ -33,4 +34,5 @@ public interface BoardService{
     public List<BoardUser> findBoardUsersByUser(User user);
     public List<BoardUser> findBoardUsersByUser(User user, Pageable pageable);
     public boolean deleteBoardRUserById(long id);
+    public List<Board> getUserReposponedBoards(User user);
 }

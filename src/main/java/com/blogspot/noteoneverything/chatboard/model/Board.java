@@ -12,9 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import com.blogspot.noteoneverything.chatboard.model.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Transient;
 
@@ -27,7 +25,7 @@ public class Board {
     @ManyToOne
     @JsonIgnore
     private User user;
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
     private List<BoardResponse> boardResponses;
     private String name;
     private String detail;
@@ -117,4 +115,5 @@ public class Board {
     public void setAgreesTerm(boolean agreesTerm) {
         this.agreesTerm = agreesTerm;
     }
+
 }

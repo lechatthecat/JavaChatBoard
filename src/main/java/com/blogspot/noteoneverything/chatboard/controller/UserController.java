@@ -1,9 +1,5 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +40,7 @@ public class UserController {
             model.addAttribute("message", "You have been logged out successfully.");
             model.addAttribute("alertClass", "text-success");
         }
-        model.addAttribute("userForm", new User());
+        model.addAttribute("user", new User());
         return "users/login";
     }
 
@@ -54,7 +50,6 @@ public class UserController {
         return "users/create_user";
     }
 
-    @Transactional
     @PostMapping(value = "/create_user")
     public String createUser(
             @Valid @ModelAttribute("user") User user,
@@ -63,14 +58,14 @@ public class UserController {
             Model model) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userForm", user);
+            model.addAttribute("user", user);
             return "users/create_user";
         }
         if(userService.createUser(user)){  
             redirectAttributes.addFlashAttribute("message", "Success. User created. You can login with the user name now.");
             redirectAttributes.addFlashAttribute("alertClass", "text-success");
         }else{
-            redirectAttributes.addFlashAttribute("message", "Sorry user could not be created. Please contact the admin.");
+            redirectAttributes.addFlashAttribute("message", "Sorry user could not be created. Please contact the administarator.");
             redirectAttributes.addFlashAttribute("alertClass", "text-danger");
         }
         return "redirect:/login";

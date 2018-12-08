@@ -38,7 +38,7 @@ public class BoardResponse {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Board board;
     private boolean is_seen;
     private boolean is_deleted;

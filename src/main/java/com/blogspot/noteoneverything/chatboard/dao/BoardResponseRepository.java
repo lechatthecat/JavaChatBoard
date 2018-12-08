@@ -28,7 +28,6 @@ public interface BoardResponseRepository extends JpaRepository<BoardResponse,Lon
     List<BoardResponse> findBoardResponsesByBoardAndUser(@Param("board") Board board, @Param("user") User user);
     @Query("select br from BoardResponse br where br.board = :board and br.user = :user and is_deleted = 0")
     List<BoardResponse> findBoardResponsesByBoardAndUser(@Param("board") Board board, @Param("user") User user, Pageable pageable);
-    @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update BoardResponse br set is_deleted = 1 where br.id = :id")
     boolean deleteBoardResponseById(@Param("id") long id);

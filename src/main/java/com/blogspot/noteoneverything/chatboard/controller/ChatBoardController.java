@@ -1,18 +1,9 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import java.security.Principal;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,23 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.data.domain.PageRequest;
 
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
-import com.blogspot.noteoneverything.chatboard.model.UserImage;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
 import com.blogspot.noteoneverything.chatboard.validator.BoardValidator;
-
-import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 @Controller
 public class ChatBoardController {
@@ -56,19 +42,26 @@ public class ChatBoardController {
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
+        this.loadRelatedBoards(model, user);
+        return "boards/index";
+    }
+
+    public Model loadRelatedBoards(Model model, User user) {
+        long test = user.getId();
         List<Board> respondedBoards = boardService.findBoardsByUserOfBoardResponses(user.getId(), 5);
         model.addAttribute("respondedBoards", respondedBoards);
         List<Board> createdBoards = boardService.findBoardsByUser(user, PageRequest.of(0,5));
         model.addAttribute("createdBoards", createdBoards);
-        return "boards/index";
+        return model;
+    }
+
+    @GetMapping(value = "/index")
+    public String index2(Model model) {
+        return this.index(model);
     }
 
     @GetMapping(value = "/board")
     public String boards(@RequestParam("b_id") String b_id, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails principal = (UserDetails) auth.getPrincipal();
-        User user = userRepository.findByName(principal.getUsername());
-        model.addAttribute("user", user);
         Board board = boardService.findBoardById(Long.parseLong(b_id));
         model.addAttribute("board", board);
         List<BoardResponse> boardReponses = board.getBoardResponses();

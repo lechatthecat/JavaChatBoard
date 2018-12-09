@@ -46,9 +46,3 @@
 .ui-dialog{
     z-index: 2000 ! important;
 }
-.direct-chat-text::before{ 
-    content: none ! important;
-}
-.direct-chat-text::after{
-    content: none ! important;
-}

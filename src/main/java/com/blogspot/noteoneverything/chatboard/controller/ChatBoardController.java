@@ -1,6 +1,9 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,21 +41,9 @@ public class ChatBoardController {
 
     @GetMapping(value = "/")
     public String index(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails principal = (UserDetails) auth.getPrincipal();
-        User user = userRepository.findByName(principal.getUsername());
-        model.addAttribute("user", user);
+        User user = loadUserInfoOfSession(model);
         this.loadRelatedBoards(model, user);
         return "boards/index";
-    }
-
-    public Model loadRelatedBoards(Model model, User user) {
-        long test = user.getId();
-        List<Board> respondedBoards = boardService.findBoardsByUserOfBoardResponses(user.getId(), 5);
-        model.addAttribute("respondedBoards", respondedBoards);
-        List<Board> createdBoards = boardService.findBoardsByUser(user, PageRequest.of(0,5));
-        model.addAttribute("createdBoards", createdBoards);
-        return model;
     }
 
     @GetMapping(value = "/index")
@@ -62,6 +53,8 @@ public class ChatBoardController {
 
     @GetMapping(value = "/board")
     public String boards(@RequestParam("b_id") String b_id, Model model) {
+        User user = loadUserInfoOfSession(model);
+        this.loadRelatedBoards(model, user);
         Board board = boardService.findBoardById(Long.parseLong(b_id));
         model.addAttribute("board", board);
         List<BoardResponse> boardReponses = board.getBoardResponses();
@@ -71,10 +64,8 @@ public class ChatBoardController {
 
     @GetMapping(value = "/create_board")
     public String createBoard(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails principal = (UserDetails) auth.getPrincipal();
-        User user = userRepository.findByName(principal.getUsername());
-        model.addAttribute("user", user);
+        User user = loadUserInfoOfSession(model);
+        this.loadRelatedBoards(model, user);
         model.addAttribute("board", new Board());
         return "boards/create";
     }
@@ -86,9 +77,8 @@ public class ChatBoardController {
             BindingResult bindingResult,
             Model model) {
         //Login user in session
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails principal = (UserDetails) auth.getPrincipal();
-        User user = userRepository.findByName(principal.getUsername());
+        User user = loadUserInfoOfSession(model);
+        this.loadRelatedBoards(model, user);
         board.setUser(user);
         model.addAttribute("user", user);
         //Validator
@@ -116,5 +106,24 @@ public class ChatBoardController {
         // System.out.println("Cat named = " + name + "was removed from our database.
         // Hopefully he or she was adopted.");
         return "redirect:/";
+    }
+
+    private User loadUserInfoOfSession(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) auth.getPrincipal();
+        User user = userRepository.findByName(principal.getUsername());
+        model.addAttribute("user", user);
+        return user;
+    }
+
+    private void loadRelatedBoards(Model model, User user) {
+        List<Board> respondedBoards = boardService.findBoardsByUserOfBoardResponses(user.getId(), 5);
+        model.addAttribute("respondedBoards", respondedBoards);
+        List<Board> createdBoards = boardService.findBoardsByUser(user, PageRequest.of(0,5));
+        model.addAttribute("createdBoards", createdBoards);
+        Long numOfCreatedBoard = boardService.getCountOfBoardsByUser(user);
+        model.addAttribute("numOfCreatedBoard", numOfCreatedBoard);
+        Long numOfRespondedBoard = boardService.getCountBoardsByUserOfBoardResponses(user.getId());
+        model.addAttribute("numOfRespondedBoard", numOfRespondedBoard);
     }
 }

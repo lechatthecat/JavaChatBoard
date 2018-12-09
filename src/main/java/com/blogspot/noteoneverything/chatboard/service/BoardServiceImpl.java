@@ -244,4 +244,22 @@ public class BoardServiceImpl implements BoardService{
         return boardUserRepository.deleteBoardRUserById(id);
     }
 
+    @Override
+    @Transactional
+    public Long getCountOfBoardsByUser(User user){
+        return  boardRepository.getCountOfBoardsByUser(user);
+    }
+
+    @Override
+    @Transactional
+    public Long getCountBoardsByUserOfBoardResponses(long user_id, int limit){
+        return  boardRepository.getCountBoardsByUserOfBoardResponses(user_id, limit);
+    }
+
+    @Override
+    @Transactional
+    public Long getCountBoardsByUserOfBoardResponses(long user_id){
+        return  boardRepository.getCountBoardsByUserOfBoardResponses(user_id);
+    }
+
 }

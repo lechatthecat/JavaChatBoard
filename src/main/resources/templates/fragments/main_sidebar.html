@@ -51,6 +51,16 @@
                             <i class="fa fa-circle-o"></i> [[${board.name}]]
                         </a>
                     </li>
+                    <li th:if="${numOfCreatedBoard} > 5">
+                        <a>
+                            View all boards
+                        </a> 
+                    </li>
+                    <li th:if="${numOfCreatedBoard} == 0">
+                        <a>
+                            You haven't created any board.
+                        </a> 
+                    </li>
                 </ul>
             </li>
             <li class="treeview">
@@ -61,7 +71,22 @@
                 </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a th:href="@{index}"><i class="fa fa-circle-o"></i> home</a></li>
+                    <li th:each="board,iterStat : ${respondedBoards}">
+                        <a th:href="@{board?b_id=}+${board.id}" th:inline="text">
+                            <i class="fa fa-circle-o"></i> [[${board.name}]]
+                        </a>
+                    </li>
+                    <!-- #lists.size(object) -->
+                    <li th:if="${numOfRespondedBoard} > 5">
+                        <a>
+                            View all boards
+                        </a> 
+                    </li>
+                    <li th:if="${numOfRespondedBoard} == 0">
+                        <a>
+                            You haven't responded to any board.
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li><a th:href="@{create_board}"><i class="fa fa-book"></i> <span>Create a board</span></a></li>

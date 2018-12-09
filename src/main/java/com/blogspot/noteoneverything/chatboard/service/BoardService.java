@@ -33,5 +33,8 @@ public interface BoardService{
     public List<BoardUser> findBoardUsersByBoard(Board board, Pageable pageable);
     public List<BoardUser> findBoardUsersByUser(User user);
     public List<BoardUser> findBoardUsersByUser(User user, Pageable pageable);
+    public Long getCountOfBoardsByUser(User user);
+    public Long getCountBoardsByUserOfBoardResponses(long user_id, int limit);
+    public Long getCountBoardsByUserOfBoardResponses(long user_id);
     public boolean deleteBoardRUserById(long id);
 }

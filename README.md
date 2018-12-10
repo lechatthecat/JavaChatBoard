@@ -1,7 +1,10 @@
+# At first
+This is still in development.  
+  
 # Compatibility
 Checked that this project works in Linux (Ubuntu, CentOS7).  
 I am not sure if this works in Windows/Mac, but this should work in them also because this is made by Java.
-
+  
 # How to use
 At first, you need Java8 and MariaDB (or mysql57) for the this project.
 ```

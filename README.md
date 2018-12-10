@@ -1,5 +1,5 @@
 # At first
-This is still in development.  
+This is still in development. Many functionalities are incomplete.
   
 # Compatibility
 Checked that this project works in Linux (Ubuntu, CentOS7).  

@@ -18,7 +18,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.service.BoardService;
@@ -40,15 +43,22 @@ public class ChatBoardController {
     private BoardValidator boardValidator;
 
     @GetMapping(value = "/")
-    public String index(Model model) {
+    public String index(Model model, @PageableDefault(value=10, page=0) Pageable pageable) {
         User user = loadUserInfoOfSession(model);
         this.loadRelatedBoards(model, user);
+        Page<Board> pages = boardService.getPublicBoardPages(pageable);
+        model.addAttribute("number", pages.getNumber());
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("totalElements", pages.getTotalElements());
+        model.addAttribute("size", pages.getSize());
+        model.addAttribute("pageSpan", 5);
+        model.addAttribute("publicBoards", pages.getContent());
         return "boards/index";
     }
 
     @GetMapping(value = "/index")
-    public String index2(Model model) {
-        return this.index(model);
+    public String index2(Model model, @PageableDefault(value=10, page=0) Pageable pageable) {
+        return this.index(model, pageable);
     }
 
     @GetMapping(value = "/board")

@@ -30,6 +30,7 @@ import com.blogspot.noteoneverything.chatboard.dao.BoardResponseRepository;
 import com.blogspot.noteoneverything.chatboard.dao.BoardUserRepository;
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -260,6 +261,24 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     public Long getCountBoardsByUserOfBoardResponses(long user_id){
         return  boardRepository.getCountBoardsByUserOfBoardResponses(user_id);
+    }
+
+    @Override
+    @Transactional
+    public List<Board> getPublicBoards(){
+        return  boardRepository.getPublicBoards();
+    }
+
+    @Override
+    @Transactional
+    public List<Board> getPublicBoards(Pageable pageable){
+        return  boardRepository.getPublicBoards(pageable);
+    }
+
+    @Override
+    @Transactional
+    public Page<Board> getPublicBoardPages(Pageable pageable){
+        return  boardRepository.getPublicBoardPages(pageable);
     }
 
 }

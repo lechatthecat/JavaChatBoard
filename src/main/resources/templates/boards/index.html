@@ -17,16 +17,57 @@
                             <h2>Please enable Javascript.</h2>
                         </noscript>
                         <div class="box-header with-border">
-                                <h4 style="background-color:#f7f7f7; font-size: 18px; text-align: center; padding: 7px 10px; margin-top: 0;">Unchecked mentions</h4>
+                                <h4 style="background-color:#f7f7f7; font-size: 18px; text-align: center; padding: 7px 10px; margin-top: 0;">public boards</h4>
                             <div class="box-tools pull-right">
                             </div>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            Body
+                                <ul class="products-list product-list-in-box">
+                                <!-- /.item -->
+                                <li class="item" th:each="board,iterStat : ${publicBoards}">
+                                    <div class="product-img"
+                                        th:switch="${(iterStat.count + 3) % 3}">
+                                        <img th:case="1"
+                                            th:src="@{img/no_image_1.jpg}"
+                                            th:alt="${board.name}">
+                                        <img th:case="2"
+                                            th:src="@{img/no_image_2.jpg}"
+                                            th:alt="${board.name}">
+                                        <img th:case="0"
+                                            th:src="@{img/no_image_3.jpg}"
+                                            th:alt="${board.name}">
+                                    </div>
+                                    <div class="product-info">
+                                        <a th:href="@{board?b_id=}+${board.id}"
+                                            class="product-title" th:inline="text">
+                                            [[${board.name}]]
+                                            <span class="label label-success pull-right">
+                                                New message
+                                            </span>
+                                        </a>
+                                        <span class="product-description" th:inline="text">
+                                            [[${#strings.abbreviate(board.detail,100)}]]
+                                            <th:block th:if="*{#strings.length(board.detail)>100}">...</th:block>
+                                        </span>
+                                    </div>
+                                </li>
+                                <!-- /.item -->
+                            </ul>
                         </div>
                         <!-- /.box-body -->
-                        <div class="box-footer text-center">footer</div>
+                        <div class="box-footer text-center">
+                            <span class="product-description" th:inline="text" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                                <th:block th:switch="${i}">
+                                    <th:block th:case="${number}+1">
+                                        [[${i}]]
+                                    </th:block>
+                                    <th:block th:case="*">
+                                        <a th:href="@{index?page=}+${i-1}">[[${i}]]</a>
+                                    </th:block>
+                                </th:block>
+                            </span>
+                        </div>
                         <!-- /.box-footer -->
                     </div>
                 </div>

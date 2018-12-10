@@ -26,6 +26,7 @@ $ sudo mysql -u [your user name of mariaDB] -p[your password of mariaDB]
 $ create database chatboard;
 $ use chatboard;
 $ source [PathToTheClonedJavaChatBoard]/JavaChatBoard/src/main/resources/tables.sql
+$ exit
 ```
 You can start the project now.
 ```

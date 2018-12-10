@@ -90,5 +90,3 @@ VALUES ('test', '$2a$10$Fonnn4/zL3wGBvcyYbhIu.bz6q8CKuSyCQyIYqrpNdeVfO1J.Gn0S',
 INSERT INTO users (name, password, role_id, email, birth, updated, created)
 VALUES ('test2', '$2a$10$Fonnn4/zL3wGBvcyYbhIu.bz6q8CKuSyCQyIYqrpNdeVfO1J.Gn0S', 
 2, 'test2@test.com', '2018-10-10', NOW(), NOW());
-INSERT INTO boards (name, user_id, updated, created)
-VALUES ('test', 1, NOW(), NOW());

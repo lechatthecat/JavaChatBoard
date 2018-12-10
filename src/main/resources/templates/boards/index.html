@@ -25,48 +25,57 @@
                         <div class="box-body">
                                 <ul class="products-list product-list-in-box">
                                 <!-- /.item -->
-                                <li class="item" th:each="board,iterStat : ${publicBoards}">
-                                    <div class="product-img"
-                                        th:switch="${(iterStat.count + 3) % 3}">
-                                        <img th:case="1"
-                                            th:src="@{img/no_image_1.jpg}"
-                                            th:alt="${board.name}">
-                                        <img th:case="2"
-                                            th:src="@{img/no_image_2.jpg}"
-                                            th:alt="${board.name}">
-                                        <img th:case="0"
-                                            th:src="@{img/no_image_3.jpg}"
-                                            th:alt="${board.name}">
-                                    </div>
-                                    <div class="product-info">
-                                        <a th:href="@{board?b_id=}+${board.id}"
-                                            class="product-title" th:inline="text">
-                                            [[${board.name}]]
-                                            <span class="label label-success pull-right">
-                                                New message
-                                            </span>
-                                        </a>
-                                        <span class="product-description" th:inline="text">
-                                            [[${#strings.abbreviate(board.detail,100)}]]
-                                            <th:block th:if="*{#strings.length(board.detail)>100}">...</th:block>
-                                        </span>
-                                    </div>
-                                </li>
+                                <th:block th:if="${publicBoards} != null and ${#lists.size(publicBoards)} > 0">
+                                    <li class="item" th:each="board,iterStat : ${publicBoards}">
+                                        <div class="product-img"
+                                            th:switch="${(iterStat.count + 3) % 3}">
+                                            <img th:case="1"
+                                                th:src="@{img/no_image_1.jpg}"
+                                                th:alt="${board.name}">
+                                            <img th:case="2"
+                                                th:src="@{img/no_image_2.jpg}"
+                                                th:alt="${board.name}">
+                                            <img th:case="0"
+                                                th:src="@{img/no_image_3.jpg}"
+                                                th:alt="${board.name}">
+                                        </div>
+                                        <div class="product-info">
+                                            <a th:href="@{board?b_id=}+${board.id}"
+                                                class="product-title" th:inline="text">
+                                                [[${board.name}]]
+                                                <span class="label label-success pull-right">
+                                                    New message
+                                                </span>
+                                            </a>
+                                            <th:block th:if="${board.detail} != null">
+                                                <span class="product-description" th:inline="text">
+                                                    [[${#strings.abbreviate(board.detail,100)}]]
+                                                    <th:block th:if="*{#strings.length(board.detail)>100}">...</th:block>
+                                                </span>
+                                            </th:block>
+                                        </div>
+                                    </li>
+                                </th:block>
+                                <div th:if="${publicBoards} == null or ${#lists.size(publicBoards)} == 0">
+                                    No chat board created.
+                                </div>
                                 <!-- /.item -->
                             </ul>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer text-center">
-                            <span class="product-description" th:inline="text" th:each="i : ${#numbers.sequence(1, totalPages)}">
-                                <th:block th:switch="${i}">
-                                    <th:block th:case="${number}+1">
-                                        [[${i}]]
+                            <th:block th:if="${totalPages} > 1">
+                                <span class="product-description" th:inline="text" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                                    <th:block th:switch="${i}">
+                                        <th:block th:case="${number}+1">
+                                            [[${i}]]
+                                        </th:block>
+                                        <th:block th:case="*">
+                                            <a th:href="@{index?page=}+${i-1}">[[${i}]]</a>
+                                        </th:block>
                                     </th:block>
-                                    <th:block th:case="*">
-                                        <a th:href="@{index?page=}+${i-1}">[[${i}]]</a>
-                                    </th:block>
-                                </th:block>
-                            </span>
+                                </span>
+                            </th:block>
                         </div>
                         <!-- /.box-footer -->
                     </div>

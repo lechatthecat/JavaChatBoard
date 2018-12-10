@@ -41,9 +41,6 @@ CREATE TABLE user_images (
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-ALTER TABLE users ADD FOREIGN KEY (user_image_id) REFERENCES user_images(id);
-ALTER TABLE users ADD FOREIGN KEY (user_main_image_id) REFERENCES user_images(id);
-
 CREATE TABLE boards (
 	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
 	`user_id` BIGINT(20) unsigned NOT NULL,

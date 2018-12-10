@@ -30,6 +30,8 @@ You can start the project now.
 $ cd [PathToTheClonedJavaChatBoard]/JavaChatBoard
 $ java -jar ./target/chatboard-0.0.1-SNAPSHOT.jar
 ```
+Now your this app should be running on http://localhost:8080  
+  
 You have two test users by default.  
 id: test, password: 12345678  
 id: test2, password: 12345678  

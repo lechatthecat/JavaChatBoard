@@ -1,3 +1,5 @@
+<img src="https://github.com/lechatthecat/JavaChatBoard/blob/master/pic/Screenshot%20from%202018-12-10%2023-23-01.png" width="50%">
+
 # At first
 This is still in development. Many functionalities are incomplete.
   

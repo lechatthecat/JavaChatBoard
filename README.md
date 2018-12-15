@@ -1,5 +1,7 @@
+<img src="https://github.com/lechatthecat/JavaChatBoard/blob/master/pic/Screenshot%20from%202018-12-10%2023-23-01.png" width="50%">
+
 # At first
-This is still in development.  
+This is still in development. Many functionalities are incomplete.
   
 # Compatibility
 Checked that this project works in Linux (Ubuntu, CentOS7).  
@@ -24,12 +26,15 @@ $ sudo mysql -u [your user name of mariaDB] -p[your password of mariaDB]
 $ create database chatboard;
 $ use chatboard;
 $ source [PathToTheClonedJavaChatBoard]/JavaChatBoard/src/main/resources/tables.sql
+$ exit
 ```
 You can start the project now.
 ```
 $ cd [PathToTheClonedJavaChatBoard]/JavaChatBoard
 $ java -jar ./target/chatboard-0.0.1-SNAPSHOT.jar
 ```
+Now this app should be running on http://localhost:8080  
+  
 You have two test users by default.  
 id: test, password: 12345678  
 id: test2, password: 12345678  

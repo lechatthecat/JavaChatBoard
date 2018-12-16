@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS `board_responses`;
+DROP TABLE IF EXISTS `boards`;
+DROP TABLE IF EXISTS `user_images`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `roles`;
+
 CREATE TABLE roles (
 	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
 	`is_admin` TINYINT(4) NOT NULL, 
@@ -54,33 +60,23 @@ CREATE TABLE boards (
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE board_users (
-	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
-	`user_id` BIGINT(20) unsigned NOT NULL,
-	`board_id` BIGINT(20) unsigned NOT NULL,
-	`is_deleted` TINYINT(4) NOT NULL DEFAULT 0, 
-	`updated` DATETIME,
-	`created` DATETIME,
-	PRIMARY KEY (id),
-	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (board_id) REFERENCES boards(id)
-);
-
 CREATE TABLE board_responses (
 	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
 	`response` TEXT,
 	`type` ENUM('CHAT','JOIN', 'LEAVE'),
 	`board_id` BIGINT(20) unsigned NOT NULL,
 	`user_id` BIGINT(20) unsigned NOT NULL,
+	`to_user_id` BIGINT(20) unsigned,
 	`is_seen` TINYINT(4) NOT NULL DEFAULT 0,
 	`is_deleted` TINYINT(4) NOT NULL DEFAULT 0, 
 	`updated` DATETIME,
 	`created` DATETIME,
-	PRIMARY KEY (id, board_id),
+	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (to_user_id) REFERENCES users(id),
 	FOREIGN KEY (board_id) REFERENCES boards(id)
 );
-
+ALTER TABLE `board_responses` ADD INDEX `board_id` (`board_id`);
 ALTER TABLE `board_responses` ADD INDEX `updated` (`updated`);
 
 -- For testing

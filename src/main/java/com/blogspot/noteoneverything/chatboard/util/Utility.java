@@ -7,6 +7,7 @@ public class Utility {
     public static boolean isNumeric(String s) {  
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");  
     }  
+
     public static String formatDate(Date d) {  
         if(d != null){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -16,4 +17,12 @@ public class Utility {
             return "";
         }
     } 
+
+    public static boolean isEmpty(String str){
+        if(str != null && !str.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

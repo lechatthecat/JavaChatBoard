@@ -24,7 +24,9 @@ import com.blogspot.noteoneverything.chatboard.model.Board;
 public class BoardResponse {
 
     public enum MessageType {
-        CHAT, JOIN, LEAVE
+        CHAT, 
+        JOIN, 
+        LEAVE
     }
 
     @Enumerated(EnumType.STRING)
@@ -37,6 +39,8 @@ public class BoardResponse {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private User toUser;
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     private Board board;
@@ -77,6 +81,14 @@ public class BoardResponse {
 
     public User getUser() {
         return this.user;
+    }
+
+    public void setToUser(User user) {
+        this.toUser = user;
+    }
+
+    public User getToUser() {
+        return this.toUser;
     }
 
     public void setUser(User user) {

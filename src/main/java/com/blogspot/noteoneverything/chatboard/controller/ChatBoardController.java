@@ -135,5 +135,7 @@ public class ChatBoardController {
         model.addAttribute("numOfCreatedBoard", numOfCreatedBoard);
         Long numOfRespondedBoard = boardService.getCountBoardsByUserOfBoardResponses(user.getId());
         model.addAttribute("numOfRespondedBoard", numOfRespondedBoard);
+        Long unSeenResponses = boardService.getHowManyUnseenResponses(user);
+        model.addAttribute("unSeenResponses", unSeenResponses);
     }
 }

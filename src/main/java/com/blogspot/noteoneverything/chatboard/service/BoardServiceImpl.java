@@ -1,20 +1,14 @@
 package com.blogspot.noteoneverything.chatboard.service;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.TransactionManager;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Collections;
-import java.util.Comparator;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +18,13 @@ import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
-import com.blogspot.noteoneverything.chatboard.model.BoardUser;
 import com.blogspot.noteoneverything.chatboard.dao.BoardRepository;
 import com.blogspot.noteoneverything.chatboard.dao.BoardResponseRepository;
-import com.blogspot.noteoneverything.chatboard.dao.BoardUserRepository;
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -42,8 +34,6 @@ public class BoardServiceImpl implements BoardService{
     private BoardRepository boardRepository;
     @Autowired
     private BoardResponseRepository boardResponseRepository;
-    @Autowired
-    private BoardUserRepository boardUserRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -217,36 +207,6 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     @Transactional
-    public List<BoardUser> findBoardUsersByBoard(Board board){
-        return boardUserRepository.findBoardUsersByBoard(board);
-    }
-
-    @Override
-    @Transactional
-    public List<BoardUser> findBoardUsersByBoard(Board board, Pageable pageable){
-        return boardUserRepository.findBoardUsersByBoard(board, pageable);
-    }
-    
-    @Override
-    @Transactional
-    public List<BoardUser> findBoardUsersByUser(User user){
-        return boardUserRepository.findBoardUsersByUser(user);
-    }
-    
-    @Override
-    @Transactional
-    public List<BoardUser> findBoardUsersByUser(User user, Pageable pageable){
-        return boardUserRepository.findBoardUsersByUser(user, pageable);
-    }
-    
-    @Override
-    @Transactional
-    public boolean deleteBoardRUserById(long id){
-        return boardUserRepository.deleteBoardRUserById(id);
-    }
-
-    @Override
-    @Transactional
     public Long getCountOfBoardsByUser(User user){
         return  boardRepository.getCountOfBoardsByUser(user);
     }
@@ -281,4 +241,41 @@ public class BoardServiceImpl implements BoardService{
         return  boardRepository.getPublicBoardPages(pageable);
     }
 
+    @Override
+    @Transactional
+    public Long getHowManyUnseenResponses(Board board, User user){
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<BoardResponse> from = cq.from(BoardResponse.class);
+        cq.select(qb.count(from));
+        Predicate boardCondition = qb.equal(from.get("board"), board);
+        Predicate userCondition = qb.equal(from.get("toUser"), user);
+        Predicate isSeenCondition = qb.equal(from.get("is_seen"), 0);
+        Predicate condition = qb.and(boardCondition, userCondition, isSeenCondition);
+        cq.where(condition);
+        return em.createQuery(cq).getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public Long getHowManyUnseenResponses(User user){
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<BoardResponse> from = cq.from(BoardResponse.class);
+        cq.select(qb.count(from));
+        Predicate userCondition = qb.equal(from.get("toUser"), user);
+        Predicate isSeenCondition = qb.equal(from.get("is_seen"), 0);
+        Predicate condition = qb.and(userCondition, isSeenCondition);
+        cq.where(condition);
+        return em.createQuery(cq).getSingleResult();
+    }
+
+    private Specification<BoardResponse> boardResponseUserEqual(User user){
+        return new Specification<BoardResponse>() {
+            @Override
+            public Predicate toPredicate(Root<BoardResponse> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("user"), user);
+            }
+        };
+    }
 }

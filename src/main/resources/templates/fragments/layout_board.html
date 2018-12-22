@@ -16,24 +16,35 @@
         <th:block th:replace="fragments/script :: base_script(${script})"></th:block>
         <script>
         var width = $(window).width();
+        var height = $(window).height();
+        var windowSizeChanged = false;
         $(window).on('resize', function(){
-            if($(this).width() != width){
+            if($(this).width() != width || $(this).height() != height){
                 width = $(this).width();
-                toggleFixed();  
+                height = $(this).height();
+                windowSizeChanged = true;
+                toggleFixed(windowSizeChanged);  
             }
         });
         $(document).ready(function(){
-            toggleFixed();  
+            windowSizeChanged = false;
+            toggleFixed(windowSizeChanged);  
         })
         function toggleFixed (windowSizeChanged) {
             var parentwidth = $(".direct-chat-messages").width();      
             $(".board-footer").toggleClass("board-width").width(parentwidth);   
             var parentHeight = $(".board-content-wrapper").outerHeight() - $(".navbar").outerHeight() - $(".box-header").outerHeight();   
             var textBox = $(".board-footer").outerHeight();
-            if(checkBrowser() === "Chrome"){
-                parentHeight = parentHeight - textBox;
+            if(checkBrowser() === "Chrome" ){
+                if(windowSizeChanged == false){
+                    parentHeight = parentHeight - textBox;
+                }
             }
-            $(".direct-chat-messages").toggleClass("board-height").css({"min-height":parentHeight});
+            if(windowSizeChanged == false){
+                $(".direct-chat-messages").toggleClass("board-height").css({"min-height":parentHeight});
+                var textBoxHeight = $(".board-footer").height();
+                $(".direct-chat-messages").toggleClass("board-margin").css({"margin-bottom":textBoxHeight});
+            }
         }
         </script>
     </body>

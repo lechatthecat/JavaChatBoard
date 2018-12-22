@@ -1,6 +1,7 @@
 .content{
     padding: 0px ! important;
 }
+
 .board-footer{
     text-align: left;
     position: fixed;
@@ -16,13 +17,33 @@
     margin-left:auto;
     margin-right:auto;
 }
+
 .board-textarea{
     resize: none; 
-    height:100px ! important;
 }
+
 .send-btn{
     height:100px;
 }
+
 .ui-dialog{
     z-index: 2000 ! important;
+}
+
+@media only screen and (max-width: 400px){
+    .board-textarea{
+        height: 38px ! important;
+    }
+    .send-btn{
+        height: 38px ! important;
+    }
+}
+
+@media only screen and (min-width: 401px){
+    .board-textarea{
+        height: 100px ! important;
+    }
+    .send-btn{
+        height: 100px ! important;
+    }
 }

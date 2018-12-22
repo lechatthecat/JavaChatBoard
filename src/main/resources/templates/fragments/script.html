@@ -34,6 +34,9 @@
             }
             return browser;
         }
+        function isMobile(){
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
         </script>
         <th:block th:if="${scripts != null}">
             <th:block th:replace="${scripts}" />

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS `board_responses`;
+DROP TABLE IF EXISTS `board_users`;
 DROP TABLE IF EXISTS `boards`;
 DROP TABLE IF EXISTS `user_images`;
 DROP TABLE IF EXISTS `users`;
@@ -58,6 +59,18 @@ CREATE TABLE boards (
 	`created` DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE board_users (
+	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
+	`user_id` BIGINT(20) unsigned NOT NULL,
+	`board_id` BIGINT(20) unsigned NOT NULL,
+	`is_deleted` TINYINT(4) NOT NULL DEFAULT 0, 
+	`updated` DATETIME,
+	`created` DATETIME,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (board_id) REFERENCES boards(id)
 );
 
 CREATE TABLE board_responses (

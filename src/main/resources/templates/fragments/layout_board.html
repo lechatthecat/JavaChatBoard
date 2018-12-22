@@ -33,7 +33,11 @@
         function toggleFixed (windowSizeChanged) {
             var parentwidth = $(".direct-chat-messages").width();      
             $(".board-footer").toggleClass("board-width").width(parentwidth);   
-            var parentHeight = $(".board-content-wrapper").outerHeight() - $(".navbar").outerHeight() - $(".box-header").outerHeight();   
+            var logoHeight = 0;
+            if(width < 768){
+                logoHeight = $(".logo").outerHeight();
+            }
+            var parentHeight = $(".board-content-wrapper").outerHeight() - $(".navbar").outerHeight() - $(".box-header").outerHeight() - logoHeight;   
             var textBox = $(".board-footer").outerHeight();
             if(checkBrowser() === "Chrome" ){
                 if(windowSizeChanged == false){

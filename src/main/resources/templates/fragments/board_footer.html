@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <footer th:fragment="footer" class="main-footer board-footer">
+        <form id="messageForm" name="messageForm" nameForm="messageForm">
+            <div class="input-group">
+                <!-- Change to Textarea -->
+                <textarea id="message"  placeholder="Type Message ..." 
+                class="form-control board-textarea" autocomplete="off"></textarea>
+                <span class="input-group-btn">
+                    <button class="btn btn-warning
+                        btn-flat send-btn" type="submit">Send</button>
+                </span>
+            </div>
+        </form>
+    </footer>
+</html>

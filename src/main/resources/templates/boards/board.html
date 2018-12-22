@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="fragments/layout_user :: all('Board', ~{::div#links}, ~{::#js},
+    <div th:replace="fragments/layout_board :: all('Board', ~{::div#links}, ~{::#js},
         ~{::div#page_content})">
         <!-- CSS -->
         <div id="links">
@@ -17,7 +17,7 @@
             <script th:src="@{/js/chat.js}"></script>
         </th:block >
         <!-- Content Wrapper. Contains page content -->
-        <div id="page_content" th:replace="fragments/content_wrapper ::
+        <div id="page_content" th:replace="fragments/content_wrapper_board ::
             content('Chat board',
             'Home', ~{::div#breadcrumbs}, ~{::div.box_content})">
             <div id="breadcrumbs">
@@ -183,19 +183,9 @@
                     <!-- /.direct-chat-pane -->
                 </div>
                 <!-- /.box-body -->
-                <div class="box-footer board-footer">
-                    <form id="messageForm" name="messageForm" nameForm="messageForm">
-                        <div class="input-group">
-                            <!-- Change to Textarea -->
-                            <textarea id="message"  placeholder="Type Message ..." 
-                            class="form-control board-textarea" autocomplete="off"></textarea>
-                            <span class="input-group-btn">
-                                <button class="btn btn-warning
-                                    btn-flat send-btn" type="submit">Send</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
+                <!-- <div class="box-footer">
+
+                </div> -->
                 <!-- /.box-footer-->
             </div>
         </div>

@@ -5,22 +5,14 @@
     text-align: left;
     position: fixed;
     bottom: 0;
+    width: 100%;
 }
-@media only screen and (min-width: 992px){
-    .direct-chat-messages{
-        height: 746px ! important;
-    }
+
+.direct-chat-messages{
+    margin-bottom: 100px;
+    height:unset;
 }
-@media only screen and (min-width: 768px) and (max-width: 991px){
-    .direct-chat-messages{
-        height: 711px ! important;
-    }
-}
-@media only screen and (max-width: 767px) {
-    .direct-chat-messages{
-        height:713px ! important;
-    }
-}
+
 .chatbox{
     margin-left:auto;
     margin-right:auto;

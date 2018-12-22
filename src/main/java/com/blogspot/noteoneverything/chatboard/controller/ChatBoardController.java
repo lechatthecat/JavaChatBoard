@@ -102,10 +102,10 @@ public class ChatBoardController {
         //Board creation
         if(boardService.createBoard(board)){  
             redirectAttributes.addFlashAttribute("message", "Success. Board created.");
-            redirectAttributes.addFlashAttribute("alertClass", "text-success");
+            redirectAttributes.addFlashAttribute("alertClass", "info");
         }else{
             redirectAttributes.addFlashAttribute("message", "Sorry board could not be created. Please contact the administarator.");
-            redirectAttributes.addFlashAttribute("alertClass", "text-danger");
+            redirectAttributes.addFlashAttribute("alertClass", "danger");
         }
         return "redirect:/";
     }

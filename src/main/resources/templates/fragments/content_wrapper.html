@@ -14,7 +14,9 @@
 
             <!-- Main content -->
             <section class="content" >
-                <p th:if= "${message != ''}" th:text="${message}" th:class="${'login-box-msg ' + alertClass}"></p>
+                <th:block th:if= "${message != null}">
+                    <p th:text="${message}" th:class="${'callout callout-' + alertClass}"></p>
+                </th:block>
                 <th:block th:replace="${content}"></th:block>
 
                 <!-- Default box -->

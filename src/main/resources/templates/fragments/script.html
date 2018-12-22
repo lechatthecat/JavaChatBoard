@@ -16,8 +16,24 @@
         <script th:src="@{asset/adminlte2.4.5/dist/js/demo.js}"></script>
         <script>
         $(document).ready(function () {
-            $('.sidebar-menu').tree()
+            $('.sidebar-menu').tree();
         })
+        function checkBrowser(){
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+            } else if (f > -1) {
+                browser = "Firefox";
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            return browser;
+        }
         </script>
         <th:block th:if="${scripts != null}">
             <th:block th:replace="${scripts}" />

@@ -15,14 +15,25 @@
         <!-- ./wrapper -->
         <th:block th:replace="fragments/script :: base_script(${script})"></th:block>
         <script>
+        var width = $(window).width();
+        $(window).on('resize', function(){
+            if($(this).width() != width){
+                width = $(this).width();
+                toggleFixed();  
+            }
+        });
         $(document).ready(function(){
             toggleFixed();  
         })
-        function toggleFixed () {
+        function toggleFixed (windowSizeChanged) {
             var parentwidth = $(".direct-chat-messages").width();      
             $(".board-footer").toggleClass("board-width").width(parentwidth);   
-            var parentHeight = $(".board-content-wrapper").height() - 90;   
-            $(".direct-chat-messages").toggleClass("board-height").height(parentHeight);  
+            var parentHeight = $(".board-content-wrapper").outerHeight() - $(".navbar").outerHeight() - $(".box-header").outerHeight();   
+            var textBox = $(".board-footer").outerHeight();
+            if(checkBrowser() === "Chrome"){
+                parentHeight = parentHeight - textBox;
+            }
+            $(".direct-chat-messages").toggleClass("board-height").css({"min-height":parentHeight});
         }
         </script>
     </body>

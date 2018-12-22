@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <!-- Content Wrapper. Contains page content -->
-    <div th:fragment="content(title, subtitle, breadcrumb, content)" class="content-wrapper">
+    <div th:fragment="content(title, subtitle, breadcrumb, content)" class="content-wrapper board-content-wrapper">
             <!-- Main content -->
-            <section class="content" >
+            <section class="content board-content" >
                 <th:block th:if= "${message != null}">
                     <p th:text="${message}" th:class="${'callout callout-' + alertClass}"></p>
                 </th:block>

@@ -5,11 +5,10 @@
     text-align: left;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    width: auto;
 }
 
 .direct-chat-messages{
-    margin-bottom: 100px;
     height:unset;
 }
 

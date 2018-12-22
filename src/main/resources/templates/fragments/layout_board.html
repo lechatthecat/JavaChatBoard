@@ -13,6 +13,17 @@
             <div th:replace="fragments/content_sidebar :: content-sidebar"></div>
         </div>
         <!-- ./wrapper -->
-        <div th:replace="fragments/script :: base_script(${script})"></div>
+        <th:block th:replace="fragments/script :: base_script(${script})"></th:block>
+        <script>
+        $(document).ready(function(){
+            toggleFixed();  
+        })
+        function toggleFixed () {
+            var parentwidth = $(".direct-chat-messages").width();      
+            $(".board-footer").toggleClass("board-width").width(parentwidth);   
+            var parentHeight = $(".board-content-wrapper").height() - 90;   
+            $(".direct-chat-messages").toggleClass("board-height").height(parentHeight);  
+        }
+        </script>
     </body>
 </html>

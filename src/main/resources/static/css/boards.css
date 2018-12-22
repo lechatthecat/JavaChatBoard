@@ -1,35 +1,24 @@
-@media only screen and (max-width: 350px) {
+.content{
+    padding: 0px ! important;
+}
+.board-footer{
+    text-align: left;
+    position: fixed;
+    bottom: 0;
+}
+@media only screen and (min-width: 992px){
     .direct-chat-messages{
-        height:350px ! important;
+        height: 746px ! important;
     }
 }
-@media only screen and (min-width: 351px) and (max-width:825px) {
+@media only screen and (min-width: 768px) and (max-width: 991px){
     .direct-chat-messages{
-        height:420px ! important;
+        height: 711px ! important;
     }
 }
-@media only screen and (min-width: 826px) and (max-width:900px) {
+@media only screen and (max-width: 767px) {
     .direct-chat-messages{
-        height:500px ! important;
-    }
-    .chatbox{
-        width:550px ! important;
-    }
-}
-@media only screen and (min-width: 901px) and (max-width:1100px) {
-    .direct-chat-messages{
-        height:500px ! important;
-    }
-    .chatbox{
-        width:600px ! important;
-    }
-}
-@media only screen and (min-width: 1101px){
-    .direct-chat-messages{
-        height:600px ! important;
-    }
-    .chatbox{
-        width:850px ! important;
+        height:713px ! important;
     }
 }
 .chatbox{

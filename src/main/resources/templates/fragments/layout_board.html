@@ -26,9 +26,11 @@
                 toggleFixed(windowSizeChanged);  
             }
         });
-        $(document).ready(function(){
+        $(window).on('load', function () {
             windowSizeChanged = false;
             toggleFixed(windowSizeChanged);  
+        });
+        $(document).ready(function(){
             $("textarea").keydown(function(e){
                 if (e.keyCode == 13){
                     if (e.shiftKey){
@@ -37,9 +39,9 @@
                 }
             });
         })
-        function toggleFixed (windowSizeChanged) {
-            var parentwidth = $(".direct-chat-messages").width();      
-            $(".board-footer").toggleClass("board-width").width(parentwidth);   
+        function toggleFixed(windowSizeChanged) {
+            var parentWidth = $(".direct-chat-messages").outerWidth();   
+            $(".board-footer").toggleClass("board-width").css({"width":parentWidth});   
             var logoHeight = 0;
             if(width < 768){
                 logoHeight = $(".logo").outerHeight();

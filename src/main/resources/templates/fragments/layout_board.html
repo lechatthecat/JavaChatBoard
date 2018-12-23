@@ -48,11 +48,6 @@
             }
             var parentHeight = $(".board-content-wrapper").outerHeight() - $(".navbar").outerHeight() - $(".box-header").outerHeight() - logoHeight;   
             var textBox = $(".board-footer").outerHeight();
-            if(checkBrowser() === "Chrome" ){
-                if(windowSizeChanged == false){
-                    parentHeight = parentHeight - textBox;
-                }
-            }
             if(windowSizeChanged == false){
                 $(".direct-chat-messages").toggleClass("board-height").css({"min-height":parentHeight});
                 var textBoxHeight = $(".board-footer").height();

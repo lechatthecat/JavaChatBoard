@@ -57,11 +57,11 @@
                                 <span th:classappend="${res.user.id == user.id} ? pull-left : pull-right" class="direct-chat-timestamp">[[${res.updated}]]</span>
                             </div>
                             <img class="direct-chat-img" th:src="${res.user.userMainImage.path}">
-                            <div class="direct-chat-text">[[${res.response}]]</div>
+                            <pre class="direct-chat-text">[[${res.response}]]</pre>
                         </div>
                     </div>
                     <!-- Contacts are loaded here -->
-                    <div class="direct-chat-contacts hidden">
+                    <div class="direct-chat-contacts">
                         <ul class="contacts-list">
                             <li>
                                 <a href="#">
@@ -75,8 +75,7 @@
                                             <small class="contacts-list-date
                                                 pull-right">2/28/2015</small>
                                         </span>
-                                        <span class="contacts-list-msg">How have
-                                            you been? I was...</span>
+                                        <span class="contacts-list-msg">How have you been? I was...</span>
                                     </div>
                                     <!-- /.contacts-list-info -->
                                 </a>

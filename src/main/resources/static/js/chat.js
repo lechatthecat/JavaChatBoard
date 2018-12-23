@@ -114,7 +114,7 @@ function onMessageReceived(payload) {
         senderImage.setAttribute('src', message.userImagePath);
 
         //Message text
-        var chatMessage = document.createElement('div');
+        var chatMessage = document.createElement('pre');
         chatMessage.classList.add("direct-chat-text");
         var chatMessageText = document.createTextNode(message.response);
         chatMessage.appendChild(chatMessageText);

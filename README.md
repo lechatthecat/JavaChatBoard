@@ -1,4 +1,4 @@
-<img src="https://github.com/lechatthecat/JavaChatBoard/blob/master/pic/chat.png" width="50%">
+<img src="https://github.com/lechatthecat/JavaChatBoard/blob/master/pic/pic.png" width="50%">
 
 # At first
 This is still in development. Many functionalities are incomplete.

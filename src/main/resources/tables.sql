@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `board_response_users`;
 DROP TABLE IF EXISTS `board_responses`;
 DROP TABLE IF EXISTS `board_users`;
 DROP TABLE IF EXISTS `boards`;
@@ -79,18 +80,28 @@ CREATE TABLE board_responses (
 	`type` ENUM('CHAT','JOIN', 'LEAVE'),
 	`board_id` BIGINT(20) unsigned NOT NULL,
 	`user_id` BIGINT(20) unsigned NOT NULL,
-	`to_user_id` BIGINT(20) unsigned,
-	`is_seen` TINYINT(4) NOT NULL DEFAULT 0,
 	`is_deleted` TINYINT(4) NOT NULL DEFAULT 0, 
 	`updated` DATETIME,
 	`created` DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (to_user_id) REFERENCES users(id),
 	FOREIGN KEY (board_id) REFERENCES boards(id)
 );
 ALTER TABLE `board_responses` ADD INDEX `board_id` (`board_id`);
 ALTER TABLE `board_responses` ADD INDEX `updated` (`updated`);
+
+CREATE TABLE board_response_users (
+	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,
+	`board_response_id` BIGINT(20) unsigned NOT NULL,
+	`user_id` BIGINT(20) unsigned NOT NULL,
+	`is_seen` TINYINT(4) NOT NULL DEFAULT 0,
+	`is_deleted` TINYINT(4) NOT NULL DEFAULT 0, 
+	`updated` DATETIME,
+	`created` DATETIME,
+	PRIMARY KEY (id),
+	FOREIGN KEY (board_response_id) REFERENCES board_responses(id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
 
 -- For testing
 INSERT INTO users (name, password, role_id, email, birth, updated, created)

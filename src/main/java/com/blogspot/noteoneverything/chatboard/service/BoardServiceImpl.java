@@ -249,9 +249,8 @@ public class BoardServiceImpl implements BoardService{
         Root<BoardResponse> from = cq.from(BoardResponse.class);
         cq.select(qb.count(from));
         Predicate boardCondition = qb.equal(from.get("board"), board);
-        Predicate userCondition = qb.equal(from.get("toUser"), user);
-        Predicate isSeenCondition = qb.equal(from.get("is_seen"), 0);
-        Predicate condition = qb.and(boardCondition, userCondition, isSeenCondition);
+        Predicate userCondition = qb.notEqual(from.get("user"), user);
+        Predicate condition = qb.and(boardCondition, userCondition);
         cq.where(condition);
         return em.createQuery(cq).getSingleResult();
     }
@@ -263,10 +262,8 @@ public class BoardServiceImpl implements BoardService{
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
         Root<BoardResponse> from = cq.from(BoardResponse.class);
         cq.select(qb.count(from));
-        Predicate userCondition = qb.equal(from.get("toUser"), user);
-        Predicate isSeenCondition = qb.equal(from.get("is_seen"), 0);
-        Predicate condition = qb.and(userCondition, isSeenCondition);
-        cq.where(condition);
+        Predicate userCondition = qb.notEqual(from.get("user"), user);
+        cq.where(userCondition);
         return em.createQuery(cq).getSingleResult();
     }
 

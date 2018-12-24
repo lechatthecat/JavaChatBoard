@@ -4,14 +4,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Transient;
 import com.blogspot.noteoneverything.chatboard.util.Utility;
@@ -39,8 +37,6 @@ public class BoardResponse {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private User toUser;
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     private Board board;
@@ -81,14 +77,6 @@ public class BoardResponse {
 
     public User getUser() {
         return this.user;
-    }
-
-    public void setToUser(User user) {
-        this.toUser = user;
-    }
-
-    public User getToUser() {
-        return this.toUser;
     }
 
     public void setUser(User user) {

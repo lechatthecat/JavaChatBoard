@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS chatboard;
+use chatboard;
+
 DROP TABLE IF EXISTS `board_response_users`;
 DROP TABLE IF EXISTS `board_responses`;
 DROP TABLE IF EXISTS `board_users`;
@@ -89,6 +92,7 @@ CREATE TABLE board_responses (
 );
 ALTER TABLE `board_responses` ADD INDEX `board_id` (`board_id`);
 ALTER TABLE `board_responses` ADD INDEX `updated` (`updated`);
+ALTER TABLE `board_responses` ADD INDEX `created` (`created`);
 
 CREATE TABLE board_response_users (
 	`id` BIGINT(20) unsigned NOT NULL AUTO_INCREMENT,

@@ -40,7 +40,6 @@ public class BoardResponse {
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     private Board board;
-    private boolean is_seen;
     private boolean is_deleted;
     @Transient
     private String sender;
@@ -97,14 +96,6 @@ public class BoardResponse {
 
     public boolean getIsDeleted() {
         return this.is_deleted;
-    }
-
-    public void setIsSeen(boolean is_seen) {
-        this.is_seen = is_seen;
-    }
-
-    public boolean getIsSeen() {
-        return this.is_seen;
     }
 
     public void setUserImagePath(String user_image_path) {

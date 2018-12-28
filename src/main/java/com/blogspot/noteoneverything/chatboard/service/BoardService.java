@@ -3,6 +3,8 @@ package com.blogspot.noteoneverything.chatboard.service;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -37,4 +39,5 @@ public interface BoardService{
     public Page<Board> getPublicBoardPages(Pageable pageable);
     public Long getHowManyUnseenResponses(Board board, User user);
     public Long getHowManyUnseenResponses(User user);
+    public HashMap<String,String> getLatestResponseTimePerBoard();
 }

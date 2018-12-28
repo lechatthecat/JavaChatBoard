@@ -1,9 +1,11 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
 import com.blogspot.noteoneverything.chatboard.validator.BoardValidator;
 import com.blogspot.noteoneverything.chatboard.util.Constants;
+import com.blogspot.noteoneverything.chatboard.util.Utility;
 
 @Controller
 public class ChatBoardController {
@@ -42,18 +45,16 @@ public class ChatBoardController {
     private BoardService boardService;
     @Autowired
     private BoardValidator boardValidator;
+    @Autowired
+    private HttpSession session;  
 
     @GetMapping(value = "/")
     public String index(Model model, @PageableDefault(value=10, page=0) Pageable pageable) {
         User user = loadUserInfoOfSession(model);
         this.loadRelatedBoards(model, user);
         Page<Board> pages = boardService.getPublicBoardPages(pageable);
-        model.addAttribute("number", pages.getNumber());
-        model.addAttribute("totalPages", pages.getTotalPages());
-        model.addAttribute("totalElements", pages.getTotalElements());
-        model.addAttribute("size", pages.getSize());
-        model.addAttribute("pageSpan", Constants.PAGE_SPAN);
-        model.addAttribute("publicBoards", pages.getContent());
+        this.loadPageRelatedInfo(model, pages);
+        model.addAttribute("lastCheckedTime", session.getAttribute("lastCheckedTime"));
         return "boards/index";
     }
 
@@ -64,6 +65,8 @@ public class ChatBoardController {
 
     @GetMapping(value = "/board")
     public String boards(@RequestParam("b_id") String b_id, Model model) {
+        HashMap<String,String> test = boardService.getLatestResponseTimePerBoard();
+        this.setLastCheckedTime(b_id);
         User user = loadUserInfoOfSession(model);
         this.loadRelatedBoards(model, user);
         Board board = boardService.findBoardById(Long.parseLong(b_id));
@@ -111,20 +114,21 @@ public class ChatBoardController {
         return "redirect:/";
     }
 
-    @PostMapping(value = "/delete")
-    public String deleteCat(@RequestParam("name") String name, @RequestParam("id") Long id) {
-        // catservice.deleteCat(name, id);
-        // System.out.println("Cat named = " + name + "was removed from our database.
-        // Hopefully he or she was adopted.");
-        return "redirect:/";
-    }
-
     private User loadUserInfoOfSession(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails principal = (UserDetails) auth.getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
         model.addAttribute("user", user);
         return user;
+    }
+
+    private void loadPageRelatedInfo(Model model, Page<Board> pages){
+        model.addAttribute("number", pages.getNumber());
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("totalElements", pages.getTotalElements());
+        model.addAttribute("size", pages.getSize());
+        model.addAttribute("pageSpan", Constants.PAGE_SPAN);
+        model.addAttribute("publicBoards", pages.getContent());
     }
 
     private void loadRelatedBoards(Model model, User user) {
@@ -138,5 +142,13 @@ public class ChatBoardController {
         model.addAttribute("numOfRespondedBoard", numOfRespondedBoard);
         Long unSeenResponses = boardService.getHowManyUnseenResponses(user);
         model.addAttribute("unSeenResponses", unSeenResponses);
+    }
+
+    private void setLastCheckedTime(String b_id){
+        HashMap<String,String> lastCheckedTime = new HashMap<String,String>();
+        Date now = new Date();
+        String nowStr = Utility.formatDate(now);
+        lastCheckedTime.put(b_id, nowStr);
+        session.setAttribute("lastCheckedTime", lastCheckedTime);
     }
 }

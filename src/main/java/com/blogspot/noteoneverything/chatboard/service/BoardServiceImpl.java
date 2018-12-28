@@ -2,11 +2,13 @@ package com.blogspot.noteoneverything.chatboard.service;
 
 import java.util.List;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -274,5 +276,18 @@ public class BoardServiceImpl implements BoardService{
                 return criteriaBuilder.equal(root.get("user"), user);
             }
         };
+    }
+
+    // To Do
+    public HashMap<String,String> getLatestResponseTimePerBoard(){
+        HashMap<String,String> latestResponses = new HashMap<String,String>();
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery<BoardResponse> cq = qb.createQuery(BoardResponse.class);
+        Root<BoardResponse> from = cq.from(BoardResponse.class);
+        Join<BoardResponse, BoardResponse> theAttribute = from.join("theAttributes");
+        //Predicate userCondition = qb.notEqual(from.get("user"), user);
+        //cq.where(userCondition);
+        em.createQuery(cq).getResultList();
+        return latestResponses;
     }
 }

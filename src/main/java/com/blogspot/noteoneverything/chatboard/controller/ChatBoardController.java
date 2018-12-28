@@ -30,6 +30,7 @@ import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
 import com.blogspot.noteoneverything.chatboard.validator.BoardValidator;
+import com.blogspot.noteoneverything.chatboard.util.Constants;
 
 @Controller
 public class ChatBoardController {
@@ -51,7 +52,7 @@ public class ChatBoardController {
         model.addAttribute("totalPages", pages.getTotalPages());
         model.addAttribute("totalElements", pages.getTotalElements());
         model.addAttribute("size", pages.getSize());
-        model.addAttribute("pageSpan", 5);
+        model.addAttribute("pageSpan", Constants.PAGE_SPAN);
         model.addAttribute("publicBoards", pages.getContent());
         return "boards/index";
     }

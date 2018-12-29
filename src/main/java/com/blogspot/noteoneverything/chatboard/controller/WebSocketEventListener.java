@@ -28,13 +28,14 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String username = (String) headerAccessor.getSessionAttributes().get("username");
-        Long b_id = (Long) headerAccessor.getSessionAttributes().get("bid");
+        String username = String.valueOf(headerAccessor.getSessionAttributes().get("username"));
+        Long b_id = Long.valueOf(headerAccessor.getSessionAttributes().get("bid").toString());
         String sb_id = Long.toString(b_id);
         if(username != null && sb_id != null) {
             logger.info("User Disconnected : " + username);
 
             BoardResponse boardResponse = new BoardResponse();
+            boardResponse.setResponse(username + " left!");
             boardResponse.setType(BoardResponse.MessageType.LEAVE);
             boardResponse.setSender(username);
 

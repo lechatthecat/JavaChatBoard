@@ -13,12 +13,20 @@ import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.service.UserService;
 import com.blogspot.noteoneverything.chatboard.service.RoleService;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
+import com.blogspot.noteoneverything.chatboard.model.User;
 
 @Controller
 public class ChatController {
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private UserService userService;
     @Autowired
@@ -29,23 +37,29 @@ public class ChatController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/chat.sendMessage/{b_id}")
-    public void sendMessage(@Payload BoardResponse boardResponse, @DestinationVariable String b_id) {
+    public void sendMessage(Principal userPrincipal, @Payload BoardResponse boardResponse, @DestinationVariable String b_id) {
         //To do. Functionality to check if the sender is authorized to write in the board
         //To do: Validation and escape
+        UserDetails principal = (UserDetails)((Authentication) userPrincipal).getPrincipal();
+        User user = userRepository.findByName(principal.getUsername());
         Board b = boardService.findBoardByIdWithUser(Long.parseLong(b_id)); 
+        boardResponse.setUser(user);
         boardResponse.setBoard(b);
+        boardResponse.setSender(user.getName());
         boardResponse = boardService.createBoardResponse(boardResponse);
         simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);
     }
 
     @MessageMapping("/chat.addUser/{b_id}")
-    public void addUser(@Payload BoardResponse boardResponse,
-                               SimpMessageHeaderAccessor headerAccessor, @DestinationVariable String b_id) {
-        // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        // UserDetails principal = (UserDetails) auth.getPrincipal();
-        // User user = userRepository.findByName(principal.getUsername());
+    public void addUser(Principal userPrincipal, @Payload BoardResponse boardResponse,
+                            SimpMessageHeaderAccessor headerAccessor, @DestinationVariable String b_id) {
+        UserDetails principal = (UserDetails)((Authentication) userPrincipal).getPrincipal();
+        User user = userRepository.findByName(principal.getUsername());
         // Add username in web socket session
-        headerAccessor.getSessionAttributes().put("username", boardResponse.getSender());
+        boardResponse.setUser(user);
+        boardResponse.setSender(user.getName());
+        boardResponse.setResponse(boardResponse.getSender() + " joined!");
+        headerAccessor.getSessionAttributes().put("username", user.getName());
         headerAccessor.getSessionAttributes().put("bid", boardResponse.getBId());
         simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);
     }

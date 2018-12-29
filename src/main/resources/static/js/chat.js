@@ -65,19 +65,17 @@ function onMessageReceived(payload) {
     var messageElement = document.createElement('div');
     messageElement.classList.add("direct-chat-msg");
     if(message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
-        var textElement = document.createElement('p');
-        var messageText = document.createTextNode(message.content);
-        textElement.appendChild(messageText);
-        messageElement.appendChild(textElement);
+        // messageElement.classList.add('event-message');
+        // var textElement = document.createElement('p');
+        // var messageText = document.createTextNode(message.response);
+        // textElement.appendChild(messageText);
+        // messageElement.appendChild(textElement);
     } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
-        var textElement = document.createElement('p');
-        var messageText = document.createTextNode(message.content);
-        textElement.appendChild(messageText);
-        messageElement.appendChild(textElement);
+        // messageElement.classList.add('event-message');
+        // var textElement = document.createElement('p');
+        // var messageText = document.createTextNode(message.response);
+        // textElement.appendChild(messageText);
+        // messageElement.appendChild(textElement);
     } else {
         //Sender info
         var messageSenderInfo = document.createElement('div');

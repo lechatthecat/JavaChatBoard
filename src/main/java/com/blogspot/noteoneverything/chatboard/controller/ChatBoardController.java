@@ -55,6 +55,8 @@ public class ChatBoardController {
         Page<Board> pages = boardService.getPublicBoardPages(pageable);
         this.loadPageRelatedInfo(model, pages);
         model.addAttribute("lastCheckedTime", session.getAttribute("lastCheckedTime"));
+        HashMap<String, HashMap<String,String>> latestResponseTimePerBoard = boardService.getLatestResponseTimePerBoard();
+        model.addAttribute("latestResponseTimePerBoard", latestResponseTimePerBoard);
         return "boards/index";
     }
 
@@ -65,7 +67,6 @@ public class ChatBoardController {
 
     @GetMapping(value = "/board")
     public String boards(@RequestParam("b_id") String b_id, Model model) {
-        HashMap<String,String> test = boardService.getLatestResponseTimePerBoard();
         this.setLastCheckedTime(b_id);
         User user = loadUserInfoOfSession(model);
         this.loadRelatedBoards(model, user);

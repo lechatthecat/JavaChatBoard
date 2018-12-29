@@ -278,11 +278,14 @@ public class BoardServiceImpl implements BoardService{
         };
     }
 
-    public HashMap<String,String> getLatestResponseTimePerBoard(){
-        HashMap<String,String> latestResponses = new HashMap<String,String>();
+    public HashMap<String,HashMap<String, String>> getLatestResponseTimePerBoard(){
+        HashMap<String,HashMap<String,String>> latestResponses = new HashMap<>();
         List<BoardResponse> boardResponses = boardResponseRepository.getLatestResponsePerBoard();
         for (BoardResponse br : boardResponses) {
-            latestResponses.put(String.valueOf(br.getBoard().getId()),br.getCreated());
+            HashMap<String, String> map = new HashMap<>();
+            map.put("user_id", String.valueOf(br.getUser().getId()));
+            map.put("time",br.getCreated());
+            latestResponses.put(String.valueOf(br.getBoard().getId()),map);
         }
         return latestResponses;
     }

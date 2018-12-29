@@ -45,9 +45,13 @@
                                                 [[${board.name}]]
                                                 <th:block th:if="${lastCheckedTime != null}">
                                                     <th:block th:if="${lastCheckedTime.get(#strings.toString(board.id)) != null}">
-                                                        <span th:if="${lastCheckedTime.get(#strings.toString(board.id)) }" class="label label-success pull-right">
-                                                            New message
-                                                        </span>
+                                                        <th:block th:if="${latestResponseTimePerBoard.get(#strings.toString(board.id)) != null}">
+                                                            <th:block th:if="${#strings.toString(user.getId()) != latestResponseTimePerBoard.get(#strings.toString(board.id)).get('user_id')}">
+                                                                <span th:if="${lastCheckedTime.get(#strings.toString(board.id)) < latestResponseTimePerBoard.get(#strings.toString(board.id)).get('time')}" class="label label-success pull-right">
+                                                                    New message
+                                                                </span>
+                                                            </th:block>
+                                                        </th:block>
                                                     </th:block>
                                                 </th:block>
                                             </a>

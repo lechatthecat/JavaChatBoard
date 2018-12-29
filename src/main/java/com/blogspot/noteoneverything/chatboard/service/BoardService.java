@@ -39,5 +39,5 @@ public interface BoardService{
     public Page<Board> getPublicBoardPages(Pageable pageable);
     public Long getHowManyUnseenResponses(Board board, User user);
     public Long getHowManyUnseenResponses(User user);
-    public HashMap<String,String> getLatestResponseTimePerBoard();
+    public HashMap<String,HashMap<String, String>> getLatestResponseTimePerBoard();
 }

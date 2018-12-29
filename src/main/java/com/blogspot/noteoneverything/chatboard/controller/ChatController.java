@@ -44,6 +44,7 @@ public class ChatController {
         User user = userRepository.findByName(principal.getUsername());
         Board b = boardService.findBoardByIdWithUser(Long.parseLong(b_id)); 
         boardResponse.setUser(user);
+        boardResponse.setUserImagePath(user.getUserMainImage().getPath());
         boardResponse.setBoard(b);
         boardResponse.setSender(user.getName());
         boardResponse = boardService.createBoardResponse(boardResponse);
@@ -53,12 +54,15 @@ public class ChatController {
     @MessageMapping("/chat.addUser/{b_id}")
     public void addUser(Principal userPrincipal, @Payload BoardResponse boardResponse,
                             SimpMessageHeaderAccessor headerAccessor, @DestinationVariable String b_id) {
+        // To do: functionality to save current board members somewhere 
+        //        and load the members info when board page is loaded.
         UserDetails principal = (UserDetails)((Authentication) userPrincipal).getPrincipal();
         User user = userRepository.findByName(principal.getUsername());
-        // Add username in web socket session
         boardResponse.setUser(user);
+        boardResponse.setUserImagePath(user.getUserMainImage().getPath());
         boardResponse.setSender(user.getName());
         boardResponse.setResponse(boardResponse.getSender() + " joined!");
+        // Add username and board_id in web socket session
         headerAccessor.getSessionAttributes().put("username", user.getName());
         headerAccessor.getSessionAttributes().put("bid", boardResponse.getBId());
         simpMessagingTemplate.convertAndSend("/board/public/"+b_id, boardResponse);

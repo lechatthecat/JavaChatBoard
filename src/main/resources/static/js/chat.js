@@ -58,25 +58,57 @@ function sendMessage(event) {
     event.preventDefault();
 }
 
+function checkIfOnlineMarkAlreadyAdded(idName){
+    if($('#'+idName).length === 0) {
+        return false;
+    }
+    return true;
+}
+
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
-    var messageElement = document.createElement('div');
-    messageElement.classList.add("direct-chat-msg");
     if(message.type === 'JOIN') {
-        // messageElement.classList.add('event-message');
-        // var textElement = document.createElement('p');
-        // var messageText = document.createTextNode(message.response);
-        // textElement.appendChild(messageText);
-        // messageElement.appendChild(textElement);
+        if(!checkIfOnlineMarkAlreadyAdded("sender-" + message.sender)){
+            var contactElement = document.createElement('li');
+            contactElement.id = "sender-" + message.sender;
+            var messageImg = document.createElement('img');
+            messageImg.classList.add("contacts-list-img");
+            messageImg.setAttribute('src', message.userImagePath);
+            contactElement.appendChild(messageImg);
+            var contactNameElement = document.createElement('span');
+            contactNameElement.classList.add("contacts-list-name");
+            var senderNameText = document.createTextNode(message.sender + "  ");
+            contactNameElement.appendChild(senderNameText);
+            var onlineMark = document.createElement('i');
+            onlineMark.id = "sender-currentstatus-" + message.sender;
+            onlineMark.classList.add("fa");
+            onlineMark.classList.add("fa-circle");
+            onlineMark.classList.add("text-success");
+            // var pullRight = document.createElement('small');
+            // pullRight.classList.add("contacts-list-date");
+            // pullRight.classList.add("pull-right");
+            // pullRight.appendChild(onlineMark);
+            // contactNameElement.appendChild(pullRight);
+            contactNameElement.appendChild(onlineMark);
+            var contactInfoElement = document.createElement('div');
+            contactInfoElement.classList.add("contacts-list-info");
+            var contactMsgElement = document.createElement('span');
+            contactMsgElement.classList.add("contacts-list-msg");
+            contactInfoElement.appendChild(contactNameElement);
+            contactElement.appendChild(contactInfoElement);
+            $("#contacts-list").append(contactElement);
+        } else {
+            $("#sender-currentstatus-" + message.sender).removeClass("text-dark");
+            $("#sender-currentstatus-" + message.sender).addClass("text-success");
+        }
     } else if (message.type === 'LEAVE') {
-        // messageElement.classList.add('event-message');
-        // var textElement = document.createElement('p');
-        // var messageText = document.createTextNode(message.response);
-        // textElement.appendChild(messageText);
-        // messageElement.appendChild(textElement);
+        $("#sender-currentstatus-" + message.sender).removeClass("text-success");
+        $("#sender-currentstatus-" + message.sender).addClass("text-dark");
     } else {
+        var messageElement = document.createElement('div');
+        messageElement.classList.add("direct-chat-msg");
         //Sender info
         var messageSenderInfo = document.createElement('div');
         messageSenderInfo.classList.add("direct-chat-info");
@@ -123,10 +155,11 @@ function onMessageReceived(payload) {
         messageElement.appendChild(senderImage);
         messageElement.appendChild(chatMessage);
 
+        messageArea.appendChild(messageElement);
+        messageArea.scrollTop = messageArea.scrollHeight;
+
     }
 
-    messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
 }
 
 connect();

@@ -50,6 +50,7 @@
             var textBox = $(".board-footer").outerHeight();
             if(windowSizeChanged == false){
                 $(".direct-chat-messages").toggleClass("board-height").css({"min-height":parentHeight});
+                $(".direct-chat-contacts").toggleClass("board-height").css({"min-height":parentHeight});
                 var textBoxHeight = $(".board-footer").height();
                 $(".direct-chat-messages").toggleClass("board-margin").css({"margin-bottom":textBoxHeight});
             }

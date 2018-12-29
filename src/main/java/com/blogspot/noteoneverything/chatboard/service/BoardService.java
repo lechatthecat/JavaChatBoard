@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BoardService{
-    public boolean createBoard(Board board);
+    public long createBoard(Board board);
     public BoardResponse createBoardResponse(Board board, BoardResponse boardResponse);
     public BoardResponse createBoardResponse(BoardResponse boardResponse);
     public boolean deleteBoard(Board board);
@@ -39,5 +39,5 @@ public interface BoardService{
     public Page<Board> getPublicBoardPages(Pageable pageable);
     public Long getHowManyUnseenResponses(Board board, User user);
     public Long getHowManyUnseenResponses(User user);
-    public HashMap<String,HashMap<String, String>> getLatestResponseTimePerBoard();
+    public HashMap<String,HashMap<String, String>> getLatestResponseTimePerBoard(long user_id);
 }

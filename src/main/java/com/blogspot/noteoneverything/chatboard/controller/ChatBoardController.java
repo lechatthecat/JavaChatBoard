@@ -55,7 +55,7 @@ public class ChatBoardController {
         Page<Board> pages = boardService.getPublicBoardPages(pageable);
         this.loadPageRelatedInfo(model, pages);
         model.addAttribute("lastCheckedTime", session.getAttribute("lastCheckedTime"));
-        HashMap<String, HashMap<String,String>> latestResponseTimePerBoard = boardService.getLatestResponseTimePerBoard();
+        HashMap<String, HashMap<String,String>> latestResponseTimePerBoard = boardService.getLatestResponseTimePerBoard(user.getId());
         model.addAttribute("latestResponseTimePerBoard", latestResponseTimePerBoard);
         return "boards/index";
     }
@@ -74,6 +74,7 @@ public class ChatBoardController {
         model.addAttribute("board", board);
         List<BoardResponse> boardReponses = board.getBoardResponses();
         model.addAttribute("boardReponses", boardReponses);
+        model.addAttribute("lastCheckedTime", session.getAttribute("lastCheckedTime"));
         return "boards/board";
     }
 
@@ -105,9 +106,11 @@ public class ChatBoardController {
             return "boards/create";
         }
         //Board creation
-        if(boardService.createBoard(board)){  
+        long b_id = boardService.createBoard(board);
+        if(b_id > 0){  
             redirectAttributes.addFlashAttribute("message", "Success. Board created.");
             redirectAttributes.addFlashAttribute("alertClass", "info");
+            this.setLastCheckedTime(String.valueOf(b_id));
         }else{
             redirectAttributes.addFlashAttribute("message", "Sorry board could not be created. Please contact the administarator.");
             redirectAttributes.addFlashAttribute("alertClass", "danger");

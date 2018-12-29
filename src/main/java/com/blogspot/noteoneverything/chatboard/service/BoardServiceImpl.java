@@ -41,16 +41,16 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     @Transactional
-    public boolean createBoard(Board board) {
+    public long createBoard(Board board) {
         Date now = new Date();
         try{
             board.setCreated(now);
             board.setUpdated(now);
             this.boardRepository.save(board);
-            return true;
+            return this.boardRepository.save(board).getId();
         }catch(DataAccessException e){
             e.printStackTrace();
-            return false;
+            return 0;
         }
     }
 
@@ -278,9 +278,9 @@ public class BoardServiceImpl implements BoardService{
         };
     }
 
-    public HashMap<String,HashMap<String, String>> getLatestResponseTimePerBoard(){
+    public HashMap<String,HashMap<String, String>> getLatestResponseTimePerBoard(long user_id){
         HashMap<String,HashMap<String,String>> latestResponses = new HashMap<>();
-        List<BoardResponse> boardResponses = boardResponseRepository.getLatestResponsePerBoard();
+        List<BoardResponse> boardResponses = boardResponseRepository.getLatestResponsePerBoard(user_id);
         for (BoardResponse br : boardResponses) {
             HashMap<String, String> map = new HashMap<>();
             map.put("user_id", String.valueOf(br.getUser().getId()));

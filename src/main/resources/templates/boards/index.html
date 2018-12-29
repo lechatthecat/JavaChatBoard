@@ -43,10 +43,12 @@
                                             <a th:href="@{board?b_id=}+${board.id}"
                                                 class="product-title" th:inline="text">
                                                 [[${board.name}]]
-                                                <th:block th:if="${lastCheckedTime.get(#strings.toString(board.id)) != null}">
-                                                    <span th:if="${lastCheckedTime.get(#strings.toString(board.id)) }" class="label label-success pull-right">
-                                                        New message
-                                                    </span>
+                                                <th:block th:if="${lastCheckedTime != null}">
+                                                    <th:block th:if="${lastCheckedTime.get(#strings.toString(board.id)) != null}">
+                                                        <span th:if="${lastCheckedTime.get(#strings.toString(board.id)) }" class="label label-success pull-right">
+                                                            New message
+                                                        </span>
+                                                    </th:block>
                                                 </th:block>
                                             </a>
                                             <th:block th:if="${board.detail} != null">

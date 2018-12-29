@@ -31,4 +31,7 @@ public interface BoardResponseRepository extends JpaRepository<BoardResponse,Lon
     @Modifying(clearAutomatically = true)
     @Query("update BoardResponse br set is_deleted = 1 where br.id = :id")
     boolean deleteBoardResponseById(@Param("id") long id);
+    @Query(value="SELECT * FROM board_responses b1 left join board_responses b2 on b1.board_id = b2.board_id and b1.created < b2.created where b2.id is null;"
+           ,nativeQuery = true)
+    List<BoardResponse> getLatestResponsePerBoard();
 }

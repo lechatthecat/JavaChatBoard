@@ -278,16 +278,12 @@ public class BoardServiceImpl implements BoardService{
         };
     }
 
-    // To Do
     public HashMap<String,String> getLatestResponseTimePerBoard(){
         HashMap<String,String> latestResponses = new HashMap<String,String>();
-        CriteriaBuilder qb = em.getCriteriaBuilder();
-        CriteriaQuery<BoardResponse> cq = qb.createQuery(BoardResponse.class);
-        Root<BoardResponse> from = cq.from(BoardResponse.class);
-        Join<BoardResponse, BoardResponse> theAttribute = from.join("theAttributes");
-        //Predicate userCondition = qb.notEqual(from.get("user"), user);
-        //cq.where(userCondition);
-        em.createQuery(cq).getResultList();
+        List<BoardResponse> boardResponses = boardResponseRepository.getLatestResponsePerBoard();
+        for (BoardResponse br : boardResponses) {
+            latestResponses.put(String.valueOf(br.getBoard().getId()),br.getCreated());
+        }
         return latestResponses;
     }
 }

@@ -13,7 +13,8 @@ At first, you need Java8 and MariaDB (or mysql57) for the this project.
 $ sudo apt-get install -y java-1.8.0-openjdk
 $ sudo apt-get install -y mariadb-server
 ```
-Clone the project in your local and compile it.
+Clone the project in your local and compile it.  
+You need Maven to compile this.
 ```
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd JavaChatBoard

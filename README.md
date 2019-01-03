@@ -23,8 +23,6 @@ You need to create default data in the DB.
 The path for source command must be an absolute path.
 ```
 $ sudo mysql -u [your user name of mariaDB] -p[your password of mariaDB]
-$ create database chatboard;
-$ use chatboard;
 $ source [PathToTheClonedJavaChatBoard]/JavaChatBoard/src/main/resources/tables.sql
 $ exit
 ```

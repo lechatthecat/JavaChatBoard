@@ -14,15 +14,11 @@
                 var username = "[[${user.name}]]";
                 var b_id = "[[${board.id}]]";
             </script>
-            <script th:src="@{/js/chat.js}"></script>
         </th:block >
         <!-- Content Wrapper. Contains page content -->
         <div id="page_content" th:replace="fragments/content_wrapper_board ::
             content('Chat board',
             'Home', ~{::div#breadcrumbs}, ~{::div.box_content})">
-            <div id="breadcrumbs">
-                <li class="active"><i class="fa fa-dashboard"></i> Home</li>
-            </div>
             <div class="chatbox box_content box box-warning direct-chat direct-chat-warning">
                 <div id="warning">
                     <span class="text-danger">You are not connected to server.</span>
@@ -51,7 +47,7 @@
                 <div class="box-body">
                     <!-- Conversations are loaded here -->
                     <div class="direct-chat-messages" id="messageArea" >
-                        <div th:classappend="${res.user.id == user.id} ? right : left" class="direct-chat-msg" th:each="res,iterStat : ${boardReponses}" h:inline="text">
+                        <div th:classappend="${res.user.id == user.id} ? right : left" class="direct-chat-msg" th:each="res,iterStat : ${boardReponses}" th:inline="text">
                             <div class="direct-chat-info clearfix">
                                 <span th:classappend="${res.user.id == user.id} ? pull-right : pull-left" class="direct-chat-name">[[${res.user.name}]]</span>
                                 <span th:classappend="${res.user.id == user.id} ? pull-left : pull-right" class="direct-chat-timestamp">[[${res.updated}]]</span>

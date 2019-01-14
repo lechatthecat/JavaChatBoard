@@ -14,6 +14,8 @@
         </div>
         <!-- ./wrapper -->
         <th:block th:replace="fragments/script :: base_script(${script})"></th:block>
+        <script th:src="@{js/vuejs/vue.debug.js}"></script>
+        <script th:src="@{js/chat.vue.js}"></script>
         <script>
         var width = $(window).width();
         var height = $(window).height();

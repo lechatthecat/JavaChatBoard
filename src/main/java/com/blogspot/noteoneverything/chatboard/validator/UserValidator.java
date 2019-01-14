@@ -1,7 +1,6 @@
 package com.blogspot.noteoneverything.chatboard.validator;
 
 import java.util.List;
-import java.util.Date;
 import com.blogspot.noteoneverything.chatboard.model.User;
 import com.blogspot.noteoneverything.chatboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

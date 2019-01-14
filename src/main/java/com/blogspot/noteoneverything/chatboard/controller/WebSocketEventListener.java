@@ -1,6 +1,5 @@
 package com.blogspot.noteoneverything.chatboard.controller;
 
-import com.blogspot.noteoneverything.chatboard.model.Board;
 import com.blogspot.noteoneverything.chatboard.model.BoardResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

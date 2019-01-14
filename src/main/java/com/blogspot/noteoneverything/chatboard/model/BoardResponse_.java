@@ -1,8 +1,5 @@
 package com.blogspot.noteoneverything.chatboard.model;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 import java.util.Date;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

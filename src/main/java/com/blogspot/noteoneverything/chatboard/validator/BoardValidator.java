@@ -1,10 +1,6 @@
 package com.blogspot.noteoneverything.chatboard.validator;
 
-import java.util.List;
-import java.util.Date;
 import com.blogspot.noteoneverything.chatboard.model.Board;
-import com.blogspot.noteoneverything.chatboard.service.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,8 +8,6 @@ import com.blogspot.noteoneverything.chatboard.validator.MyValidateUtil;
 
 @Component
 public class BoardValidator implements Validator {
-    @Autowired
-    private BoardService boardService;
 
     @Override
     public boolean supports(Class<?> aClass) {

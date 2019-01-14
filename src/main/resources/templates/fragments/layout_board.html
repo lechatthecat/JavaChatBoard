@@ -37,6 +37,7 @@
                 if (e.keyCode == 13){
                     if (e.shiftKey){
                         sendMessage();
+                        e.preventDefault();
                     }
                 }
             });

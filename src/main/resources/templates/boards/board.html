@@ -50,31 +50,31 @@
                         <div th:classappend="${res.user.id == user.id} ? right : left" class="direct-chat-msg" th:each="res,iterStat : ${boardReponses}" th:inline="text">
                             <div class="direct-chat-info clearfix">
                                 <span th:classappend="${res.user.id == user.id} ? pull-right : pull-left" class="direct-chat-name">[[${res.user.name}]]</span>
-                                <span th:classappend="${res.user.id == user.id} ? pull-left : pull-right" class="direct-chat-timestamp">[[${res.updated}]]</span>
+                                <span th:classappend="${res.user.id == user.id} ? pull-left : pull-right" class="direct-chat-timestamp">[[${res.created}]]</span>
                             </div>
                             <img class="direct-chat-img" th:src="${res.user.userMainImage.path}">
                             <pre class="direct-chat-text">[[${res.response}]]</pre>
+                        </div>
+                        <div class="direct-chat-msg" v-bind:class="{ 'left' : msg.sender != username, 'right' : msg.sender == username}" v-for="msg in messageReceived">
+                            <div class="direct-chat-info clearfix">
+                                <span class="direct-chat-name" v-bind:class="{ 'pull-left' : msg.sender != username, 'pull-right' : msg.sender == username}">{{ msg.sender }}</span>
+                                <span class="direct-chat-timestamp" v-bind:class="{ 'pull-right' : msg.sender != username, 'pull-left' : msg.sender == username}">{{ msg.created }}</span>
+                            </div>
+                            <img class="direct-chat-img" v-bind:src="msg.userImagePath">
+                            <pre class="direct-chat-text">{{ msg.response }}</pre>
                         </div>
                     </div>
                     <!-- Contacts are loaded here -->
                     <div class="direct-chat-contacts" id="direct-chat-contacts">
                         <ul class="contacts-list" id="contacts-list">
-                            <!-- <li>
-                                <a href="#">
-                                    <img class="contacts-list-img"
-                                        th:src="@{/img/blank.svg}"
-                                        alt="User Image">
-
-                                    <div class="contacts-list-info">
-                                        <span class="contacts-list-name">
-                                            Count Dracula <i class="fa fa-circle text-success"></i>
-                                            <small class="contacts-list-date
-                                                pull-right">2/28/2015</small>
-                                        </span>
-                                        <span class="contacts-list-msg"></span>
-                                    </div>
-                                </a>
-                            </li> -->
+                            <li v-for="joinMsg in joinMessageReceived" v-bind:id="'sender-' + joinMsg.sender">
+                                <img class="contacts-list-img" v-bind:src="joinMsg.userImagePath">
+                                <div class="contacts-list-info">
+                                    <span class="contacts-list-name">
+                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:id="'sender-currentstatus-' + joinMsg.sender" class="fa fa-circle text-success"></i>
+                                    </span>
+                                </div>
+                             </li>                             
                             <!-- End Contact Item -->
                         </ul>
                         <!-- /.contatcts-list -->

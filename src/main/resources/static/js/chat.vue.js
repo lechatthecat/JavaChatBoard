@@ -79,6 +79,7 @@ const messageFormButton = new Vue({
                 this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = false;
             } else {
                 this.messageReceived.push(message);
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
             }
         }
     },
@@ -87,6 +88,7 @@ const messageFormButton = new Vue({
     },
     mounted: function () {
         this.connect();
+        $("html, body").animate({ scrollTop: $("#messageArea").height() }, 1000);
     }
 })
 

@@ -7,6 +7,7 @@ const messageFormButton = new Vue({
     data: {
         messageReceived: [],
         joinMessageReceived: [],
+        joinedUserList: [],
         username: username
     },
     methods: {
@@ -38,7 +39,7 @@ const messageFormButton = new Vue({
                 stompClient.connect({}, this.onConnected, this.onError);
             }
         },
-        onConnected() {
+        onConnected: function() {
             // Subscribe to the Public Topic
             stompClient.subscribe('/board/public/' + b_id, this.onMessageReceived);
 
@@ -50,7 +51,7 @@ const messageFormButton = new Vue({
 
             document.querySelector('.connecting').classList.add('hidden');
         },
-        onError(error) {
+        onError: function (error) {
             is_connected = false;
             document.querySelector('.connecting').textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
             document.querySelector('.connecting').style.color = 'red';
@@ -65,33 +66,29 @@ const messageFormButton = new Vue({
             alert("Connection closed. Please refresh the page.");
         },
         onMessageReceived: function (payload) {
-            var message = JSON.parse(payload.body);
+            let message = JSON.parse(payload.body);
+            message['isLogin'] = true;
             if (message.type === 'JOIN') {
-                if (!checkIfOnlineMarkAlreadyAdded("sender-" + message.sender)) {
+                if (this.joinedUserList.indexOf(message.sender) < 0) {
                     this.joinMessageReceived.push(message);
+                    this.joinedUserList[this.joinMessageReceived.length-1] = message.sender;
                 } else {
-                    $("#sender-currentstatus-" + message.sender).removeClass("text-dark");
-                    $("#sender-currentstatus-" + message.sender).addClass("text-success");
+                    this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = true;
                 }
             } else if (message.type === 'LEAVE') {
-                $("#sender-currentstatus-" + message.sender).removeClass("text-success");
-                $("#sender-currentstatus-" + message.sender).addClass("text-dark");
+                this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = false;
             } else {
                 this.messageReceived.push(message);
             }
         }
     },
+    isUserLogin: function(sender){
+        return this.joinedUserList.indexOf(sender) < 0;
+    },
     mounted: function () {
         this.connect();
     }
 })
-
-function checkIfOnlineMarkAlreadyAdded(idName) {
-    if ($('#' + idName).length === 0) {
-        return false;
-    }
-    return true;
-}
 
 function sendMessage() {
     var messageContent = document.querySelector('#message').value.trim();

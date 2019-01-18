@@ -67,11 +67,11 @@
                     <!-- Contacts are loaded here -->
                     <div class="direct-chat-contacts" id="direct-chat-contacts">
                         <ul class="contacts-list" id="contacts-list">
-                            <li v-for="joinMsg in joinMessageReceived" v-bind:id="'sender-' + joinMsg.sender">
+                            <li v-for="(joinMsg, index) in joinMessageReceived" v-bind:id="'sender-' + joinMsg.sender">
                                 <img class="contacts-list-img" v-bind:src="joinMsg.userImagePath">
                                 <div class="contacts-list-info">
                                     <span class="contacts-list-name">
-                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:id="'sender-currentstatus-' + joinMsg.sender" class="fa fa-circle text-success"></i>
+                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:class="{'text-success':joinMsg.isLogin}" class="fa fa-circle"></i>
                                     </span>
                                 </div>
                              </li>                             

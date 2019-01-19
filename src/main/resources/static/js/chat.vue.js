@@ -40,7 +40,7 @@ const messageFormButton = new Vue({
             }
         },
         onConnected: function() {
-            // Subscribe to the Public Topic
+            // Subscribe to the specific and public topic 
             stompClient.subscribe('/board/public/' + b_id, this.onMessageReceived);
 
             // Tell your username to the server
@@ -79,7 +79,7 @@ const messageFormButton = new Vue({
                 this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = false;
             } else {
                 this.messageReceived.push(message);
-                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+                $("html, body").animate({ scrollTop: $("#messageArea").height() }, 1000);
             }
         }
     },

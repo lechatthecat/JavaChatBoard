@@ -44,9 +44,9 @@
                     </div>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body" ref="messageArea">
+                <div class="box-body">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages" id="messageArea" >
+                    <div class="direct-chat-messages" id="messageArea" ref="messageArea">
                         <div th:classappend="${res.user.id == user.id} ? right : left" class="direct-chat-msg" th:each="res,iterStat : ${boardReponses}" th:inline="text">
                             <div class="direct-chat-info clearfix">
                                 <span th:classappend="${res.user.id == user.id} ? pull-right : pull-left" class="direct-chat-name">[[${res.user.name}]]</span>
@@ -67,11 +67,21 @@
                     <!-- Contacts are loaded here -->
                     <div class="direct-chat-contacts" id="direct-chat-contacts">
                         <ul class="contacts-list" id="contacts-list">
+                            <th:block th:if="${usersInThisBoard != null}">
+                                <li th:id="'sender-' + ${user}" th:each="user,iterStat : ${usersInThisBoard}">
+                                    <img class="contacts-list-img" src="/img/blank.svg">
+                                    <div class="contacts-list-info">
+                                        <span class="contacts-list-name" th:inline="text">
+                                            [[${user}]]&nbsp;&nbsp;<i th:id="'sender-currentstatus-'+${user}" class="fa fa-circle text-success"></i>
+                                        </span>
+                                    </div>
+                                </li> 
+                            </th:block>
                             <li v-for="(joinMsg, index) in joinMessageReceived" v-bind:id="'sender-' + joinMsg.sender">
                                 <img class="contacts-list-img" v-bind:src="joinMsg.userImagePath">
                                 <div class="contacts-list-info">
                                     <span class="contacts-list-name">
-                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:class="{'text-success':joinMsg.isLogin}" class="fa fa-circle"></i>
+                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:id="'sender-currentstatus-' + joinMsg.sender" v-bind:class="{'text-success':joinMsg.isLogin}" class="fa fa-circle"></i>
                                     </span>
                                 </div>
                              </li>                             

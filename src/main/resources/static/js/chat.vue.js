@@ -69,14 +69,18 @@ const messageFormButton = new Vue({
             let message = JSON.parse(payload.body);
             message['isLogin'] = true;
             if (message.type === 'JOIN') {
-                if (this.joinedUserList.indexOf(message.sender) < 0) {
+                // TO DO: remove all jQuery codes as much as possible
+                //if (this.joinedUserList.indexOf(message.sender) < 0) {
+                if (!checkIfOnlineMarkAlreadyAdded("sender-"+message.sender)) {
                     this.joinMessageReceived.push(message);
                     this.joinedUserList[this.joinMessageReceived.length-1] = message.sender;
                 } else {
                     this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = true;
                 }
             } else if (message.type === 'LEAVE') {
-                this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = false;
+                //this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = false;
+                $("#sender-currentstatus-" + message.sender).removeClass("text-success");
+                $("#sender-currentstatus-" + message.sender).addClass("text-dark");
             } else {
                 this.messageReceived.push(message);
                 $("html, body").animate({ scrollTop: $("#messageArea").height() }, 1000);
@@ -106,4 +110,11 @@ function sendMessage() {
         stompClient.send("/app/chat.sendMessage/"+b_id, {}, JSON.stringify(boardResponse));
         document.querySelector('#message').value = '';
     }
+}
+
+function checkIfOnlineMarkAlreadyAdded(idName) {
+    if ($('#' + idName).length === 0) {
+        return false;
+    }
+    return true;
 }

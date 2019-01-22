@@ -1,0 +1,29 @@
+version: '3'
+services:
+    mariadb:
+        container_name: mariadb
+        command: mysqld_safe --skip-grant-tables
+        image: mariadb:10
+        environment:
+            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_USER: 'root'
+            MYSQL_PASS: 'root'
+        volumes:
+        - ./mariadb:/var/lib/mysql # creating this folder for persisting data of the mariadb in your host
+        ports:
+        - "3307:3307"
+        networks:
+        - app_net
+    web-app:
+        build: ./java
+        ports:
+        - "8080:8080"
+        networks:
+        - app_net
+        stdin_open: true
+        tty: true
+        depends_on:
+        - mariadb
+networks:
+    app_net:
+        driver: "bridge"

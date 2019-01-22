@@ -27,7 +27,7 @@ ENV PATH /opt/jdk/jdk-1.8.0/bin:$PATH
 RUN cd /
 RUN git clone https://github.com/lechatthecat/JavaChatBoard.git
 CMD cd / \
-    && mysql -u root -proot --host 127.0.0.1 --port 3307 \
+    && mysql -u root -proot --host 127.0.0.1 --port 3306 \
     && source /JavaChatBoard/src/main/resources/tables.sql \
     && exit 
 # Caution! This downloads & installs all dependencies. It might take minutes.

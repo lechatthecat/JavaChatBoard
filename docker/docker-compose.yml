@@ -11,7 +11,7 @@ services:
         volumes:
         - ./mariadb:/var/lib/mysql # creating this folder for persisting data of the mariadb in your host
         ports:
-        - "3307:3307"
+        - "3306:3306"
         networks:
         - app_net
     web-app:

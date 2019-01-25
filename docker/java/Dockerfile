@@ -26,11 +26,7 @@ ENV PATH /opt/jdk/jdk-1.8.0/bin:$PATH
 # For example: CMD ["command", "argument 1","argument 2"]
 RUN cd /
 RUN git clone https://github.com/lechatthecat/JavaChatBoard.git
-CMD cd / \
-    && mysql -u root -proot --host 127.0.0.1 --port 3306 \
-    && source /JavaChatBoard/src/main/resources/tables.sql \
-    && exit 
 # Caution! This downloads & installs all dependencies. It might take minutes.
 RUN cd JavaChatBoard \
     && mvn clean package 
-#    && java -jar /JavaChatBoard/target/chatboard-0.0.1-SNAPSHOT.jar
+CMD exec java -jar /JavaChatBoard/target/chatboard-0.0.1-SNAPSHOT.jar --spring.config.location=file:/JavaChatBoard/src/main/resources/docker.application.properties

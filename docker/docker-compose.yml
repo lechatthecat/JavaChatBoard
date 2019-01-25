@@ -1,29 +1,31 @@
 version: '3'
 services:
-    mariadb:
-        container_name: mariadb
-        command: mysqld_safe --skip-grant-tables
-        image: mariadb:10
+    db:
+        image: mariadb
         environment:
             MYSQL_ROOT_PASSWORD: 'root'
             MYSQL_USER: 'root'
             MYSQL_PASS: 'root'
         volumes:
+        - ../src/main/resources/sql:/docker-entrypoint-initdb.d
         - ./mariadb:/var/lib/mysql # creating this folder for persisting data of the mariadb in your host
         ports:
         - "3306:3306"
         networks:
         - app_net
+        container_name: mydb
     web-app:
         build: ./java
         ports:
         - "8080:8080"
-        networks:
-        - app_net
         stdin_open: true
         tty: true
         depends_on:
-        - mariadb
+        - db
+        container_name: webapp
+        networks:
+        - app_net
 networks:
+    # Containers in same network can access each other by using its container name as host name
     app_net:
         driver: "bridge"

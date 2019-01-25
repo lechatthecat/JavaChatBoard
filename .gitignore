@@ -27,5 +27,9 @@
 ### VScode ###
 .vscode
 
+### docker ###
+/docker/mariadb
+/docker/mysql
+
 ### private ###
 TO_DO.txt

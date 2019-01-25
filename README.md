@@ -44,6 +44,6 @@ You need docker and docker-compose.
 $ cd [PathToTheClonedJavaChatBoard]/JavaChatBoard/docker
 $ docker-compose up -d --build
 ```
-Then the web app should be running on: http://localhost:8080
-The first ``docker-compose up`` might fail, but if it fails, ``docker-compose up`` again.
+Then the web app should be running on: http://localhost:8080  
+The first ``docker-compose up`` might fail, but if it fails, ``docker-compose up`` again.  
 Then it should work on the second try.

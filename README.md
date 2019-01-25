@@ -37,3 +37,6 @@ Now this app should be running on http://localhost:8080
 You have two test users by default.  
 id: test, password: 12345678  
 id: test2, password: 12345678  
+
+## Use in Docker
+Preparing dockerfile too but not fully ready yet.

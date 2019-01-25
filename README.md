@@ -24,7 +24,7 @@ You need to create default data in the DB.
 The path for source command must be an absolute path.
 ```
 $ sudo mysql -u [your user name of mariaDB] -p[your password of mariaDB]
-$ source [PathToTheClonedJavaChatBoard]/JavaChatBoard/src/main/resources/tables.sql
+$ source [PathToTheClonedJavaChatBoard]/JavaChatBoard/src/main/resources/sql/tables.sql
 $ exit
 ```
 You can start the project now.
@@ -39,4 +39,9 @@ id: test, password: 12345678
 id: test2, password: 12345678  
 
 ## Use in Docker
-Preparing dockerfile too but not fully ready yet.
+You need docker and docker-compose.
+```
+$ cd [PathToTheClonedJavaChatBoard]/JavaChatBoard/docker
+$ docker-compose up -d --build
+```
+Then the web app should be running on: http://localhost:8080/login

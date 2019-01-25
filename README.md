@@ -44,4 +44,4 @@ You need docker and docker-compose.
 $ cd [PathToTheClonedJavaChatBoard]/JavaChatBoard/docker
 $ docker-compose up -d --build
 ```
-Then the web app should be running on: http://localhost:8080/login
+Then the web app should be running on: http://localhost:8080

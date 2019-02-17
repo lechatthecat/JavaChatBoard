@@ -1,6 +1,11 @@
 
 var stompClient = null;
 var isConnected = false;
+var loginUsers = [];
+var listItems = $(".contacts-list li");
+listItems.each(function(i, obj) {
+    loginUsers.push(obj.getAttribute('id'));
+}); 
 
 const messageFormButton = new Vue({
     el: '.wrapper',
@@ -52,7 +57,7 @@ const messageFormButton = new Vue({
             document.querySelector('.connecting').classList.add('hidden');
         },
         onError: function (error) {
-            is_connected = false;
+            isConnected = false;
             document.querySelector('.connecting').textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
             document.querySelector('.connecting').style.color = 'red';
         },
@@ -69,18 +74,20 @@ const messageFormButton = new Vue({
             let message = JSON.parse(payload.body);
             message['isLogin'] = true;
             if (message.type === 'JOIN') {
-                // TO DO: remove all jQuery codes as much as possible
-                //if (this.joinedUserList.indexOf(message.sender) < 0) {
-                if (!checkIfOnlineMarkAlreadyAdded("sender-"+message.sender)) {
+                if(!loginUsers.includes('sender-' + message.sender)){
                     this.joinMessageReceived.push(message);
-                    this.joinedUserList[this.joinMessageReceived.length-1] = message.sender;
-                } else {
-                    this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = true;
+                    loginUsers.push(message.sender);
                 }
             } else if (message.type === 'LEAVE') {
-                //this.joinMessageReceived[this.joinedUserList.indexOf(message.sender)].isLogin = false;
-                $("#sender-currentstatus-" + message.sender).removeClass("text-success");
-                $("#sender-currentstatus-" + message.sender).addClass("text-dark");
+                var index = indexOfObject(this.joinMessageReceived, message.sender);
+                if (index > -1) {
+                    this.joinMessageReceived.splice(index, 1);
+                }
+                var index = loginUsers.indexOf('sender-'+message.sender);
+                if (index > -1) {
+                    loginUsers.splice(index, 1);
+                }
+                $('#sender-' + message.sender).remove();
             } else {
                 this.messageReceived.push(message);
                 $("html, body").animate({ scrollTop: $("#messageArea").height() }, 1000);
@@ -117,4 +124,13 @@ function checkIfOnlineMarkAlreadyAdded(idName) {
         return false;
     }
     return true;
+}
+
+function indexOfObject(arry, userName){
+    for(var i = 0; i < arry.length; i++) {
+        if(arry[i].sender === userName) {
+          return i;
+        }
+    }
+    return -1;
 }

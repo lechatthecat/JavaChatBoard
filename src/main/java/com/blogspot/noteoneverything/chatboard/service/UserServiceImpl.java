@@ -2,12 +2,14 @@ package com.blogspot.noteoneverything.chatboard.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private SimpUserRegistry simpUserRegistry;
 
     @Transactional
     public boolean deleteUser(Long id) {
@@ -93,5 +97,34 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<User> findUsersByEmail(String email) {
         return userRepository.findUsersByEmail(email);
+    }
+
+    @Override
+    public List<String> getUsersOfTopic(){
+        if(simpUserRegistry != null){
+            if(simpUserRegistry.getUsers() != null){
+                List<String> usersOfTopic = simpUserRegistry.getUsers().parallelStream()
+                .map(u -> {
+                    return u.getName();
+                }).collect(Collectors.toList());
+                return usersOfTopic;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> getUsersOfTopic(String boardId){
+        if(simpUserRegistry != null){
+            if(simpUserRegistry.getUsers() != null){
+                List<String> usersOfTopic = simpUserRegistry.getUsers().parallelStream()
+                .filter(u -> u.getSessions().iterator().next().getSubscriptions().iterator().next().getDestination().equals("/board/public/"+boardId))
+                .map(u -> {
+                    return u.getName();
+                }).collect(Collectors.toList());
+                return usersOfTopic;
+            }
+        }
+        return null;
     }
 }

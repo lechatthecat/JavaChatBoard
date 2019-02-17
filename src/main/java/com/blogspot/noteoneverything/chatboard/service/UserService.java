@@ -12,4 +12,6 @@ public interface UserService {
     User findById(long id);
     List<User> findUsersByName(String name);
     List<User> findUsersByEmail(String email);
+    List<String> getUsersOfTopic();
+    List<String> getUsersOfTopic(String boardId);
 }

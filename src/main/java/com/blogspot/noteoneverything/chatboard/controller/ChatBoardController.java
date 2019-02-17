@@ -28,6 +28,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 
 import com.blogspot.noteoneverything.chatboard.dao.UserRepository;
+import com.blogspot.noteoneverything.chatboard.service.UserService;
 import com.blogspot.noteoneverything.chatboard.service.BoardService;
 import com.blogspot.noteoneverything.chatboard.dao.UserImageRepository;
 import com.blogspot.noteoneverything.chatboard.model.User;
@@ -42,6 +43,8 @@ public class ChatBoardController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserService userService;
+    @Autowired
     private UserImageRepository userImageRepository;
     @Autowired
     private BoardService boardService;
@@ -49,8 +52,7 @@ public class ChatBoardController {
     private BoardValidator boardValidator;
     @Autowired
     private HttpSession session;  
-    @Autowired
-    private SimpUserRegistry simpUserRegistry;
+
 
     @GetMapping(value = "/")
     public String index(Model model, @PageableDefault(value=10, page=0) Pageable pageable) {
@@ -80,7 +82,7 @@ public class ChatBoardController {
         model.addAttribute("boardReponses", boardReponses);
         model.addAttribute("lastCheckedTime", session.getAttribute("lastCheckedTime"));
         // TO DO: get user objects, not only user name strings.
-        List<String> usersInThisBoard = this.getUsersOfTopic(b_id);
+        List<String> usersInThisBoard = userService.getUsersOfTopic(b_id);
         if(usersInThisBoard != null && !usersInThisBoard.contains(user.getName())){
             usersInThisBoard.add(user.getName());
         }
@@ -164,32 +166,5 @@ public class ChatBoardController {
         String nowStr = Utility.formatDate(now);
         lastCheckedTime.put(b_id, nowStr);
         session.setAttribute("lastCheckedTime", lastCheckedTime);
-    }
-
-    private List<String> getUsersOfTopic(){
-        if(simpUserRegistry != null){
-            if(simpUserRegistry.getUsers() != null){
-                List<String> usersOfTopic = simpUserRegistry.getUsers().parallelStream()
-                .map(u -> {
-                    return u.getName();
-                }).collect(Collectors.toList());
-                return usersOfTopic;
-            }
-        }
-        return null;
-    }
-
-    private List<String> getUsersOfTopic(String boardId){
-        if(simpUserRegistry != null){
-            if(simpUserRegistry.getUsers() != null){
-                List<String> usersOfTopic = simpUserRegistry.getUsers().parallelStream()
-                .filter(u -> u.getSessions().iterator().next().getSubscriptions().iterator().next().getDestination().equals("/board/public/"+boardId))
-                .map(u -> {
-                    return u.getName();
-                }).collect(Collectors.toList());
-                return usersOfTopic;
-            }
-        }
-        return null;
     }
 }

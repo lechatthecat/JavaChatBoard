@@ -47,3 +47,12 @@ $ docker-compose build
 $ docker-compuse up -d
 ```
 Then the web app should be running on: http://localhost:8080  
+
+To stop docker containers:
+```
+$ sudo docker stop $(sudo docker ps -aq)
+```
+To delete docker objects:
+```
+$ docker system prune --volumes -f
+```

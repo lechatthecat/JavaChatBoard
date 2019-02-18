@@ -72,7 +72,6 @@ const messageFormButton = new Vue({
         },
         onMessageReceived: function (payload) {
             let message = JSON.parse(payload.body);
-            message['isLogin'] = true;
             if (message.type === 'JOIN') {
                 if(!loginUsers.includes('sender-' + message.sender)){
                     this.joinMessageReceived.push(message);

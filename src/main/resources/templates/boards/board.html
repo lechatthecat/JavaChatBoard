@@ -81,10 +81,11 @@
                                 <img class="contacts-list-img" v-bind:src="joinMsg.userImagePath">
                                 <div class="contacts-list-info">
                                     <span class="contacts-list-name">
-                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:id="'sender-currentstatus-' + joinMsg.sender" v-bind:class="{'text-success':joinMsg.isLogin}" class="fa fa-circle"></i>
+                                        {{ joinMsg.sender }}&nbsp;&nbsp;<i v-bind:id="'sender-currentstatus-' + joinMsg.sender" class="fa fa-circle text-success"></i>
                                     </span>
                                 </div>
-                             </li>                             
+                             </li>                   
+                            <!--/* v-bind:class="{'text-success':joinMsg.isLogin}" class="fa fa-circle" */-->          
                             <!-- End Contact Item -->
                         </ul>
                         <!-- /.contatcts-list -->

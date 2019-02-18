@@ -44,7 +44,7 @@ You need docker and docker-compose.
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd ./JavaChatBoard/docker
 $ docker-compose build
-$ docker-compuse up -d
+$ docker-compose up -d
 ```
 Then the web app should be running on: http://localhost:8080  
 

@@ -41,7 +41,8 @@ id: test2, password: 12345678
 ## Use in Docker
 You need docker and docker-compose.
 ```
-$ cd [PathToTheClonedJavaChatBoard]/JavaChatBoard/docker
+$ git clone https://github.com/lechatthecat/JavaChatBoard.git
+$ cd ./JavaChatBoard/docker
 $ docker-compose build
 $ docker-compuse up -d
 ```

@@ -39,7 +39,8 @@ id: test, password: 12345678
 id: test2, password: 12345678  
 
 ## Use in Docker
-You need docker and docker-compose.
+You need docker and docker-compose.   
+(If some process is already using port 8080 or 3306, please stop the service beforehand)
 ```
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd ./JavaChatBoard/docker
@@ -47,7 +48,10 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 Then the web app should be running on: http://localhost:8080  
-
+To check containers' status]
+```
+$ docker ps -a
+```
 To stop docker containers:
 ```
 $ sudo docker stop $(sudo docker ps -aq)

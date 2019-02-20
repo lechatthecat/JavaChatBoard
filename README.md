@@ -48,7 +48,7 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 Then the web app should be running on: http://localhost:8080  
-To check containers' status]
+To check containers' status:
 ```
 $ docker ps -a
 ```

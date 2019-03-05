@@ -40,7 +40,7 @@ id: test2, password: 12345678
 
 ## Use in Docker
 You need docker and docker-compose.   
-(If some process is already using port 8080 or 3306, please stop the service beforehand)
+(If some service is already using port 8080 or 3306, please stop the service beforehand)
 ```
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd ./JavaChatBoard/docker

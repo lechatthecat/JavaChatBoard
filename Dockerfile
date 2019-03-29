@@ -22,11 +22,12 @@ EXPOSE 8080
 
 ENV PATH /opt/jdk/jdk-1.8.0/bin:$PATH
 
+VOLUME /JavaChatBoard
+WORKDIR /JavaChatBoard
+COPY . /JavaChatBoard
+RUN mvn clean package 
+CMD exec java -jar /JavaChatBoard/target/chatboard-0.0.1-SNAPSHOT.jar --spring.config.location=file:/JavaChatBoard/src/main/resources/docker.application.properties
+
 # CMD is used to start modules.
 # For example: CMD ["command", "argument 1","argument 2"]
-RUN cd /
-RUN git clone https://github.com/lechatthecat/JavaChatBoard.git
-# Caution! This downloads & installs all dependencies. It might take minutes.
-RUN cd JavaChatBoard \
-    && mvn clean package 
-CMD exec java -jar /JavaChatBoard/target/chatboard-0.0.1-SNAPSHOT.jar --spring.config.location=file:/JavaChatBoard/src/main/resources/docker.application.properties
+

@@ -60,3 +60,10 @@ To delete docker objects:
 ```
 $ docker system prune --volumes -f
 ```
+To delete everything of docker:
+```
+$ docker-compose down -v --rmi all --remove-orphans
+$ docker rm $(docker ps -a -q)
+$ docker rmi $(docker images -q)
+$ docker volume rm $(docker volume ls -q)
+```

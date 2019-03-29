@@ -43,7 +43,7 @@ You need docker and docker-compose.
 (If some service is already using port 8080 or 3306, please stop the service beforehand)
 ```
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
-$ cd ./JavaChatBoard/docker
+$ cd ./JavaChatBoard
 $ docker-compose build
 $ docker-compose up -d
 ```

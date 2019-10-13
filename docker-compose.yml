@@ -10,7 +10,7 @@ services:
         - ./src/main/resources/sql:/docker-entrypoint-initdb.d
         - ./docker_db_data/mariadb:/var/lib/mysql # creating this folder for persisting data of the mariadb in your host
         ports:
-        - "3306:3306"
+        - "13306:3306"
         networks:
         - app_net
         container_name: mydb
@@ -18,6 +18,7 @@ services:
         build: .
         volumes:
         - .:/JavaChatBoard
+        working_dir: /
         ports:
         - "8080:8080"
         stdin_open: true

@@ -44,10 +44,14 @@ You need docker and docker-compose.
 ```
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd ./JavaChatBoard
-$ docker-compose build
-$ docker-compose up -d
+$ docker-compose up -d --build
 ```
-Then the web app should be running on: http://localhost:8080  
+Then wait until the build is finished:
+```
+$ docker logs --tail 50 --follow --timestamps webapp
+```
+The web app should be running on: http://localhost:8080
+
 To check containers' status:
 ```
 $ docker ps -a

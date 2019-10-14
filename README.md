@@ -52,6 +52,11 @@ $ docker logs --tail 50 --follow --timestamps webapp
 ```
 The web app should be running on: http://localhost:8080
 
+To get inside the container:
+```
+$ docker-compose exec web-app /bin/bash
+```
+
 To check containers' status:
 ```
 $ docker ps -a

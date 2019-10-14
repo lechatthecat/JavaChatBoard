@@ -26,9 +26,9 @@ WORKDIR /JavaChatBoard
 COPY . /JavaChatBoard
 #RUN mvn clean package 
 #CMD exec java -jar /JavaChatBoard/target/chatboard-0.0.1-SNAPSHOT.jar --spring.config.location=file:/JavaChatBoard/src/main/resources/docker.application.properties
-RUN chmod 777 /JavaChatBoard/docker.sh
-RUN chmod +x /JavaChatBoard/docker.sh
-CMD sh /JavaChatBoard/docker.sh
+RUN chmod 777 /JavaChatBoard/docker/docker.sh
+RUN chmod +x /JavaChatBoard/docker/docker.sh
+CMD sh /JavaChatBoard/docker/docker.sh
 # RUN mvn clean package 
 # CMD is used to start modules.
 # For example: CMD ["command", "argument 1","argument 2"]

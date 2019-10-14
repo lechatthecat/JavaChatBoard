@@ -10,7 +10,7 @@ services:
         - ./src/main/resources/sql:/docker-entrypoint-initdb.d
         - ./docker_db_data/mariadb:/var/lib/mysql # creating this folder for persisting data of the mariadb in your host
         ports:
-        - "13306:3306"
+        - "3306:3306"
         networks:
         - app_net
         container_name: mydb

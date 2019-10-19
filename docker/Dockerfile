@@ -13,8 +13,6 @@ RUN yum -y install  git \
                     maven \
                     mariadb-server
 
-ENV MYSQL_ROOT_PASSWORD=root
-
 # "EXPOSE" specifies which port you will open.
 EXPOSE 8080
 

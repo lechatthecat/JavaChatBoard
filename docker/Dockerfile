@@ -7,7 +7,6 @@ FROM centos:7
 
 # To use commands, use "RUN".
 RUN yum install -y epel-release
-RUN yum -y update 
 RUN yum -y install https://centos7.iuscommunity.org/ius-release.rpm
 RUN yum -y install  git \
                     java-1.8.0-openjdk \

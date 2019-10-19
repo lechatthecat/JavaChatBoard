@@ -46,15 +46,19 @@ $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd ./JavaChatBoard
 $ docker-compose up -d --build
 ```
-Then wait until the build is finished:
+Then wait until the build is finished. Logs are:
 ```
 $ docker logs --tail 50 --follow --timestamps webapp
 ```
 The web app should be running on: http://localhost:8080
 
+You have two test users by default.  
+id: test, password: 12345678  
+id: test2, password: 12345678  
+
 To get inside the container:
 ```
-$ docker-compose exec web-app /bin/bash
+$ docker-compose exec webapp /bin/bash
 ```
 
 To check containers' status:

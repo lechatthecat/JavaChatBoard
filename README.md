@@ -77,7 +77,7 @@ To delete everything of docker:
 ```
 $ docker-compose down -v --rmi all --remove-orphans
 $ docker system prune --force --volumes --all
-$ docker rm $(docker ps -a -q)
-$ docker rmi $(docker images -q)
+$ docker rm $(docker ps -a -q) -f
+$ docker rmi $(docker images -q) -f
 $ docker volume rm $(docker volume ls -q)
 ```

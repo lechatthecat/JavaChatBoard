@@ -51,6 +51,7 @@ Then wait until the build is finished. Logs are:
 $ docker logs --tail 50 --follow --timestamps webapp
 ```
 The web app should be running on: http://localhost:8080
+If it fails, run "$ docker-compose up -d --build" several times.
 
 You have two test users by default.  
 id: test, password: 12345678  

@@ -19,7 +19,7 @@ services:
             context: .
             dockerfile: docker/Dockerfile
         volumes:
-            - .:/JavaChatBoard
+            - .:/JavaChatBoard:z
         working_dir: /
         ports:
             - "8080:8080"

@@ -7,7 +7,7 @@ This is still in development. Many functionalities are incomplete.
 Checked that this project works in Linux (Ubuntu, CentOS7).  
 I am not sure if this works in Windows/Mac, but this should work in them also because this is made by Java.
 
-## Use in Docker
+# Use in Docker
 You need docker and docker-compose.   
 (If some service is already using port 8080 or 3306, please stop the service beforehand)
 ```

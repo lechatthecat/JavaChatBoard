@@ -1,7 +1,7 @@
 <img src="https://github.com/lechatthecat/JavaChatBoard/blob/master/pic/chat.png" width="50%">
 
 # At first
-This is still in development. Many functionalities are incomplete.
+This is still in development. Many functionalities are incomplete. This is using jdk11.
   
 # Compatibility
 Checked that this project works in Linux (Ubuntu, CentOS7).  

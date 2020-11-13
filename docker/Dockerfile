@@ -1,6 +1,6 @@
 # Most Dockerfiles start from a parent image.
 # FROM *** indicates what base image you will use.
-FROM adoptopenjdk/openjdk8
+FROM adoptopenjdk/openjdk11
 
 # Maintainer name
 # MAINTAINER lechat thecat <frozenyogurt845@gmail.com>

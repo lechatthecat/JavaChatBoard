@@ -55,9 +55,9 @@ $ docker system prune --force --volumes --all
 ```
 
 # Use without Docker
-At first, you need Java8 and MariaDB (or mysql57) for the this project.
+At first, you need Java8 and MariaDB (or mysql) for the this project.
 ```
-$ sudo apt-get install -y java-1.8.0-openjdk
+$ sudo apt-get install -y openjdk-11-jdk
 $ sudo apt-get install -y mariadb-server
 ```
 Clone the project in your local and compile it.  

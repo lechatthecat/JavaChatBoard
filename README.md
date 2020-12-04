@@ -9,7 +9,14 @@ I am not sure if this works in Windows/Mac, but this should work in them also be
 
 # Use in Docker
 You need docker and docker-compose.   
+
 (If some service is already using port 8080 or 3306, please stop the service beforehand)
+```
+$ sudo kill -9 $(sudo lsof -t -i:3306)
+```
+
+Then download the project and start it.
+
 ```
 $ git clone https://github.com/lechatthecat/JavaChatBoard.git
 $ cd ./JavaChatBoard

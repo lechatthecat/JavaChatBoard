@@ -13,6 +13,7 @@ You need docker and docker-compose.
 (If some service is already using port 8080 or 3306, please stop the service beforehand)
 ```
 $ sudo kill -9 $(sudo lsof -t -i:3306)
+$ sudo kill -9 $(sudo lsof -t -i:8080)
 ```
 
 Then download the project and start it.
